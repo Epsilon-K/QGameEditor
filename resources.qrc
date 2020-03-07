@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/images/GE Actor.png</file>
+        <file>Resources/images/Path Icon.png</file>
+        <file>Resources/images/checkbox.png</file>
+        <file>Resources/images/handle.png</file>
+        <file>Resources/images/Game Mode.png</file>
+        <file>Resources/images/Config.png</file>
+        <file>Resources/StyleSheets/darkorange.stylesheet</file>
+        <file>Resources/images/Regions.png</file>
+        <file>Resources/StyleSheets/ClassicGE.stylesheet</file>
+        <file>Resources/images/down_arrow.png</file>
+        <file>Resources/images/ge_down_arrow.png</file>
+    </qresource>
+</RCC>
