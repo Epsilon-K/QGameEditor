@@ -25,6 +25,7 @@ EditorView::EditorView(QWidget *&p)
     vLine->setFlag(QGraphicsItem::ItemIgnoresTransformations);
     pen.setColor(gameScene->preferences->resoultionColor);
     hLine->setPen(pen); vLine->setPen(pen);
+    hLine->setZValue(-1); vLine->setZValue(-1);
     gameScene->addItem(hLine); gameScene->addItem(vLine);
 
     // apply gameScene preferences and properties
@@ -76,6 +77,7 @@ void EditorView::drawGrid()
     for(double i = st; i < sceneRect().right(); i += gameScene->preferences->gridSize.width()){
         QGraphicsLineItem * line = new QGraphicsLineItem(i, sceneRect().top(), i, sceneRect().bottom());
         line->setPen(pen);
+        line->setZValue(-1);
         gridLines.append(line);
         gameScene->addItem(line);
     }
@@ -86,6 +88,7 @@ void EditorView::drawGrid()
     for(double i = st; i < sceneRect().bottom(); i += gameScene->preferences->gridSize.height()){
         QGraphicsLineItem * line = new QGraphicsLineItem(sceneRect().left(), i, sceneRect().right(), i);
         line->setPen(pen);
+        line->setZValue(-1);
         gridLines.append(line);
         gameScene->addItem(line);
     }
@@ -110,6 +113,7 @@ void EditorView::drawGrid()
             QGraphicsRectItem * rect = new QGraphicsRectItem(i - w2, j - h2, w, h);
             rect->setBrush(Qt::NoBrush);
             rect->setPen(pen);
+            rect->setZValue(-1);
             gameScene->addItem(rect);
             screenRects.append(rect);
         }

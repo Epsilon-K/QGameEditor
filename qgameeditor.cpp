@@ -99,6 +99,23 @@ void QGameEditor::on_actionAdd_Actor_triggered()
     // Add Actor
     AddActorDialog dialog(this);
     if(dialog.exec() == QDialog::Accepted){
-        //....
+        QString actorName = dialog.getName();
+        ActorType actorType = dialog.getType();
+
+        switch (actorType) {
+                default:
+            case NORMAL:{
+                NormalActor * actor = new NormalActor(actorName);
+                ui->editorView->gameScene->addItem(actor);
+                ui->editorView->gameScene->actors.append(actor);
+                break;
+            }
+            case VIEW:{
+                ViewActor * actor = new ViewActor(actorName, ui->editorView->gameScene->getwindowRect());
+                ui->editorView->gameScene->addItem(actor);
+                ui->editorView->gameScene->actors.append(actor);
+                break;
+            }
+        }
     }
 }

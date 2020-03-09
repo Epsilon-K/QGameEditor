@@ -69,11 +69,6 @@
          <string>Label</string>
         </property>
        </item>
-       <item>
-        <property name="text">
-         <string>Button</string>
-        </property>
-       </item>
       </widget>
      </item>
     </layout>

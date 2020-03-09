@@ -28,6 +28,8 @@ RC_ICONS = GE_Icon.ico
 
 SOURCES += \
         Actors/actor.cpp \
+        Actors/normalactor.cpp \
+        Actors/viewactor.cpp \
         Dialogs/addactordialog.cpp \
         Dialogs/configdialog.cpp \
         editorview.cpp \
@@ -37,6 +39,8 @@ SOURCES += \
 
 HEADERS += \
         Actors/actor.h \
+        Actors/normalactor.h \
+        Actors/viewactor.h \
         Dialogs/addactordialog.h \
         configdata.h \
         Dialogs/configdialog.h \

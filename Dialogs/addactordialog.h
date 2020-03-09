@@ -2,6 +2,7 @@
 #define ADDACTORDIALOG_H
 
 #include <QDialog>
+#include <Actors/actor.h>
 
 namespace Ui {
 class AddActorDialog;
@@ -16,7 +17,7 @@ public:
     ~AddActorDialog();
 
     QString getName();
-    QString getType();
+    ActorType getType();
 
 private:
     Ui::AddActorDialog *ui;

@@ -18,7 +18,23 @@ QString AddActorDialog::getName()
     return ui->actorNameLineEdit->text();
 }
 
-QString AddActorDialog::getType()
+ActorType AddActorDialog::getType()
 {
-    return ui->actorTypeComboBox->currentText();
+    QString type = ui->actorTypeComboBox->currentText();
+    if(type == "Normal"){
+        return ActorType::NORMAL;
+    }else if(type == "View"){
+        return ActorType::VIEW;
+    }else if(type == "Canvas"){
+        return ActorType::CANVAS;
+    }else if(type == "Wire Frame Region"){
+        return ActorType::WIRE_FRAME_REGION;
+    }else if(type == "Filled Region"){
+        return ActorType::FILLED_REGION;
+    }else if(type == "Label"){
+        return ActorType::LABEL;
+    }
+
+    // Should NOT HAPPEN!!!
+    return ActorType::NORMAL;
 }
