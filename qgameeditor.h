@@ -34,6 +34,8 @@ private slots:
 
     void on_actionAdd_Actor_triggered();
 
+    void on_snappingBtn_toggled(bool checked);
+
 private:
     Ui::QGameEditor *ui;
     QStringList stylesheets;

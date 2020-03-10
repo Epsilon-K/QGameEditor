@@ -119,3 +119,11 @@ void QGameEditor::on_actionAdd_Actor_triggered()
         }
     }
 }
+
+void QGameEditor::on_snappingBtn_toggled(bool checked)
+{
+    // for now...
+    if(checked){
+        qDebug() << "checked";
+    }else qDebug() << "unchecked";
+}

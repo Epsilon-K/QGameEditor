@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QGraphicsScene>
+#include <QCursor>
 
 enum ActorType{NORMAL, VIEW, CANVAS, WIRE_FRAME_REGION, FILLED_REGION, LABEL /*,TILE*/};
 
@@ -11,6 +12,9 @@ class Actor : public QObject
     Q_OBJECT
 public:
     Actor();
+    QString pointToString(QPoint p);
+
+    QPoint origin;
 
     // Actor Properties
     ActorType type;
