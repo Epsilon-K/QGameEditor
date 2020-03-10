@@ -15,6 +15,7 @@ public:
     QString pointToString(QPoint p);
 
     QPoint origin;
+    bool createAtStartup;
 
     // Actor Properties
     ActorType type;
@@ -29,7 +30,8 @@ public:
     int angle, directional_velocity;
     int width, height;
     qreal zdepth, transp;
-
+    qreal rotation;
+    qreal xscale, yscale;
     // user vars...
 };
 

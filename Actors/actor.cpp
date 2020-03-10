@@ -2,7 +2,7 @@
 
 Actor::Actor()
 {
-
+    createAtStartup = true;
 }
 
 QString Actor::pointToString(QPoint p)
