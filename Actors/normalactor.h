@@ -10,16 +10,20 @@ class NormalActor : public Actor, public QGraphicsPixmapItem
     Q_OBJECT
 public:
     NormalActor(QString _name);
-    int width();
-    int height();
-    void setOriginPointToCenter();
+    int getWidth();
+    int getHeight();
     QPoint pos();
-    void setPos(qreal nx, qreal ny);
+    QPoint scenePos();
+    void setPos(int nx, int ny);
+    void setPos(QPointF f);
+    void setX(int nx);
+    void setY(int ny);
 
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value);
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
 
 };
 

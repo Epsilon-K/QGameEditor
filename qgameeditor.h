@@ -20,10 +20,13 @@ public:
     explicit QGameEditor(QWidget *parent = nullptr);
     ~QGameEditor();
     void loadStylesheets();
+    void showPropertiesOfActor(Actor * actor);
 
 public slots:
     void on_editorView_mouse_moved(QPoint point);
     void on_editorView_zoom_changed();
+    void onActorLeftClicked(Actor * actor);
+    void onActorPositionChange(Actor * actor);
 
 private slots:
     void on_actionExit_triggered();
@@ -36,9 +39,17 @@ private slots:
 
     void on_snappingBtn_toggled(bool checked);
 
+
+    void on_actorXSpinBox_valueChanged(int arg1);
+
+    void on_actorYSpinBox_valueChanged(int arg1);
+
+    void on_actorNameComboBox_currentIndexChanged(int index);
+
 private:
     Ui::QGameEditor *ui;
     QStringList stylesheets;
+    Actor * currentlySelectedActor;
 };
 
 #endif // QGAMEEDITOR_H

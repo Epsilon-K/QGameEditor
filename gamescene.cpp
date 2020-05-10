@@ -19,5 +19,5 @@ GameScene::GameScene()
 QRect GameScene::getwindowRect()
 {
     QSize ws = properties->windowSize;
-    return QRect(-ws.width()/2, -ws.height()/2, ws.width(), ws.height());
+    return QRect(0, 0, ws.width(), ws.height());
 }

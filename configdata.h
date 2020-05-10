@@ -50,7 +50,7 @@ public:
     Preferences(){
         gridSize = QSize(20, 20);
         gridColor = QColor(100,100,100);
-        resoultionColor = QColor(230,230,230);
+        resoultionColor = QColor(130,130,130);
         showGrid = true;
         gridSnap = false;
         toolTips = true;

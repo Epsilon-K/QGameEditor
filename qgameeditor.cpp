@@ -31,6 +31,16 @@ QGameEditor::QGameEditor(QWidget *parent) :
     ui->comboBoxZoomLevel->addItem("800%");
     ui->comboBoxZoomLevel->addItem("1600%");
     ui->comboBoxZoomLevel->addItem("3000%");
+
+    // add whatever default actors in the scene & connect their signals to the main UI
+    for(int i = 0; i < ui->editorView->gameScene->actors.size(); i++){
+        Actor * actor = ui->editorView->gameScene->actors[i];
+        ui->actorNameComboBox->insertItem(0,actor->name);
+        ui->actorNameComboBox->setCurrentIndex(0);
+        connect(actor, SIGNAL(actorClicked(Actor*)),this, SLOT(onActorLeftClicked(Actor*)));
+        connect(actor, SIGNAL(positionChanged(Actor *)), this, SLOT(onActorPositionChange(Actor *)));
+        onActorLeftClicked(actor);
+    }
 }
 
 QGameEditor::~QGameEditor()
@@ -54,6 +64,15 @@ void QGameEditor::loadStylesheets()
     stylesheets.append(in.readAll());
 }
 
+void QGameEditor::showPropertiesOfActor(Actor *actor)
+{
+    currentlySelectedActor = actor;
+    ui->actorXSpinBox->setValue(actor->x);
+    ui->actorYSpinBox->setValue(actor->y);
+    ui->actorWidthSpinBox->setValue(actor->width);
+    ui->actorHeightSpinBox->setValue(actor->height);
+}
+
 void QGameEditor::on_editorView_mouse_moved(QPoint point)
 {
     QString str = "Screen(" + QString::number(point.x())
@@ -68,6 +87,27 @@ void QGameEditor::on_editorView_zoom_changed()
     QString str = QString::number(int(ui->editorView->scaleLevel*100)) + "%";
     ui->comboBoxZoomLevel->setItemText(0, str);
     ui->comboBoxZoomLevel->setCurrentIndex(0);
+}
+
+void QGameEditor::onActorLeftClicked(Actor *actor)
+{
+    showPropertiesOfActor(actor);
+
+    bool oldState = ui->actorNameComboBox->blockSignals(true);
+        ui->actorNameComboBox->setCurrentText(actor->name);
+    ui->actorNameComboBox->blockSignals(oldState);
+}
+
+void QGameEditor::onActorPositionChange(Actor *actor)
+{
+    if(actor->name == ui->actorNameComboBox->currentText()){
+        bool oldState = ui->actorXSpinBox->blockSignals(true);
+            ui->actorXSpinBox->setValue(actor->x);
+        ui->actorXSpinBox->blockSignals(oldState);
+        oldState = ui->actorYSpinBox->blockSignals(true);
+            ui->actorYSpinBox->setValue(actor->y);
+        ui->actorYSpinBox->blockSignals(oldState);
+    }
 }
 
 void QGameEditor::on_actionExit_triggered()
@@ -103,18 +143,39 @@ void QGameEditor::on_actionAdd_Actor_triggered()
         ActorType actorType = dialog.getType();
 
         switch (actorType) {
-                default:
             case NORMAL:{
                 NormalActor * actor = new NormalActor(actorName);
+                actor->setPos(ui->editorView->mapToScene(ui->editorView->viewport()->visibleRegion().boundingRect().x()
+                                                         + ui->editorView->viewport()->visibleRegion().boundingRect().width()/2,
+                                                         ui->editorView->viewport()->visibleRegion().boundingRect().y()
+                                                         + ui->editorView->viewport()->visibleRegion().boundingRect().height()/2));
+                connect(actor, SIGNAL(actorClicked(Actor*)), this, SLOT(onActorLeftClicked(Actor*)));
+                connect(actor, SIGNAL(positionChanged(Actor *)), this, SLOT(onActorPositionChange(Actor *)));
                 ui->editorView->gameScene->addItem(actor);
-                ui->editorView->gameScene->actors.append(actor);
+                ui->editorView->gameScene->actors.prepend(actor);
+                ui->actorNameComboBox->insertItem(0,actorName);
+                ui->actorNameComboBox->setCurrentIndex(0);
+                onActorLeftClicked(actor);
                 break;
             }
             case VIEW:{
                 ViewActor * actor = new ViewActor(actorName, ui->editorView->gameScene->getwindowRect());
+                actor->setPos(ui->editorView->mapToScene(ui->editorView->viewport()->visibleRegion().boundingRect().x()
+                                                         + ui->editorView->viewport()->visibleRegion().boundingRect().width()/2,
+                                                         ui->editorView->viewport()->visibleRegion().boundingRect().y()
+                                                         + ui->editorView->viewport()->visibleRegion().boundingRect().height()/2));
+                connect(actor, SIGNAL(actorClicked(Actor*)), this, SLOT(onActorLeftClicked(Actor*)));
+                connect(actor, SIGNAL(positionChanged(Actor *)), this, SLOT(onActorPositionChange(Actor *)));
                 ui->editorView->gameScene->addItem(actor);
-                ui->editorView->gameScene->actors.append(actor);
+                ui->editorView->gameScene->actors.prepend(actor);
+                ui->actorNameComboBox->insertItem(0,actorName);
+                ui->actorNameComboBox->setCurrentIndex(0);
+                onActorLeftClicked(actor);
                 break;
+            }
+            default:{
+                // Warning Message!!
+                // unimplemented actor type
             }
         }
     }
@@ -124,4 +185,22 @@ void QGameEditor::on_snappingBtn_toggled(bool checked)
 {
     // for now...
     ui->editorView->gameScene->preferences->gridSnap = checked;
+}
+
+void QGameEditor::on_actorXSpinBox_valueChanged(int arg1)
+{
+    currentlySelectedActor->setX(arg1);
+}
+
+void QGameEditor::on_actorYSpinBox_valueChanged(int arg1)
+{
+    currentlySelectedActor->setY(arg1);
+}
+
+void QGameEditor::on_actorNameComboBox_currentIndexChanged(int index)
+{
+    //get actor by index
+    Actor * actor = ui->editorView->gameScene->actors[index];
+    showPropertiesOfActor(actor);
+    ui->editorView->centerOn(actor->scenePos());
 }

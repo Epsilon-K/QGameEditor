@@ -64,4 +64,8 @@ RESOURCES += \
 DISTFILES +=
 
 #This is for Android
-#QMAKE_LINK += -nostdlib++
+android {
+    equals(ANDROID_TARGET_ARCH, armeabi-v7a){
+        QMAKE_LINK += -nostdlib++
+    }
+}

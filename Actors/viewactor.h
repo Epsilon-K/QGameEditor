@@ -17,9 +17,18 @@ class ViewActor : public Actor, public QGraphicsRectItem
     Q_OBJECT
 public:
     ViewActor(QString _name, QRect r);
+    int getWidth();
+    int getHeight();
+    QPoint pos();
+    QPoint scenePos();
+    void setPos(int nx, int ny);
+    void setPos(QPointF f);
+    void setX(int nx);
+    void setY(int ny);
 
 protected:
     QPainterPath shape() const;
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value);
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
