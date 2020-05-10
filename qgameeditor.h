@@ -21,6 +21,7 @@ public:
     ~QGameEditor();
     void loadStylesheets();
     void showPropertiesOfActor(Actor * actor);
+    void addActor(Actor * actor);
 
 public slots:
     void on_editorView_mouse_moved(QPoint point);

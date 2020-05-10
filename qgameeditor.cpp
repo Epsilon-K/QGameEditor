@@ -16,6 +16,15 @@ QGameEditor::QGameEditor(QWidget *parent) :
     setTabPosition(Qt::AllDockWidgetAreas, QTabWidget::North);
     QTimer::singleShot(30,ui->editorView, SLOT(centering()));
 
+    // setAlignment of all tool buttons
+    for(int i = 0; i < ui->toolsVerticalLayout->count(); i++){
+        QWidget *widget = ui->toolsVerticalLayout->itemAt(i)->widget();
+          if (widget != nullptr)
+          {
+            ui->toolsVerticalLayout->setAlignment(widget, Qt::AlignHCenter);
+          }
+    }
+
     // Connections
     connect(ui->editorView, SIGNAL(signalMouseMoveEvent(QPoint)), this, SLOT(on_editorView_mouse_moved(QPoint)));
     connect(ui->editorView, SIGNAL(signalZoomLevelChanged()), this, SLOT(on_editorView_zoom_changed()));
@@ -71,6 +80,20 @@ void QGameEditor::showPropertiesOfActor(Actor *actor)
     ui->actorYSpinBox->setValue(actor->y);
     ui->actorWidthSpinBox->setValue(actor->width);
     ui->actorHeightSpinBox->setValue(actor->height);
+}
+
+void QGameEditor::addActor(Actor *actor)
+{
+    actor->setPos(ui->editorView->mapToScene(ui->editorView->viewport()->visibleRegion().boundingRect().x()
+                                             + ui->editorView->viewport()->visibleRegion().boundingRect().width()/2,
+                                             ui->editorView->viewport()->visibleRegion().boundingRect().y()
+                                             + ui->editorView->viewport()->visibleRegion().boundingRect().height()/2));
+    connect(actor, SIGNAL(actorClicked(Actor*)), this, SLOT(onActorLeftClicked(Actor*)));
+    connect(actor, SIGNAL(positionChanged(Actor *)), this, SLOT(onActorPositionChange(Actor *)));
+    ui->editorView->gameScene->actors.prepend(actor);
+    ui->actorNameComboBox->insertItem(0,actor->name);
+    ui->actorNameComboBox->setCurrentIndex(0);
+    onActorLeftClicked(actor);
 }
 
 void QGameEditor::on_editorView_mouse_moved(QPoint point)
@@ -145,32 +168,14 @@ void QGameEditor::on_actionAdd_Actor_triggered()
         switch (actorType) {
             case NORMAL:{
                 NormalActor * actor = new NormalActor(actorName);
-                actor->setPos(ui->editorView->mapToScene(ui->editorView->viewport()->visibleRegion().boundingRect().x()
-                                                         + ui->editorView->viewport()->visibleRegion().boundingRect().width()/2,
-                                                         ui->editorView->viewport()->visibleRegion().boundingRect().y()
-                                                         + ui->editorView->viewport()->visibleRegion().boundingRect().height()/2));
-                connect(actor, SIGNAL(actorClicked(Actor*)), this, SLOT(onActorLeftClicked(Actor*)));
-                connect(actor, SIGNAL(positionChanged(Actor *)), this, SLOT(onActorPositionChange(Actor *)));
                 ui->editorView->gameScene->addItem(actor);
-                ui->editorView->gameScene->actors.prepend(actor);
-                ui->actorNameComboBox->insertItem(0,actorName);
-                ui->actorNameComboBox->setCurrentIndex(0);
-                onActorLeftClicked(actor);
+                addActor(actor);
                 break;
             }
             case VIEW:{
                 ViewActor * actor = new ViewActor(actorName, ui->editorView->gameScene->getwindowRect());
-                actor->setPos(ui->editorView->mapToScene(ui->editorView->viewport()->visibleRegion().boundingRect().x()
-                                                         + ui->editorView->viewport()->visibleRegion().boundingRect().width()/2,
-                                                         ui->editorView->viewport()->visibleRegion().boundingRect().y()
-                                                         + ui->editorView->viewport()->visibleRegion().boundingRect().height()/2));
-                connect(actor, SIGNAL(actorClicked(Actor*)), this, SLOT(onActorLeftClicked(Actor*)));
-                connect(actor, SIGNAL(positionChanged(Actor *)), this, SLOT(onActorPositionChange(Actor *)));
                 ui->editorView->gameScene->addItem(actor);
-                ui->editorView->gameScene->actors.prepend(actor);
-                ui->actorNameComboBox->insertItem(0,actorName);
-                ui->actorNameComboBox->setCurrentIndex(0);
-                onActorLeftClicked(actor);
+                addActor(actor);
                 break;
             }
             default:{
