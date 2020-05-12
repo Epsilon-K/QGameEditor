@@ -16,14 +16,13 @@ EditorView::EditorView(QWidget *&p)
 
     // Draw Cross at (0,0)
     QPen pen;
-    pen.setColor(gameScene->preferences->gridColor);
+    pen.setColor(QColor(220,220,220));
     pen.setStyle(Qt::SolidLine);
     pen.setWidth(0);
     QGraphicsLineItem * hLine = new QGraphicsLineItem(-20, 0, 20, 0);
     hLine->setFlag(QGraphicsItem::ItemIgnoresTransformations);
     QGraphicsLineItem * vLine = new QGraphicsLineItem(0, -20, 0, 20);
     vLine->setFlag(QGraphicsItem::ItemIgnoresTransformations);
-    pen.setColor(gameScene->preferences->resoultionColor);
     hLine->setPen(pen); vLine->setPen(pen);
     hLine->setZValue(-1); vLine->setZValue(-1);
     gameScene->addItem(hLine); gameScene->addItem(vLine);

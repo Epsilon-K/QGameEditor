@@ -6,6 +6,7 @@
 #include <QCursor>
 #include <QGraphicsItem>
 #include <QGraphicsScene>
+#include <QGraphicsView>
 #include <QGraphicsSceneMouseEvent>
 
 enum ActorType{NORMAL, VIEW, CANVAS, WIRE_FRAME_REGION, FILLED_REGION, LABEL /*,TILE*/};
@@ -45,6 +46,13 @@ public:
     qreal rotation;
     qreal xscale, yscale;
     // user vars...
+
+    // ...
+
+    // Editor vars
+        // for mouse movement with SHIFT key modifier
+    bool xSnap{false};
+    bool ySnap{false};
 
 signals:
     // in-Editor signals

@@ -15,19 +15,19 @@ NormalActor::NormalActor(QString _name)
 
     origin = QPoint(getWidth()/2, getHeight()/2);
     setTransformOriginPoint(origin);
-    setPos(0,0);
+    //setPos(0,0);
     width = getWidth();
     height = getHeight();
 }
 
 int NormalActor::getWidth()
 {
-    return int(boundingRect().width());
+    return int(pixmap().width());
 }
 
 int NormalActor::getHeight()
 {
-    return int(boundingRect().height());
+    return int(pixmap().height());
 }
 
 QPoint NormalActor::pos()
@@ -73,11 +73,30 @@ void NormalActor::setY(int ny)
 
 QVariant NormalActor::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
-    if (change == ItemPositionHasChanged){
-        Actor::x = pos().rx();
-        Actor::y = pos().ry();
-        // because it should be discreet numbers
-        setPos(Actor::x, Actor::y);
+    if (change == ItemPositionChange){
+        QPoint newPos = value.toPointF().toPoint();
+        newPos.rx() += origin.rx();
+        newPos.ry() += origin.ry();
+
+        Actor::xprevious = Actor::x;
+        Actor::yprevious = Actor::y;
+
+        // handle mouse move snapping
+        if(ySnap){  // Snap to Y Axis
+            newPos.rx() = xprevious;
+        }else if(xSnap) {  // Snap to X Axis
+            newPos.ry() = yprevious;
+        }
+
+        Actor::x = newPos.rx();
+        Actor::y = newPos.ry();
+
+        newPos.rx() -= origin.rx();
+        newPos.ry() -= origin.ry();
+
+        return QPointF(newPos);
+    }
+    else if(change == ItemPositionHasChanged){
         // emit a pos change signal
         emit positionChanged(this);
     }
@@ -86,14 +105,14 @@ QVariant NormalActor::itemChange(QGraphicsItem::GraphicsItemChange change, const
 
 void NormalActor::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
+    QGraphicsItem::hoverEnterEvent(event);
     setCursor(QCursor(Qt::PointingHandCursor));
-    // emit mouse enter signal
 }
 
 void NormalActor::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
+    QGraphicsItem::hoverLeaveEvent(event);
     setCursor(QCursor(Qt::ArrowCursor));
-    // emit mouse leave signal
 }
 
 void NormalActor::mousePressEvent(QGraphicsSceneMouseEvent *event)
@@ -105,4 +124,31 @@ void NormalActor::mousePressEvent(QGraphicsSceneMouseEvent *event)
     }
 
     QGraphicsItem::mousePressEvent(event);
+    setCursor(QCursor(Qt::PointingHandCursor));
+}
+
+void NormalActor::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+    QGraphicsItem::mouseReleaseEvent(event);
+    setCursor(QCursor(Qt::PointingHandCursor));
+    // reset snap axis
+    xSnap = ySnap = false;
+}
+
+void NormalActor::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+    // Actor is moved by mouse
+    QGraphicsItem::mouseMoveEvent(event);
+    if(event->modifiers() == Qt::SHIFT){
+        if(! (xSnap || ySnap)){
+            // Move actor on a straight line
+            int xDiff = abs(xprevious - Actor::x);
+            int yDiff = abs(yprevious - Actor::y);
+            if(xDiff < yDiff) ySnap = true;
+            else xSnap = true;
+        }
+    }else{
+        // reset snap axis
+        xSnap = ySnap = false;
+    }
 }
