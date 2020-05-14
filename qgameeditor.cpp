@@ -89,6 +89,13 @@ void QGameEditor::showPropertiesOfActor(Actor *actor)
 
     ui->actorWidthSpinBox->setValue(actor->width);
     ui->actorHeightSpinBox->setValue(actor->height);
+
+    // tint color
+    ui->actorTintBtn->setStyleSheet("background-color: " + actor->tint.name());
+    ui->actorTintLabel->setText("RGBA(" + QString::number(actor->tint.red()) + ", "
+                                + QString::number(actor->tint.green()) + ", "
+                                + QString::number(actor->tint.blue()) + ", "
+                                + QString::number(actor->colorFXStrenght) +  ")");
 }
 
 void QGameEditor::addActor(Actor *actor)
@@ -224,4 +231,21 @@ void QGameEditor::on_actorNameComboBox_currentIndexChanged(int index)
     Actor * actor = ui->editorView->gameScene->actors[index];
     showPropertiesOfActor(actor);
     ui->editorView->centerOn(actor->scenePos());
+}
+
+void QGameEditor::on_actorTintBtn_clicked()
+{
+    QColorDialog cd;
+
+    QColor newColor = cd.getColor(currentlySelectedActor->tint, this, "Select Actor (" + currentlySelectedActor->name + ") tint Color",
+                QColorDialog::ShowAlphaChannel);
+
+    if(newColor.isValid()){
+        currentlySelectedActor->setTintColor(newColor);
+        ui->actorTintBtn->setStyleSheet("background-color: " + newColor.name());
+        ui->actorTintLabel->setText("RGBA(" + QString::number(newColor.red()) + ", "
+                + QString::number(newColor.green()) + ", "
+                + QString::number(newColor.blue()) + ", "
+                + QString::number(newColor.alphaF()) +  ")");
+    }
 }

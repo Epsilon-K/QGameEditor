@@ -47,6 +47,8 @@ private slots:
 
     void on_actorNameComboBox_currentIndexChanged(int index);
 
+    void on_actorTintBtn_clicked();
+
 private:
     Ui::QGameEditor *ui;
     QStringList stylesheets;

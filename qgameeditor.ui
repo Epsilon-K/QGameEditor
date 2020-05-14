@@ -464,6 +464,9 @@
                   </item>
                   <item>
                    <widget class="QSpinBox" name="actorWidthSpinBox">
+                    <property name="readOnly">
+                     <bool>true</bool>
+                    </property>
                     <property name="maximum">
                      <number>65536</number>
                     </property>
@@ -494,6 +497,9 @@
                   </item>
                   <item>
                    <widget class="QSpinBox" name="actorHeightSpinBox">
+                    <property name="readOnly">
+                     <bool>true</bool>
+                    </property>
                     <property name="maximum">
                      <number>65536</number>
                     </property>
@@ -623,7 +629,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QSlider" name="horizontalSlider_3">
+                   <widget class="QSlider" name="actorRotationSlider">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -686,7 +692,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QSlider" name="horizontalSlider">
+                   <widget class="QSlider" name="actorTranspSlider">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -755,7 +761,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QSlider" name="horizontalSlider_2">
+                   <widget class="QSlider" name="actorZDepthSlider">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -811,53 +817,37 @@
                    </spacer>
                   </item>
                   <item>
-                   <widget class="QLabel" name="label_11">
+                   <widget class="QLabel" name="actorTintLabel">
                     <property name="text">
-                     <string>r : </string>
+                     <string>RGBA(255,255,255,0.3) :</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QSpinBox" name="spinBox_7">
-                    <property name="minimum">
-                     <number>0</number>
+                   <widget class="QPushButton" name="actorTintBtn">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
                     </property>
-                    <property name="maximum">
-                     <number>255</number>
+                    <property name="minimumSize">
+                     <size>
+                      <width>20</width>
+                      <height>0</height>
+                     </size>
                     </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLabel" name="label_12">
+                    <property name="maximumSize">
+                     <size>
+                      <width>30</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true"/>
+                    </property>
                     <property name="text">
-                     <string>g : </string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QSpinBox" name="spinBox_8">
-                    <property name="minimum">
-                     <number>0</number>
-                    </property>
-                    <property name="maximum">
-                     <number>255</number>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLabel" name="label_13">
-                    <property name="text">
-                     <string>b : </string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QSpinBox" name="spinBox_9">
-                    <property name="minimum">
-                     <number>0</number>
-                    </property>
-                    <property name="maximum">
-                     <number>255</number>
+                     <string>C</string>
                     </property>
                    </widget>
                   </item>

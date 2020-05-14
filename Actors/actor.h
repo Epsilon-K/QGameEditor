@@ -50,6 +50,7 @@ public:
     qreal zdepth, transp;
     qreal rotation;
     qreal xscale, yscale;
+    QColor tint;
     // user vars...
 
     // QGraphicsItem Interface
@@ -60,6 +61,11 @@ public:
         // for mouse movement with SHIFT key modifier
     bool xSnap{false};
     bool ySnap{false};
+
+    // Effects
+    QGraphicsColorizeEffect * colorEffect;
+    qreal colorFXStrenght{0};
+    void setTintColor(QColor color);
 
 signals:
     // in-Editor signals

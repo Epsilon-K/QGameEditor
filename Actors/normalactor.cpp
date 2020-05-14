@@ -11,14 +11,6 @@ NormalActor::NormalActor(QString _name)
     width = getWidth();
     height = getHeight();
     Actor::setTransformOriginPoint(origin);
-
-
-    //selection blue tint
-    QGraphicsColorizeEffect * selectionEffect = new QGraphicsColorizeEffect();
-    selectionEffect->setColor(QColor(160,70,255));
-    selectionEffect->setStrength(0.3);
-    Actor::setGraphicsEffect(selectionEffect);
-    selectionEffect->setEnabled(false);
 }
 
 int NormalActor::getWidth()

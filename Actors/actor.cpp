@@ -8,6 +8,15 @@ Actor::Actor()
     setFlag(QGraphicsItem::ItemIsSelectable);
     setFlag(QGraphicsItem::ItemSendsScenePositionChanges);
     setAcceptHoverEvents(true);
+
+
+    //default RGB colorEffect in GE
+    tint = QColor(255,170,0);
+    colorEffect = new QGraphicsColorizeEffect();
+    colorEffect->setColor(tint);
+    colorEffect->setStrength(colorFXStrenght);
+    Actor::setGraphicsEffect(colorEffect);
+    colorEffect->setEnabled(true);
 }
 
 QPoint Actor::pos()
@@ -52,6 +61,16 @@ void Actor::setY(int ny)
     QGraphicsItem::setY(ny - origin.ry());
 }
 
+void Actor::setTintColor(QColor color)
+{
+    QColor newColor = color;
+    tint = newColor;
+    colorFXStrenght = tint.alphaF();
+    colorEffect->setColor(tint);
+    colorEffect->setStrength(colorFXStrenght);
+    update();
+}
+
 // Protected --------------------------------------------------------------------
 
 QVariant Actor::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
@@ -87,9 +106,13 @@ QVariant Actor::itemChange(QGraphicsItem::GraphicsItemChange change, const QVari
     if(change == ItemSelectedHasChanged){
         bool selected = value.toBool();
 
-        if(graphicsEffect())
-            graphicsEffect()->setEnabled(selected);
-
+        if(selected){
+            colorEffect->setColor(QColor(160,70,255,255));
+            colorEffect->setStrength(0.3);
+        }else{
+            colorEffect->setColor(tint);
+            colorEffect->setStrength(colorFXStrenght);
+        }
         // emit the change
         emit actorSelectionChanged(this, selected);
     }
