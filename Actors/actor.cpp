@@ -86,6 +86,10 @@ QVariant Actor::itemChange(QGraphicsItem::GraphicsItemChange change, const QVari
 
     if(change == ItemSelectedHasChanged){
         bool selected = value.toBool();
+
+        if(graphicsEffect())
+            graphicsEffect()->setEnabled(selected);
+
         // emit the change
         emit actorSelectionChanged(this, selected);
     }

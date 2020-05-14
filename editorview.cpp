@@ -29,9 +29,6 @@ EditorView::EditorView(QWidget *&p)
 
     // apply gameScene preferences and properties
     updateSceneConfigurations();
-
-    // centering
-    QTimer::singleShot(30, this, SLOT(centering()));
 }
 
 void EditorView::updateScale()
@@ -137,6 +134,15 @@ void EditorView::updateSceneConfigurations()
     QSize ssize = gameScene->properties->sceneSize;
     gameScene->setSceneRect(ssize.width()/2 * -1, ssize.height()/2 * -1, ssize.width(), ssize.height());
     drawGrid();
+}
+
+void EditorView::onActorSelectionChanged(Actor *actor, bool state)
+{
+    if(state){
+        selectedActors.append(actor);
+    }else{
+        selectedActors.removeOne(actor);
+    }
 }
 
 void EditorView::mousePressEvent(QMouseEvent *e)

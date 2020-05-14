@@ -16,8 +16,12 @@ public:
     EditorView(QWidget*& p);
 
     GameScene * gameScene;
+    QVector<Actor*> selectedActors;
 
     double scaleLevel = 1;
+
+    // TODO: is there a more optimized way of doing this?
+            // instead of having a ton of LineItems and RectItems for the grid?
     QVector <QGraphicsLineItem*> gridLines;
     QVector <QGraphicsRectItem*> screenRects;
 
@@ -37,6 +41,7 @@ signals:
 public slots:
     void centering();
     void updateSceneConfigurations();
+    void onActorSelectionChanged(Actor * actor, bool state);
 
 protected :
     void mousePressEvent(QMouseEvent *e);

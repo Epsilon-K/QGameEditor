@@ -10,6 +10,8 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QGraphicsSceneMouseEvent>
+#include <QGraphicsColorizeEffect>
+#include <QTimeLine>
 
 enum ActorType{NORMAL, VIEW, CANVAS, WIRE_FRAME_REGION, FILLED_REGION, LABEL /*,TILE*/};
 
@@ -63,7 +65,7 @@ signals:
     // in-Editor signals
     void actorClicked(Actor *);
     void positionChanged(Actor *);
-    void actorSelectionChanged(Actor *, bool state);
+    void actorSelectionChanged(Actor * actor, bool state);
 
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value);
