@@ -5,27 +5,30 @@
 #include <QDebug>
 #include <QCursor>
 #include <QGraphicsItem>
+#include <QGraphicsPixmapItem>
+#include <QGraphicsRectItem>
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QGraphicsSceneMouseEvent>
 
 enum ActorType{NORMAL, VIEW, CANVAS, WIRE_FRAME_REGION, FILLED_REGION, LABEL /*,TILE*/};
 
-class Actor : public QObject
+class Actor : public QObject, public QGraphicsItem
 {
     Q_OBJECT
+    Q_INTERFACES(QGraphicsItem)
 public:
     Actor();
 
     // ...
     virtual int getWidth() = 0;
     virtual int getHeight() = 0;
-    virtual QPoint pos() = 0;
-    virtual QPoint scenePos() = 0;
-    virtual void setPos(int nx, int ny) = 0;
-    virtual void setPos(QPointF f) = 0;
-    virtual void setX(int nx) = 0;
-    virtual void setY(int ny) = 0;
+    QPoint pos();
+    QPoint scenePos();
+    void setPos(int nx, int ny);
+    void setPos(QPointF f);
+    void setX(int nx);
+    void setY(int ny);
 
     // Actor Properties
     ActorType type;
@@ -47,7 +50,9 @@ public:
     qreal xscale, yscale;
     // user vars...
 
-    // ...
+    // QGraphicsItem Interface
+    virtual QRectF boundingRect() const = 0;
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) = 0;
 
     // Editor vars
         // for mouse movement with SHIFT key modifier
@@ -58,6 +63,15 @@ signals:
     // in-Editor signals
     void actorClicked(Actor *);
     void positionChanged(Actor *);
+    void actorSelectionChanged(Actor *, bool state);
+
+protected:
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+    void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
 };
 
 #endif // ACTOR_H

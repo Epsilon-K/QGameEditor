@@ -12,9 +12,9 @@ GameScene::GameScene()
 
     // Add Default View Actor
     ViewActor *view = new ViewActor("view", getwindowRect());
-    addItem(view);
-    view->setPos(0,0);
-    actors.prepend(view);
+    addItem((Actor*)view);
+    view->Actor::setPos(0,0);
+    actors.prepend((Actor*)view);
 }
 
 QRect GameScene::getwindowRect()

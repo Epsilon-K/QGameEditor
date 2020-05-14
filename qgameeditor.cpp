@@ -84,6 +84,7 @@ void QGameEditor::showPropertiesOfActor(Actor *actor)
 
 void QGameEditor::addActor(Actor *actor)
 {
+    ui->editorView->gameScene->addItem(actor);
     actor->setPos(ui->editorView->mapToScene(ui->editorView->viewport()->visibleRegion().boundingRect().x()
                                              + ui->editorView->viewport()->visibleRegion().boundingRect().width()/2,
                                              ui->editorView->viewport()->visibleRegion().boundingRect().y()
@@ -159,7 +160,7 @@ void QGameEditor::on_actionConfig_triggered()
 
 void QGameEditor::on_actionAdd_Actor_triggered()
 {
-    // Add Actor
+    // Add Actor Button triggered
     AddActorDialog dialog(this);
     if(dialog.exec() == QDialog::Accepted){
         QString actorName = dialog.getName();
@@ -168,19 +169,17 @@ void QGameEditor::on_actionAdd_Actor_triggered()
         switch (actorType) {
             case NORMAL:{
                 NormalActor * actor = new NormalActor(actorName);
-                ui->editorView->gameScene->addItem(actor);
                 addActor(actor);
                 break;
             }
             case VIEW:{
-                ViewActor * actor = new ViewActor(actorName, ui->editorView->gameScene->getwindowRect());
-                ui->editorView->gameScene->addItem(actor);
+                ViewActor * actor = new ViewActor(actorName,
+                        ui->editorView->gameScene->getwindowRect());
                 addActor(actor);
                 break;
             }
             default:{
-                // Warning Message!!
-                // unimplemented actor type
+                // Should never happen!! unknown or unimplementd somehow
             }
         }
     }
