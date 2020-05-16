@@ -14,6 +14,7 @@ class GameScene : public QGraphicsScene
 public:
     GameScene();
     QRect getwindowRect();
+    Actor * getActorByName(QString actorName);
 
     QString name;
     QString path;

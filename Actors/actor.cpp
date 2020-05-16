@@ -3,7 +3,6 @@
 Actor::Actor()
 {
     createAtStartup = true;
-    //setFlag(QGraphicsItem::ItemClipsToShape);     // no need for this anymore... we will see.
     setFlag(QGraphicsItem::ItemIsMovable);
     setFlag(QGraphicsItem::ItemIsSelectable);
     setFlag(QGraphicsItem::ItemSendsScenePositionChanges);
@@ -17,6 +16,14 @@ Actor::Actor()
     colorEffect->setStrength(colorFXStrenght);
     Actor::setGraphicsEffect(colorEffect);
     colorEffect->setEnabled(true);
+
+    // origin point item
+    originPointItem = new QGraphicsEllipseItem(0,0,12,12);
+    originPointItem->setBrush(QColor(160,70,255));
+    originPointItem->setPen(QPen(Qt::NoPen));
+    originPointItem->setFlag(QGraphicsItem::ItemIgnoresTransformations);
+    originPointItem->setFlag(QGraphicsItem::ItemIsMovable);
+    originPointItem->setVisible(false);
 }
 
 QPoint Actor::pos()
@@ -63,12 +70,18 @@ void Actor::setY(int ny)
 
 void Actor::setTintColor(QColor color)
 {
-    QColor newColor = color;
-    tint = newColor;
-    colorFXStrenght = tint.alphaF();
+    tint = color;
     colorEffect->setColor(tint);
-    colorEffect->setStrength(colorFXStrenght);
     update();
+}
+
+void Actor::setTintStrength(qreal strength)
+{
+    colorFXStrenght = strength;
+    colorEffect->setStrength(strength);
+
+    // calling this to live-update the actor when dragging the tint-Strength slider
+    setTintColor(tint);
 }
 
 // Protected --------------------------------------------------------------------
@@ -93,6 +106,8 @@ QVariant Actor::itemChange(QGraphicsItem::GraphicsItemChange change, const QVari
         Actor::x = newPos.rx();
         Actor::y = newPos.ry();
 
+        originPointItem->setPos(Actor::x, Actor::y);
+
         newPos.rx() -= origin.rx();
         newPos.ry() -= origin.ry();
 
@@ -108,11 +123,15 @@ QVariant Actor::itemChange(QGraphicsItem::GraphicsItemChange change, const QVari
 
         if(selected){
             colorEffect->setColor(QColor(160,70,255,255));
-            colorEffect->setStrength(0.3);
+            if(type == NORMAL)
+                colorEffect->setStrength(0.3);
+            else colorEffect->setStrength(1);
         }else{
             colorEffect->setColor(tint);
             colorEffect->setStrength(colorFXStrenght);
         }
+
+        originPointItem->setVisible(selected);
         // emit the change
         emit actorSelectionChanged(this, selected);
     }
@@ -134,6 +153,7 @@ void Actor::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 void Actor::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     switch(event->button()){
+        default:
         case Qt::LeftButton:
             emit actorClicked(this);
         break;

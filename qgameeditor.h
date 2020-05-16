@@ -28,6 +28,7 @@ public slots:
     void on_editorView_zoom_changed();
     void onActorLeftClicked(Actor * actor);
     void onActorPositionChange(Actor * actor);
+    void onActorSelectionChanged(Actor *actor, bool state);
 
 private slots:
     void on_actionExit_triggered();
@@ -49,10 +50,12 @@ private slots:
 
     void on_actorTintBtn_clicked();
 
+    void on_actorTintStrengthSlider_valueChanged(int value);
+
 private:
     Ui::QGameEditor *ui;
     QStringList stylesheets;
-    Actor * currentlySelectedActor;
+    QVector<Actor *> selectedActors;
 };
 
 #endif // QGAMEEDITOR_H

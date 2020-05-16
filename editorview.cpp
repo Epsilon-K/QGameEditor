@@ -38,9 +38,9 @@ void EditorView::updateScale()
 
     setMatrix(matrix);
 
-    if(scaleLevel < 0.3 && gameScene->preferences->showGrid){
+    if(scaleLevel < 0.5){
         gameScene->preferences->showGrid = false;
-    }else if(scaleLevel >= 0.3 && (!gameScene->preferences->showGrid)){
+    }else if(scaleLevel >= 0.5 && gameScene->preferences->showGrid == false){
         gameScene->preferences->showGrid = true;
     }
     setGridVisibility();
@@ -134,15 +134,6 @@ void EditorView::updateSceneConfigurations()
     QSize ssize = gameScene->properties->sceneSize;
     gameScene->setSceneRect(ssize.width()/2 * -1, ssize.height()/2 * -1, ssize.width(), ssize.height());
     drawGrid();
-}
-
-void EditorView::onActorSelectionChanged(Actor *actor, bool state)
-{
-    if(state){
-        selectedActors.append(actor);
-    }else{
-        selectedActors.removeOne(actor);
-    }
 }
 
 void EditorView::mousePressEvent(QMouseEvent *e)

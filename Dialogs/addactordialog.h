@@ -15,6 +15,7 @@ class AddActorDialog : public QDialog
 public:
     explicit AddActorDialog(QWidget *parent = nullptr);
     ~AddActorDialog();
+    QString getRandomString(int size);
 
     QString getName();
     ActorType getType();

@@ -16,8 +16,6 @@ public:
     EditorView(QWidget*& p);
 
     GameScene * gameScene;
-    QVector<Actor*> selectedActors;
-
     double scaleLevel = 1;
 
     // TODO: is there a more optimized way of doing this?
@@ -41,7 +39,6 @@ signals:
 public slots:
     void centering();
     void updateSceneConfigurations();
-    void onActorSelectionChanged(Actor * actor, bool state);
 
 protected :
     void mousePressEvent(QMouseEvent *e);
