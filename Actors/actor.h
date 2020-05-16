@@ -31,6 +31,8 @@ public:
     void setPos(QPointF f);
     void setX(int nx);
     void setY(int ny);
+    void setXScale(qreal newXScale);
+    void setYScale(qreal newYScale);
 
     // Actor Properties
     ActorType type;
@@ -44,12 +46,12 @@ public:
     int x, y;
     int xprevious, yprevious;
     int xscreen, yscreen;
-    int xvelocity, yvelocity;
-    int angle, directional_velocity;
+    int xvelocity{0}, yvelocity{0};
+    int angle{0}, directional_velocity{0};
     int width, height;
-    qreal zdepth, transp;
-    qreal rotation;
-    qreal xscale, yscale;
+    qreal zdepth{0}, transp{1};
+    qreal rotation{0};
+    qreal xscale{1}, yscale{1};
     QColor tint;
     qreal colorFXStrenght{0};
     // user vars...

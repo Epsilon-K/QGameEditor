@@ -68,11 +68,33 @@ void Actor::setY(int ny)
     QGraphicsItem::setY(ny - origin.ry());
 }
 
+void Actor::setXScale(qreal newXScale)
+{
+    QTransform tr = transform();
+    tr.setMatrix(newXScale, tr.m12(), tr.m13(),
+                 tr.m21(), tr.m22(), tr.m23(),
+                 tr.m31(), tr.m32(), tr.m33());
+    setTransform(tr, false); // false => don't combine the matrix
+    xscale = newXScale;
+    // why a simple boundingRect().width() doesn't work after transformation?
+    width = abs(getWidth() * xscale);
+}
+
+void Actor::setYScale(qreal newYScale)
+{
+    QTransform tr = transform();
+    tr.setMatrix(tr.m11(), tr.m12(), tr.m13(),
+                 tr.m21(), newYScale, tr.m23(),
+                 tr.m31(), tr.m32(), tr.m33());
+    setTransform(tr, false); // false => don't combine the matrix
+    yscale = newYScale;
+    height = abs(getHeight() * yscale);
+}
+
 void Actor::setTintColor(QColor color)
 {
     tint = color;
     colorEffect->setColor(tint);
-    update();
 }
 
 void Actor::setTintStrength(qreal strength)

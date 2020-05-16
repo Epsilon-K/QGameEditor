@@ -63,10 +63,9 @@ void QGameEditor::loadStylesheets()
     stylesheets.append(in.readAll());
 }
 
-// This function is called in case only ONE actor is selected
-    // TODO: showPropertiesOfMultiActors()
 void QGameEditor::showPropertiesOfActor(Actor *actor)
 {
+    // X & Y
     ui->actorXSpinBox->blockSignals(true);
         ui->actorXSpinBox->setValue(actor->x);
     ui->actorXSpinBox->blockSignals(false);
@@ -74,8 +73,14 @@ void QGameEditor::showPropertiesOfActor(Actor *actor)
         ui->actorYSpinBox->setValue(actor->y);
     ui->actorYSpinBox->blockSignals(false);
 
-    ui->actorWidthSpinBox->setValue(actor->width);
-    ui->actorHeightSpinBox->setValue(actor->height);
+
+    // Width & Height
+    ui->actorWidthSpinBox->blockSignals(true);
+        ui->actorWidthSpinBox->setValue(actor->width);
+    ui->actorWidthSpinBox->blockSignals(false);
+    ui->actorHeightSpinBox->blockSignals(true);
+        ui->actorHeightSpinBox->setValue(actor->height);
+    ui->actorHeightSpinBox->blockSignals(false);
 
     // tint color
     ui->actorTintBtn->setStyleSheet("background-color: " + actor->tint.name());
@@ -86,6 +91,15 @@ void QGameEditor::showPropertiesOfActor(Actor *actor)
     ui->actorTintStrengthSlider->blockSignals(true);
         ui->actorTintStrengthSlider->setValue(actor->colorFXStrenght * 100);
     ui->actorTintStrengthSlider->blockSignals(false);
+
+    // XScale & YScale
+    ui->actorXScaleDoubleSpinBox->blockSignals(true);
+        ui->actorXScaleDoubleSpinBox->setValue(actor->xscale);
+    ui->actorXScaleDoubleSpinBox->blockSignals(false);
+
+    ui->actorYScaleDoubleSpinBox->blockSignals(true);
+        ui->actorYScaleDoubleSpinBox->setValue(actor->yscale);
+    ui->actorYScaleDoubleSpinBox->blockSignals(false);
 }
 
 void QGameEditor::addActor(Actor *actor)
@@ -300,4 +314,30 @@ void QGameEditor::on_actorTintStrengthSlider_valueChanged(int value)
         selectedActors[i]->setTintStrength(percent);
     }
     ui->actorTintStrengthLabel->setText("Color strength (" + QString::number(value) + "%) : ");
+}
+
+void QGameEditor::on_actorXScaleDoubleSpinBox_valueChanged(double xs)
+{
+    for(int i = 0; i < selectedActors.size(); i++){
+        selectedActors[i]->setXScale(xs);
+    }
+
+    // Also set the width on the control tab
+    Actor * actor = selectedActors[selectedActors.size()-1];
+    ui->actorWidthSpinBox->blockSignals(true);
+        ui->actorWidthSpinBox->setValue(actor->width);
+    ui->actorWidthSpinBox->blockSignals(false);
+}
+
+void QGameEditor::on_actorYScaleDoubleSpinBox_valueChanged(double xy)
+{
+    for(int i = 0; i < selectedActors.size(); i++){
+        selectedActors[i]->setYScale(xy);
+    }
+
+    // Aaand set the height on the control tab
+    Actor * actor = selectedActors[selectedActors.size()-1];
+    ui->actorHeightSpinBox->blockSignals(true);
+        ui->actorHeightSpinBox->setValue(actor->height);
+    ui->actorHeightSpinBox->blockSignals(false);
 }

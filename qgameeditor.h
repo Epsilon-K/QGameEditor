@@ -52,6 +52,10 @@ private slots:
 
     void on_actorTintStrengthSlider_valueChanged(int value);
 
+    void on_actorXScaleDoubleSpinBox_valueChanged(double xs);
+
+    void on_actorYScaleDoubleSpinBox_valueChanged(double xy);
+
 private:
     Ui::QGameEditor *ui;
     QStringList stylesheets;
