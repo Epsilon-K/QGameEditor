@@ -66,6 +66,10 @@ private slots:
 
     void on_actorZDepthDoubleSpinBox_valueChanged(double arg1);
 
+    void on_actorWidthSpinBox_valueChanged(int arg1);
+
+    void on_actorHeightSpinBox_valueChanged(int arg1);
+
 private:
     Ui::QGameEditor *ui;
     QStringList stylesheets;

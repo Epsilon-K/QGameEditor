@@ -427,3 +427,29 @@ void QGameEditor::on_actorZDepthDoubleSpinBox_valueChanged(double value)
         ui->actorZDepthSlider->setValue(value * 100);
     ui->actorZDepthSlider->blockSignals(false);
 }
+
+void QGameEditor::on_actorWidthSpinBox_valueChanged(int newWidth)
+{
+    for(int i = 0; i < selectedActors.size(); i++){
+        qreal newXScale = qreal(newWidth)/selectedActors[i]->getWidth();
+        selectedActors[i]->setXScale(newXScale);
+    }
+
+    // set the scale on the spinbox
+    ui->actorXScaleDoubleSpinBox->blockSignals(true);
+        ui->actorXScaleDoubleSpinBox->setValue(selectedActors[selectedActors.size()-1]->xscale);
+    ui->actorXScaleDoubleSpinBox->blockSignals(false);
+}
+
+void QGameEditor::on_actorHeightSpinBox_valueChanged(int newHeight)
+{
+    for(int i = 0; i < selectedActors.size(); i++){
+        qreal newYScale = qreal(newHeight)/selectedActors[i]->getHeight();
+        selectedActors[i]->setYScale(newYScale);
+    }
+
+    // set the scale on the spinbox
+    ui->actorYScaleDoubleSpinBox->blockSignals(true);
+        ui->actorYScaleDoubleSpinBox->setValue(selectedActors[selectedActors.size()-1]->yscale);
+    ui->actorYScaleDoubleSpinBox->blockSignals(false);
+}

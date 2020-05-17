@@ -607,7 +607,7 @@
                   <item>
                    <widget class="QSpinBox" name="actorWidthSpinBox">
                     <property name="readOnly">
-                     <bool>true</bool>
+                     <bool>false</bool>
                     </property>
                     <property name="buttonSymbols">
                      <enum>QAbstractSpinBox::NoButtons</enum>
@@ -643,7 +643,7 @@
                   <item>
                    <widget class="QSpinBox" name="actorHeightSpinBox">
                     <property name="readOnly">
-                     <bool>true</bool>
+                     <bool>false</bool>
                     </property>
                     <property name="buttonSymbols">
                      <enum>QAbstractSpinBox::NoButtons</enum>
