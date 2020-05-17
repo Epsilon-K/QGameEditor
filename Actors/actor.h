@@ -50,7 +50,7 @@ public:
     int angle{0}, directional_velocity{0};
     int width, height;
     qreal zdepth{0}, transp{1};
-    qreal rotation{0};
+    int rotation{0};
     qreal xscale{1}, yscale{1};
     QColor tint;
     qreal colorFXStrenght{0};

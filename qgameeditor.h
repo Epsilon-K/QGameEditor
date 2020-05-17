@@ -56,6 +56,16 @@ private slots:
 
     void on_actorYScaleDoubleSpinBox_valueChanged(double xy);
 
+    void on_actorRotationSlider_valueChanged(int value);
+
+    void on_actorTranspSlider_valueChanged(int value);
+
+    void on_actorTranspDoubleSpinBox_valueChanged(double arg1);
+
+    void on_actorZDepthSlider_valueChanged(int value);
+
+    void on_actorZDepthDoubleSpinBox_valueChanged(double arg1);
+
 private:
     Ui::QGameEditor *ui;
     QStringList stylesheets;

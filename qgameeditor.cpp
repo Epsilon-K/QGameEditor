@@ -100,6 +100,30 @@ void QGameEditor::showPropertiesOfActor(Actor *actor)
     ui->actorYScaleDoubleSpinBox->blockSignals(true);
         ui->actorYScaleDoubleSpinBox->setValue(actor->yscale);
     ui->actorYScaleDoubleSpinBox->blockSignals(false);
+
+    // Rotation
+    ui->actorRotationSlider->blockSignals(true);
+        ui->actorRotationSlider->setValue(actor->rotation);
+    ui->actorRotationSlider->blockSignals(false);
+    ui->actorRotationSpinBox->blockSignals(true);
+        ui->actorRotationSpinBox->setValue(actor->rotation);
+    ui->actorRotationSpinBox->blockSignals(false);
+
+    // Transparency
+    ui->actorTranspSlider->blockSignals(true);
+        ui->actorTranspSlider->setValue(actor->transp * 100);
+    ui->actorTranspSlider->blockSignals(false);
+    ui->actorTranspDoubleSpinBox->blockSignals(true);
+        ui->actorTranspDoubleSpinBox->setValue(actor->transp);
+    ui->actorTranspDoubleSpinBox->blockSignals(false);
+
+    // ZDepth
+    ui->actorZDepthSlider->blockSignals(true);
+        ui->actorZDepthSlider->setValue(actor->zdepth * 100);
+    ui->actorZDepthSlider->blockSignals(false);
+    ui->actorZDepthDoubleSpinBox->blockSignals(true);
+        ui->actorZDepthDoubleSpinBox->setValue(actor->zdepth);
+    ui->actorZDepthDoubleSpinBox->blockSignals(false);
 }
 
 void QGameEditor::addActor(Actor *actor)
@@ -340,4 +364,66 @@ void QGameEditor::on_actorYScaleDoubleSpinBox_valueChanged(double xy)
     ui->actorHeightSpinBox->blockSignals(true);
         ui->actorHeightSpinBox->setValue(actor->height);
     ui->actorHeightSpinBox->blockSignals(false);
+}
+
+void QGameEditor::on_actorRotationSlider_valueChanged(int value)
+{
+    for(int i = 0; i < selectedActors.size(); i++){
+        selectedActors[i]->setRotation(value);
+        selectedActors[i]->rotation = value;
+    }
+}
+
+void QGameEditor::on_actorTranspSlider_valueChanged(int value)
+{
+    qreal percent = qreal(value)/100;
+    for(int i = 0; i < selectedActors.size(); i++){
+        selectedActors[i]->setOpacity(percent);
+        selectedActors[i]->transp = percent;
+    }
+
+    // set the spinbox
+    ui->actorTranspDoubleSpinBox->blockSignals(true);
+        ui->actorTranspDoubleSpinBox->setValue(percent);
+    ui->actorTranspDoubleSpinBox->blockSignals(false);
+}
+
+void QGameEditor::on_actorTranspDoubleSpinBox_valueChanged(double value)
+{
+    for(int i = 0; i < selectedActors.size(); i++){
+        selectedActors[i]->setOpacity(value);
+        selectedActors[i]->transp = value;
+    }
+
+    // set the slider
+    ui->actorTranspSlider->blockSignals(true);
+        ui->actorTranspSlider->setValue(value * 100);
+    ui->actorTranspSlider->blockSignals(false);
+}
+
+void QGameEditor::on_actorZDepthSlider_valueChanged(int value)
+{
+    qreal percent = qreal(value)/100;
+    for(int i = 0; i < selectedActors.size(); i++){
+        selectedActors[i]->setZValue(percent);
+        selectedActors[i]->zdepth = percent;
+    }
+
+    // set the spinbox
+    ui->actorZDepthDoubleSpinBox->blockSignals(true);
+        ui->actorZDepthDoubleSpinBox->setValue(percent);
+    ui->actorZDepthDoubleSpinBox->blockSignals(false);
+}
+
+void QGameEditor::on_actorZDepthDoubleSpinBox_valueChanged(double value)
+{
+    for(int i = 0; i < selectedActors.size(); i++){
+        selectedActors[i]->setZValue(value);
+        selectedActors[i]->zdepth = value;
+    }
+
+    // set the slider
+    ui->actorZDepthSlider->blockSignals(true);
+        ui->actorZDepthSlider->setValue(value * 100);
+    ui->actorZDepthSlider->blockSignals(false);
 }
