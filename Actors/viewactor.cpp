@@ -8,11 +8,11 @@ ViewActor::ViewActor(QString _name, QRect r)
     setPen(cp);
     setRect(r);
 
-    origin = QPoint(getWidth()/2, getHeight()/2);
+    originPointItem->setPos(QPoint(getWidth()/2, getHeight()/2));
     width = getWidth();
     height = getHeight();
-    Actor::setTransformOriginPoint(origin);
-    originPointItem->setPos(Actor::x, Actor::y);
+    Actor::setTransformOriginPoint(originPointItem->pos());
+    //originPointItem->setPos(Actor::x, Actor::y);
 }
 
 int ViewActor::getWidth()

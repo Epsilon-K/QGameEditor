@@ -7,11 +7,10 @@ NormalActor::NormalActor(QString _name)
     QPixmap pix(":/Resources/images/GE Actor in editor.png");
     setPixmap(pix);
 
-    origin = QPoint(getWidth()/2, getHeight()/2);
+    originPointItem->setPos(QPoint(getWidth()/2, getHeight()/2));
     width = getWidth();
     height = getHeight();
-    Actor::setTransformOriginPoint(origin);
-    originPointItem->setPos(Actor::x, Actor::y);
+    Actor::setTransformOriginPoint(originPointItem->pos());
 }
 
 int NormalActor::getWidth()

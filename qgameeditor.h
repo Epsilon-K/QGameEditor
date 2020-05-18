@@ -70,6 +70,10 @@ private slots:
 
     void on_actorHeightSpinBox_valueChanged(int arg1);
 
+    void on_actorOriginXSpinBox_valueChanged(int arg1);
+
+    void on_actorOriginYSpinBox_valueChanged(int arg1);
+
 private:
     Ui::QGameEditor *ui;
     QStringList stylesheets;

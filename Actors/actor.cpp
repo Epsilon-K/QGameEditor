@@ -18,27 +18,27 @@ Actor::Actor()
     colorEffect->setEnabled(true);
 
     // origin point item
-    originPointItem = new QGraphicsEllipseItem(0,0,12,12);
+    originPointItem = new QGraphicsEllipseItem(0,0,12,12, this);
     originPointItem->setBrush(QColor(160,70,255));
     originPointItem->setPen(QPen(Qt::NoPen));
     originPointItem->setFlag(QGraphicsItem::ItemIgnoresTransformations);
-    originPointItem->setFlag(QGraphicsItem::ItemIsMovable);
+    originPointItem->setFlag(QGraphicsItem::ItemIgnoresParentOpacity);  // Why is this Flag not respected!!, the point have same opacity as Actor
     originPointItem->setVisible(false);
 }
 
 QPoint Actor::pos()
 {
     QPoint po = QGraphicsItem::pos().toPoint();
-    po.setX(po.x() + origin.x());
-    po.setY(po.y() + origin.y());
+    po.setX(po.x() + originPointItem->x());
+    po.setY(po.y() + originPointItem->y());
     return po;
 }
 
 QPoint Actor::scenePos()
 {
     QPoint po = QGraphicsItem::scenePos().toPoint();
-    po.setX(po.x() + origin.x());
-    po.setY(po.y() + origin.y());
+    po.setX(po.x() + originPointItem->x());
+    po.setY(po.y() + originPointItem->y());
     return po;
 }
 
@@ -46,49 +46,67 @@ void Actor::setPos(int nx, int ny)
 {
     Actor::x = nx;
     Actor::y = ny;
-    QGraphicsItem::setPos(nx - origin.x(), ny - origin.y());
+    QGraphicsItem::setPos(nx - originPointItem->x(), ny - originPointItem->y());
 }
 
 void Actor::setPos(QPointF f)
 {
     Actor::x = int(f.rx());
     Actor::y = int(f.ry());
-    QGraphicsItem::setPos(QPointF(f.rx() - origin.rx(), f.ry() - origin.ry()));
+    QGraphicsItem::setPos(QPointF(f.rx() - originPointItem->x(), f.ry() - originPointItem->y()));
 }
 
 void Actor::setX(int nx)
 {
     Actor::x = nx;
-    QGraphicsItem::setX(nx - origin.rx());
+    QGraphicsItem::setX(nx - originPointItem->x());
 }
 
 void Actor::setY(int ny)
 {
     Actor::y = ny;
-    QGraphicsItem::setY(ny - origin.ry());
+    QGraphicsItem::setY(ny - originPointItem->y());
 }
 
 void Actor::setXScale(qreal newXScale)
 {
-    QTransform tr = transform();
-    tr.setMatrix(newXScale, tr.m12(), tr.m13(),
-                 tr.m21(), tr.m22(), tr.m23(),
-                 tr.m31(), tr.m32(), tr.m33());
-    setTransform(tr, false); // false => don't combine the matrix
+    QTransform tr;
+
+    tr.translate(originPointItem->x(), originPointItem->y());  // to origin
+    tr.rotate(rotation);
+    tr.scale(newXScale, yscale);
+    tr.translate(-originPointItem->x(), -originPointItem->y()); // and back
+
+    setTransform(tr);
     xscale = newXScale;
-    // why a simple boundingRect().width() doesn't work after transformation?
     width = abs(getWidth() * xscale);
 }
 
 void Actor::setYScale(qreal newYScale)
 {
-    QTransform tr = transform();
-    tr.setMatrix(tr.m11(), tr.m12(), tr.m13(),
-                 tr.m21(), newYScale, tr.m23(),
-                 tr.m31(), tr.m32(), tr.m33());
-    setTransform(tr, false); // false => don't combine the matrix
+    QTransform tr;
+
+    tr.translate(originPointItem->x(), originPointItem->y());  // to origin
+    tr.rotate(rotation);
+    tr.scale(xscale, newYScale);
+    tr.translate(-originPointItem->x(), -originPointItem->y()); // and back
+
+    setTransform(tr);
     yscale = newYScale;
     height = abs(getHeight() * yscale);
+}
+
+void Actor::setRotation(qreal ro)
+{
+    QTransform tr;
+
+    tr.translate(originPointItem->x(), originPointItem->y());  // to origin
+    tr.rotate(ro);
+    tr.scale(xscale, yscale);
+    tr.translate(-originPointItem->x(), - originPointItem->y()); // and back
+
+    setTransform(tr);
+    rotation = ro;
 }
 
 void Actor::setTintColor(QColor color)
@@ -107,13 +125,14 @@ void Actor::setTintStrength(qreal strength)
 }
 
 // Protected --------------------------------------------------------------------
+//     -----------------------------------------------------------------------
 
 QVariant Actor::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
     if (change == ItemPositionChange){
         QPoint newPos = value.toPointF().toPoint();
-        newPos.rx() += origin.rx();
-        newPos.ry() += origin.ry();
+        newPos.rx() += originPointItem->x();
+        newPos.ry() += originPointItem->y();
 
         Actor::xprevious = Actor::x;
         Actor::yprevious = Actor::y;
@@ -128,10 +147,8 @@ QVariant Actor::itemChange(QGraphicsItem::GraphicsItemChange change, const QVari
         Actor::x = newPos.rx();
         Actor::y = newPos.ry();
 
-        originPointItem->setPos(Actor::x, Actor::y);
-
-        newPos.rx() -= origin.rx();
-        newPos.ry() -= origin.ry();
+        newPos.rx() -= originPointItem->x();
+        newPos.ry() -= originPointItem->y();
 
         return QPointF(newPos);
     }

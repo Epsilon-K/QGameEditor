@@ -38,7 +38,7 @@ QGameEditor::QGameEditor(QWidget *parent) :
         connect(actor, SIGNAL(positionChanged(Actor *)), this, SLOT(onActorPositionChange(Actor *)));
         connect(actor, SIGNAL(actorSelectionChanged(Actor *, bool)), this, SLOT(onActorSelectionChanged(Actor *, bool)));
         onActorLeftClicked(actor);
-        ui->editorView->gameScene->addItem(actor->originPointItem);
+        //ui->editorView->gameScene->addItem(actor->originPointItem);
     }
 }
 
@@ -72,6 +72,14 @@ void QGameEditor::showPropertiesOfActor(Actor *actor)
     ui->actorYSpinBox->blockSignals(true);
         ui->actorYSpinBox->setValue(actor->y);
     ui->actorYSpinBox->blockSignals(false);
+
+    // Origin X & Y
+    ui->actorOriginXSpinBox->blockSignals(true);
+        ui->actorOriginXSpinBox->setValue(actor->originPointItem->x());
+    ui->actorOriginXSpinBox->blockSignals(false);
+    ui->actorOriginYSpinBox->blockSignals(true);
+        ui->actorOriginYSpinBox->setValue(actor->originPointItem->y());
+    ui->actorOriginYSpinBox->blockSignals(false);
 
 
     // Width & Height
@@ -129,7 +137,7 @@ void QGameEditor::showPropertiesOfActor(Actor *actor)
 void QGameEditor::addActor(Actor *actor)
 {
     ui->editorView->gameScene->addItem(actor);
-    ui->editorView->gameScene->addItem(actor->originPointItem);
+    //ui->editorView->gameScene->addItem(actor->originPointItem);
     actor->setPos(ui->editorView->mapToScene(ui->editorView->viewport()->visibleRegion().boundingRect().x()
                                              + ui->editorView->viewport()->visibleRegion().boundingRect().width()/2,
                                              ui->editorView->viewport()->visibleRegion().boundingRect().y()
@@ -370,7 +378,6 @@ void QGameEditor::on_actorRotationSlider_valueChanged(int value)
 {
     for(int i = 0; i < selectedActors.size(); i++){
         selectedActors[i]->setRotation(value);
-        selectedActors[i]->rotation = value;
     }
 }
 
@@ -452,4 +459,14 @@ void QGameEditor::on_actorHeightSpinBox_valueChanged(int newHeight)
     ui->actorYScaleDoubleSpinBox->blockSignals(true);
         ui->actorYScaleDoubleSpinBox->setValue(selectedActors[selectedActors.size()-1]->yscale);
     ui->actorYScaleDoubleSpinBox->blockSignals(false);
+}
+
+void QGameEditor::on_actorOriginXSpinBox_valueChanged(int arg1)
+{
+
+}
+
+void QGameEditor::on_actorOriginYSpinBox_valueChanged(int arg1)
+{
+
 }
