@@ -222,6 +222,7 @@ void Actor::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     setCursor(QCursor(Qt::PointingHandCursor));
     // reset snap axis
     xSnap = ySnap = false;
+    emit snappingStateChanged(this);
 }
 
 void Actor::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
@@ -240,13 +241,13 @@ void Actor::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         // reset snap axis
         xSnap = ySnap = false;
     }
+    emit snappingStateChanged(this);
 }
 
 void Actor::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     QMenu menu;
     QAction *lockAction = menu.addAction(isLocked ? "UnLock Actor" : "Lock Actor");
-    lockAction->setShortcut(Qt::Key_L);
     QAction *deleteAction = menu.addAction("Delete Actor");
     QAction *selectedAction = menu.exec(event->screenPos());
 

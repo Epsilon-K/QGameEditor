@@ -29,6 +29,7 @@ public slots:
     void onActorLeftClicked(Actor * actor);
     void onActorPositionChange(Actor * actor);
     void onActorSelectionChanged(Actor *actor, bool state);
+    void copySnappingOfActor(Actor* actor);
 
 private slots:
     void on_actionExit_triggered();
@@ -78,6 +79,7 @@ private:
     Ui::QGameEditor *ui;
     QStringList stylesheets;
     QVector<Actor *> selectedActors;
+    QGraphicsLineItem *snappingGuideLine;
 };
 
 #endif // QGAMEEDITOR_H

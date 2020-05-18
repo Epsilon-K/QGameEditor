@@ -41,3 +41,4 @@ Actor *GameScene::getActorByName(QString actorName)
     // TODO: log a warning message
     return actors[0];
 }
+

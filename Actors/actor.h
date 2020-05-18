@@ -81,6 +81,7 @@ signals:
     void positionChanged(Actor *);
     void actorSelectionChanged(Actor * actor, bool state);
     void deleteActor(Actor*);
+    void snappingStateChanged(Actor*);
 
 public slots:
     void lockUnLock();  // locks if unlocked and vice-versa

@@ -15,6 +15,10 @@ QGameEditor::QGameEditor(QWidget *parent) :
     setStyleSheet(stylesheets[0]);
     ui->menuBar->setFont(f);
     QTimer::singleShot(30,ui->editorView, SLOT(centering()));
+    snappingGuideLine = new QGraphicsLineItem(0,0,720,240);
+    snappingGuideLine->setPen(QPen(QColor(160,70,255),0,Qt::SolidLine));
+    ui->editorView->gameScene->addItem(snappingGuideLine);
+    snappingGuideLine->setVisible(false);
 
     // setAlignment of all tool buttons
     for(int i = 0; i < ui->toolsVerticalLayout->count(); i++){
@@ -30,7 +34,6 @@ QGameEditor::QGameEditor(QWidget *parent) :
     connect(ui->editorView, SIGNAL(signalZoomLevelChanged()), this, SLOT(on_editorView_zoom_changed()));
 
     // add whatever default actors in the scene & connect their signals to the main UI
-    Actor * lastActor = nullptr;
     for(int i = 0; i < ui->editorView->gameScene->actors.size(); i++){
         Actor * actor = ui->editorView->gameScene->actors[i];
         ui->actorNameComboBox->blockSignals(true);
@@ -38,9 +41,9 @@ QGameEditor::QGameEditor(QWidget *parent) :
         ui->actorNameComboBox->blockSignals(false);
         connect(actor, SIGNAL(positionChanged(Actor *)), this, SLOT(onActorPositionChange(Actor *)));
         connect(actor, SIGNAL(actorSelectionChanged(Actor *, bool)), this, SLOT(onActorSelectionChanged(Actor *, bool)));
-        lastActor = actor;
+        connect(actor, SIGNAL(snappingStateChanged(Actor*)), this, SLOT(copySnappingOfActor(Actor*)));
     }
-    lastActor->setSelected(true);
+    ui->editorView->gameScene->actors.last()->setSelected(true);
 }
 
 QGameEditor::~QGameEditor()
@@ -145,6 +148,7 @@ void QGameEditor::addActor(Actor *actor)
                                              + ui->editorView->viewport()->visibleRegion().boundingRect().height()/2));
     connect(actor, SIGNAL(positionChanged(Actor *)), this, SLOT(onActorPositionChange(Actor *)));
     connect(actor, SIGNAL(actorSelectionChanged(Actor *, bool)), this, SLOT(onActorSelectionChanged(Actor *, bool)));
+    connect(actor, SIGNAL(snappingStateChanged(Actor*)), this, SLOT(copySnappingOfActor(Actor*)));
     ui->editorView->gameScene->actors.append(actor);
     ui->actorNameComboBox->blockSignals(true);
         ui->actorNameComboBox->insertItem(0,actor->name);
@@ -226,6 +230,33 @@ void QGameEditor::onActorSelectionChanged(Actor *actor, bool state)
         foreach( QWidget* w, list ) {
            w->setEnabled( false ) ;
         }
+    }
+}
+
+void QGameEditor::copySnappingOfActor(Actor *actor)
+{
+    for(int i = 0;i < selectedActors.size(); i++){
+        selectedActors[i]->xSnap = actor->xSnap;
+        selectedActors[i]->ySnap = actor->ySnap;
+    }
+
+    // draw snapping line if (xSnap | ySnap)
+    if(actor->xSnap || actor->ySnap){
+        snappingGuideLine->setVisible(true);
+        QLine line;
+        QPoint viewPort(ui->editorView->viewport()->visibleRegion().boundingRect().width(),
+                        ui->editorView->viewport()->visibleRegion().boundingRect().height());
+        QPoint actorPos(ui->editorView->mapFromScene(actor->pos()));
+        if(actor->xSnap){   //XAxis
+            line = QLine(ui->editorView->mapToScene(0, actorPos.ry()).toPoint(),
+                         ui->editorView->mapToScene(viewPort.rx(), actorPos.ry()).toPoint());
+        }else{  // YAxis
+            line = QLine(ui->editorView->mapToScene(actorPos.rx(), 0).toPoint(),
+            ui->editorView->mapToScene(actorPos.rx(), viewPort.ry()).toPoint());
+        }
+        snappingGuideLine->setLine(line);
+    }else {
+        snappingGuideLine->setVisible(false);
     }
 }
 
