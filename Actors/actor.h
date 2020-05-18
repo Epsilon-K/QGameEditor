@@ -10,6 +10,8 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QGraphicsSceneMouseEvent>
+#include <QGraphicsSceneContextMenuEvent>
+#include <QMenu>
 #include <QGraphicsColorizeEffect>
 #include <QTimeLine>
 
@@ -45,6 +47,7 @@ public:
 
     int x, y;
     int xprevious, yprevious;
+    QGraphicsEllipseItem * originPointItem;
     int xscreen, yscreen;
     int xvelocity{0}, yvelocity{0};
     int angle{0}, directional_velocity{0};
@@ -60,11 +63,11 @@ public:
     virtual QRectF boundingRect() const = 0;
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) = 0;
 
-    // Editor vars
+    // Editor stuff
         // for mouse movement with SHIFT key modifier
     bool xSnap{false};
     bool ySnap{false};
-    QGraphicsEllipseItem * originPointItem;
+    bool isLocked{false};
 
     // Effects
     QGraphicsColorizeEffect * colorEffect;
@@ -76,14 +79,25 @@ signals:
     void actorClicked(Actor *);
     void positionChanged(Actor *);
     void actorSelectionChanged(Actor * actor, bool state);
+    void deleteActor(Actor*);
+
+public slots:
+    void lockUnLock();  // locks if unlocked and vice-versa
+    void sendDeleteSignal();
 
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+
+    // Mouse
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
+
+    // Keyboard
+    void keyPressEvent(QKeyEvent *event);
 };
 
 #endif // ACTOR_H

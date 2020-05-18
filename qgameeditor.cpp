@@ -30,6 +30,7 @@ QGameEditor::QGameEditor(QWidget *parent) :
     connect(ui->editorView, SIGNAL(signalZoomLevelChanged()), this, SLOT(on_editorView_zoom_changed()));
 
     // add whatever default actors in the scene & connect their signals to the main UI
+    Actor * lastActor = nullptr;
     for(int i = 0; i < ui->editorView->gameScene->actors.size(); i++){
         Actor * actor = ui->editorView->gameScene->actors[i];
         ui->actorNameComboBox->blockSignals(true);
@@ -37,9 +38,9 @@ QGameEditor::QGameEditor(QWidget *parent) :
         ui->actorNameComboBox->blockSignals(false);
         connect(actor, SIGNAL(positionChanged(Actor *)), this, SLOT(onActorPositionChange(Actor *)));
         connect(actor, SIGNAL(actorSelectionChanged(Actor *, bool)), this, SLOT(onActorSelectionChanged(Actor *, bool)));
-        onActorLeftClicked(actor);
-        //ui->editorView->gameScene->addItem(actor->originPointItem);
+        lastActor = actor;
     }
+    lastActor->setSelected(true);
 }
 
 QGameEditor::~QGameEditor()
@@ -144,7 +145,7 @@ void QGameEditor::addActor(Actor *actor)
                                              + ui->editorView->viewport()->visibleRegion().boundingRect().height()/2));
     connect(actor, SIGNAL(positionChanged(Actor *)), this, SLOT(onActorPositionChange(Actor *)));
     connect(actor, SIGNAL(actorSelectionChanged(Actor *, bool)), this, SLOT(onActorSelectionChanged(Actor *, bool)));
-    ui->editorView->gameScene->actors.prepend(actor);
+    ui->editorView->gameScene->actors.append(actor);
     ui->actorNameComboBox->blockSignals(true);
         ui->actorNameComboBox->insertItem(0,actor->name);
     ui->actorNameComboBox->blockSignals(false);

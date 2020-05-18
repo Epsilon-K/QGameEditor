@@ -4,6 +4,7 @@ Actor::Actor()
 {
     createAtStartup = true;
     setFlag(QGraphicsItem::ItemIsMovable);
+    setFlag(QGraphicsItem::ItemIsFocusable);
     setFlag(QGraphicsItem::ItemIsSelectable);
     setFlag(QGraphicsItem::ItemSendsScenePositionChanges);
     setAcceptHoverEvents(true);
@@ -124,6 +125,20 @@ void Actor::setTintStrength(qreal strength)
     setTintColor(tint);
 }
 
+void Actor::lockUnLock()
+{
+    setFlag(QGraphicsItem::ItemIsMovable, isLocked);
+    setFlag(QGraphicsItem::ItemIsFocusable, isLocked);
+    setFlag(QGraphicsItem::ItemIsSelectable, isLocked);
+
+    isLocked = !isLocked;
+}
+
+void Actor::sendDeleteSignal()
+{
+    emit deleteActor(this); // :(
+}
+
 // Protected --------------------------------------------------------------------
 //     -----------------------------------------------------------------------
 
@@ -225,4 +240,27 @@ void Actor::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         // reset snap axis
         xSnap = ySnap = false;
     }
+}
+
+void Actor::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+{
+    QMenu menu;
+    QAction *lockAction = menu.addAction(isLocked ? "UnLock Actor" : "Lock Actor");
+    lockAction->setShortcut(Qt::Key_L);
+    QAction *deleteAction = menu.addAction("Delete Actor");
+    QAction *selectedAction = menu.exec(event->screenPos());
+
+    // connect those actions to slots
+    connect(lockAction, &QAction::triggered, this, &Actor::lockUnLock);
+    connect(deleteAction, &QAction::triggered, this, &Actor::sendDeleteSignal);
+
+    if(selectedAction){
+        selectedAction->trigger();
+    }
+
+}
+
+void Actor::keyPressEvent(QKeyEvent *event)
+{
+    // if in editor mode then react to arrow keys to move the actor
 }
