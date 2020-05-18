@@ -11,6 +11,7 @@
 #include <QGraphicsView>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsSceneContextMenuEvent>
+#include <QKeyEvent>
 #include <QMenu>
 #include <QGraphicsColorizeEffect>
 #include <QTimeLine>

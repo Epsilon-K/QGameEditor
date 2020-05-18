@@ -263,4 +263,20 @@ void Actor::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 void Actor::keyPressEvent(QKeyEvent *event)
 {
     // if in editor mode then react to arrow keys to move the actor
+    if(isSelected()){
+        switch(event->key()){
+        case Qt::Key_Right:
+            setX(x+1);
+        break;
+        case Qt::Key_Left:
+            setX(x-1);
+        break;
+        case Qt::Key_Up:
+            setY(y-1);
+        break;
+        case Qt::Key_Down:
+            setY(y+1);
+        break;
+        }
+    }
 }
