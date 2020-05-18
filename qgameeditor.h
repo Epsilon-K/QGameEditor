@@ -75,6 +75,12 @@ private slots:
 
     void on_actorOriginYSpinBox_valueChanged(int arg1);
 
+    void on_actionShow_Hidden_Actors_triggered();
+
+    void on_actorHiddenCheckBox_toggled(bool checked);
+
+    void on_actorLockedCheckBox_toggled(bool checked);
+
 private:
     Ui::QGameEditor *ui;
     QStringList stylesheets;

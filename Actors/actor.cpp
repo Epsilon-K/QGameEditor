@@ -134,6 +134,11 @@ void Actor::lockUnLock()
     isLocked = !isLocked;
 }
 
+void Actor::hideUnHide()
+{
+    setVisible(!isVisible());
+}
+
 void Actor::sendDeleteSignal()
 {
     emit deleteActor(this); // :(
@@ -248,11 +253,13 @@ void Actor::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     QMenu menu;
     QAction *lockAction = menu.addAction(isLocked ? "UnLock Actor" : "Lock Actor");
+    QAction *hideAction = menu.addAction(isVisible() ? "Hide Actor" : "unHide Actor");
     QAction *deleteAction = menu.addAction("Delete Actor");
     QAction *selectedAction = menu.exec(event->screenPos());
 
     // connect those actions to slots
     connect(lockAction, &QAction::triggered, this, &Actor::lockUnLock);
+    connect(hideAction, &QAction::triggered, this, &Actor::hideUnHide);
     connect(deleteAction, &QAction::triggered, this, &Actor::sendDeleteSignal);
 
     if(selectedAction){

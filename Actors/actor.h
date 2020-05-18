@@ -85,6 +85,7 @@ signals:
 
 public slots:
     void lockUnLock();  // locks if unlocked and vice-versa
+    void hideUnHide();
     void sendDeleteSignal();
 
 protected:

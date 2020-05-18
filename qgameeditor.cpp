@@ -136,6 +136,14 @@ void QGameEditor::showPropertiesOfActor(Actor *actor)
     ui->actorZDepthDoubleSpinBox->blockSignals(true);
         ui->actorZDepthDoubleSpinBox->setValue(actor->zdepth);
     ui->actorZDepthDoubleSpinBox->blockSignals(false);
+
+    // lock and hide checkboxes
+    ui->actorLockedCheckBox->blockSignals(true);
+        ui->actorLockedCheckBox->setChecked(actor->isLocked);
+    ui->actorLockedCheckBox->blockSignals(false);
+    ui->actorHiddenCheckBox->blockSignals(true);
+        ui->actorHiddenCheckBox->setChecked(!actor->isVisible());
+    ui->actorHiddenCheckBox->blockSignals(false);
 }
 
 void QGameEditor::addActor(Actor *actor)
@@ -205,8 +213,6 @@ void QGameEditor::onActorSelectionChanged(Actor *actor, bool state)
             ui->actorNameComboBox->blockSignals(false);
         }
     }
-    QString acts;
-    for(int i = 0; i < selectedActors.size(); i++){acts += selectedActors[i]->name + "  ";}
 
     if(!selectedActors.isEmpty()){ // if there are selected actors
         // then show the properties of last actor in selection list
@@ -501,4 +507,42 @@ void QGameEditor::on_actorOriginXSpinBox_valueChanged(int arg1)
 void QGameEditor::on_actorOriginYSpinBox_valueChanged(int arg1)
 {
 
+}
+
+void QGameEditor::on_actionShow_Hidden_Actors_triggered()
+{
+    for(int i = 0;i < ui->editorView->gameScene->actors.size(); i++){
+        if(!ui->editorView->gameScene->actors[i]->isVisible()){
+            ui->editorView->gameScene->actors[i]->setVisible(true);
+        }
+    }
+}
+
+void QGameEditor::on_actorHiddenCheckBox_toggled(bool checked)
+{
+    for(int i = 0; i < selectedActors.size(); i++){
+        selectedActors[i]->blockSignals(true);
+            selectedActors[i]->setVisible(!checked);
+            selectedActors[i]->setSelected(false);
+        selectedActors[i]->blockSignals(false);
+    }
+    ui->actorNameComboBox->blockSignals(true);
+        ui->actorNameComboBox->removeItem(ui->actorNameComboBox->findText("Multiple Actors"));
+    ui->actorNameComboBox->blockSignals(false);
+    selectedActors.clear();
+}
+
+void QGameEditor::on_actorLockedCheckBox_toggled(bool checked)
+{
+    for(int i = 0; i < selectedActors.size(); i++){
+        selectedActors[i]->blockSignals(true);
+            selectedActors[i]->isLocked = !checked;
+            selectedActors[i]->lockUnLock();
+            selectedActors[i]->setSelected(false);
+        selectedActors[i]->blockSignals(false);
+    }
+    ui->actorNameComboBox->blockSignals(true);
+        ui->actorNameComboBox->removeItem(ui->actorNameComboBox->findText("Multiple Actors"));
+    ui->actorNameComboBox->blockSignals(false);
+    selectedActors.clear();
 }
