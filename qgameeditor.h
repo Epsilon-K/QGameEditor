@@ -81,6 +81,8 @@ private slots:
 
     void on_actorLockedCheckBox_toggled(bool checked);
 
+    void on_propertiesGroupBox_toggled(bool arg1);
+
 private:
     Ui::QGameEditor *ui;
     QStringList stylesheets;

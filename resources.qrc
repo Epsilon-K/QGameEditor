@@ -14,5 +14,7 @@
         <file>Resources/images/Magnet.png</file>
         <file>Resources/images/GE Actor in editor.png</file>
         <file>Resources/images/Magnet grey.png</file>
+        <file>Resources/images/groupbox_down_arrow.png</file>
+        <file>Resources/images/groupbox_right_arrow.png</file>
     </qresource>
 </RCC>

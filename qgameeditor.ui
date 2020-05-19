@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1252</width>
-    <height>561</height>
+    <height>769</height>
    </rect>
   </property>
   <property name="font">
@@ -112,7 +112,7 @@
      </layout>
     </item>
     <item>
-     <widget class="QSplitter" name="splitter">
+     <widget class="QSplitter" name="mainSplitter">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
@@ -267,6 +267,18 @@
          <string>Actor Control</string>
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout">
+         <property name="leftMargin">
+          <number>3</number>
+         </property>
+         <property name="topMargin">
+          <number>3</number>
+         </property>
+         <property name="rightMargin">
+          <number>3</number>
+         </property>
+         <property name="bottomMargin">
+          <number>3</number>
+         </property>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_3">
            <item>
@@ -447,8 +459,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>613</width>
-              <height>356</height>
+              <width>625</width>
+              <height>576</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -465,9 +477,12 @@
               <number>2</number>
              </property>
              <item>
-              <widget class="QGroupBox" name="groupBox">
+              <widget class="QGroupBox" name="propertiesGroupBox">
                <property name="title">
                 <string>Properties :</string>
+               </property>
+               <property name="checkable">
+                <bool>true</bool>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_2">
                 <property name="leftMargin">
@@ -764,6 +779,12 @@
                   </item>
                   <item>
                    <widget class="QDoubleSpinBox" name="actorXScaleDoubleSpinBox">
+                    <property name="maximumSize">
+                     <size>
+                      <width>45</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
                     <property name="buttonSymbols">
                      <enum>QAbstractSpinBox::NoButtons</enum>
                     </property>
@@ -809,6 +830,12 @@
                   </item>
                   <item>
                    <widget class="QDoubleSpinBox" name="actorYScaleDoubleSpinBox">
+                    <property name="maximumSize">
+                     <size>
+                      <width>45</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
                     <property name="buttonSymbols">
                      <enum>QAbstractSpinBox::NoButtons</enum>
                     </property>

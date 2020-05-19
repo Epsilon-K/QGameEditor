@@ -19,6 +19,7 @@ QGameEditor::QGameEditor(QWidget *parent) :
     snappingGuideLine->setPen(QPen(QColor(160,70,255),0,Qt::SolidLine));
     ui->editorView->gameScene->addItem(snappingGuideLine);
     snappingGuideLine->setVisible(false);
+    ui->mainSplitter->setSizes(QList<int>{1020,320});
 
     // setAlignment of all tool buttons
     for(int i = 0; i < ui->toolsVerticalLayout->count(); i++){
@@ -545,4 +546,9 @@ void QGameEditor::on_actorLockedCheckBox_toggled(bool checked)
         ui->actorNameComboBox->removeItem(ui->actorNameComboBox->findText("Multiple Actors"));
     ui->actorNameComboBox->blockSignals(false);
     selectedActors.clear();
+}
+
+void QGameEditor::on_propertiesGroupBox_toggled(bool checked)
+{
+    ui->propertiesGroupBox->setMaximumHeight(checked ? 32000 : 25);
 }
