@@ -31,6 +31,7 @@ SOURCES += \
         Actors/normalactor.cpp \
         Actors/viewactor.cpp \
         Dialogs/addactordialog.cpp \
+        Dialogs/animationdialog.cpp \
         Dialogs/configdialog.cpp \
         editorview.cpp \
         gamescene.cpp \
@@ -42,6 +43,7 @@ HEADERS += \
         Actors/normalactor.h \
         Actors/viewactor.h \
         Dialogs/addactordialog.h \
+        Dialogs/animationdialog.h \
         Dialogs/configdata.h \
         Dialogs/configdialog.h \
         editorview.h \
@@ -50,6 +52,7 @@ HEADERS += \
 
 FORMS += \
         Dialogs/addactordialog.ui \
+        Dialogs/animationdialog.ui \
         Dialogs/configdialog.ui \
         qgameeditor.ui
 

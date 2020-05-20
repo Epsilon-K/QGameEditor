@@ -7,6 +7,7 @@
 #include "editorview.h"
 #include "Dialogs/configdialog.h"
 #include "Dialogs/addactordialog.h"
+#include "Dialogs/animationdialog.h"
 #include <QSpinBox>
 #include <QSlider>
 #include <QComboBox>

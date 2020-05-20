@@ -548,6 +548,7 @@ void QGameEditor::on_addAnimationBtn_clicked()
 {
     if(selectedActors.last()->type == NORMAL){
         NormalActor *actor = (NormalActor *)selectedActors.last();
-
+        AnimationDialog * ad = new AnimationDialog(this);
+        ad->exec();
     }
 }
