@@ -42,7 +42,7 @@ HEADERS += \
         Actors/normalactor.h \
         Actors/viewactor.h \
         Dialogs/addactordialog.h \
-        configdata.h \
+        Dialogs/configdata.h \
         Dialogs/configdialog.h \
         editorview.h \
         gamescene.h \

@@ -51,7 +51,6 @@ private slots:
 
     void on_snappingBtn_toggled(bool checked);
 
-
     void on_actorXSpinBox_valueChanged(int arg1);
 
     void on_actorYSpinBox_valueChanged(int arg1);
@@ -93,6 +92,8 @@ private slots:
     void on_actorAnimationGroupBox_toggled(bool checked);
 
     void on_actorPropertiesGroupBox_toggled(bool arg1);
+
+    void on_addAnimationBtn_clicked();
 
 private:
     Ui::QGameEditor *ui;

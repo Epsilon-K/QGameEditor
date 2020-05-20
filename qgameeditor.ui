@@ -324,6 +324,22 @@
           </layout>
          </item>
          <item>
+          <spacer name="verticalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
           <layout class="QHBoxLayout" name="horizontalLayout_8">
            <item>
             <spacer name="horizontalSpacer_23">
@@ -460,7 +476,7 @@
               <x>0</x>
               <y>0</y>
               <width>616</width>
-              <height>576</height>
+              <height>550</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -1204,6 +1220,120 @@
                <property name="checkable">
                 <bool>true</bool>
                </property>
+               <layout class="QVBoxLayout" name="verticalLayout_5">
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_16">
+                  <item>
+                   <spacer name="horizontalSpacer_33">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_15">
+                    <property name="text">
+                     <string>Animation :</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QComboBox" name="actorAnimationNameComboBox">
+                    <property name="sizeAdjustPolicy">
+                     <enum>QComboBox::AdjustToContents</enum>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QCheckBox" name="actorAnimationStateCheckBox">
+                    <property name="text">
+                     <string>Play</string>
+                    </property>
+                    <property name="checked">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_34">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_17">
+                  <item>
+                   <spacer name="horizontalSpacer_35">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="addAnimationBtn">
+                    <property name="text">
+                     <string>Add Animation</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="addSequenceBtn">
+                    <property name="text">
+                     <string>Add Sequence</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="editAnimationBtn">
+                    <property name="text">
+                     <string>Edit</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="removeAnimationBtn">
+                    <property name="text">
+                     <string>Remove</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_36">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
               </widget>
              </item>
              <item>

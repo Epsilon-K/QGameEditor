@@ -3,7 +3,7 @@
 
 #include <QGraphicsLineItem>
 #include <QBrush>
-#include "configdata.h"
+#include <Dialogs/configdata.h>
 
 #include "Actors/normalactor.h"
 #include "Actors/viewactor.h"

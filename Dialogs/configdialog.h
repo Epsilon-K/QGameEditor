@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include <QColorDialog>
-#include "configdata.h"
+#include <Dialogs/configdata.h>
 
 namespace Ui {
 class ConfigDialog;
