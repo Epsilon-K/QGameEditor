@@ -71,29 +71,17 @@ void QGameEditor::loadStylesheets()
 void QGameEditor::showPropertiesOfActor(Actor *actor)
 {
     // X & Y
-    ui->actorXSpinBox->blockSignals(true);
-        ui->actorXSpinBox->setValue(actor->x);
-    ui->actorXSpinBox->blockSignals(false);
-    ui->actorYSpinBox->blockSignals(true);
-        ui->actorYSpinBox->setValue(actor->y);
-    ui->actorYSpinBox->blockSignals(false);
+    nonSignalSetValue(ui->actorXSpinBox, actor->x);
+    nonSignalSetValue(ui->actorYSpinBox, actor->y);
 
     // Origin X & Y
-    ui->actorOriginXSpinBox->blockSignals(true);
-        ui->actorOriginXSpinBox->setValue(actor->originPointItem->x());
-    ui->actorOriginXSpinBox->blockSignals(false);
-    ui->actorOriginYSpinBox->blockSignals(true);
-        ui->actorOriginYSpinBox->setValue(actor->originPointItem->y());
-    ui->actorOriginYSpinBox->blockSignals(false);
+    nonSignalSetValue(ui->actorOriginXSpinBox, actor->originPointItem->x());
+    nonSignalSetValue(ui->actorOriginYSpinBox, actor->originPointItem->y());
 
 
     // Width & Height
-    ui->actorWidthSpinBox->blockSignals(true);
-        ui->actorWidthSpinBox->setValue(actor->width);
-    ui->actorWidthSpinBox->blockSignals(false);
-    ui->actorHeightSpinBox->blockSignals(true);
-        ui->actorHeightSpinBox->setValue(actor->height);
-    ui->actorHeightSpinBox->blockSignals(false);
+    nonSignalSetValue(ui->actorWidthSpinBox, actor->width);
+    nonSignalSetValue(ui->actorHeightSpinBox, actor->height);
 
     // tint color
     ui->actorTintBtn->setStyleSheet("background-color: " + actor->tint.name());
@@ -101,42 +89,23 @@ void QGameEditor::showPropertiesOfActor(Actor *actor)
                                 + QString::number(actor->tint.green()) + ", "
                                 + QString::number(actor->tint.blue()) + ")");
     ui->actorTintStrengthLabel->setText("Color strength (" + QString::number(actor->colorFXStrenght*100) + "%) : ");
-    ui->actorTintStrengthSlider->blockSignals(true);
-        ui->actorTintStrengthSlider->setValue(actor->colorFXStrenght * 100);
-    ui->actorTintStrengthSlider->blockSignals(false);
+    nonSignalSetValue(ui->actorTintStrengthSlider, actor->colorFXStrenght * 100);
 
     // XScale & YScale
-    ui->actorXScaleDoubleSpinBox->blockSignals(true);
-        ui->actorXScaleDoubleSpinBox->setValue(actor->xscale);
-    ui->actorXScaleDoubleSpinBox->blockSignals(false);
-
-    ui->actorYScaleDoubleSpinBox->blockSignals(true);
-        ui->actorYScaleDoubleSpinBox->setValue(actor->yscale);
-    ui->actorYScaleDoubleSpinBox->blockSignals(false);
+    nonSignalSetValue(ui->actorXScaleDoubleSpinBox, actor->xscale);
+    nonSignalSetValue(ui->actorYScaleDoubleSpinBox, actor->yscale);
 
     // Rotation
-    ui->actorRotationSlider->blockSignals(true);
-        ui->actorRotationSlider->setValue(actor->rotation);
-    ui->actorRotationSlider->blockSignals(false);
-    ui->actorRotationSpinBox->blockSignals(true);
-        ui->actorRotationSpinBox->setValue(actor->rotation);
-    ui->actorRotationSpinBox->blockSignals(false);
+    nonSignalSetValue(ui->actorRotationSlider, actor->rotation);
+    nonSignalSetValue(ui->actorRotationSpinBox, actor->rotation);
 
     // Transparency
-    ui->actorTranspSlider->blockSignals(true);
-        ui->actorTranspSlider->setValue(actor->transp * 100);
-    ui->actorTranspSlider->blockSignals(false);
-    ui->actorTranspDoubleSpinBox->blockSignals(true);
-        ui->actorTranspDoubleSpinBox->setValue(actor->transp);
-    ui->actorTranspDoubleSpinBox->blockSignals(false);
+    nonSignalSetValue(ui->actorTranspSlider, actor->transp * 100);
+    nonSignalSetValue(ui->actorTranspDoubleSpinBox, actor->transp);
 
     // ZDepth
-    ui->actorZDepthSlider->blockSignals(true);
-        ui->actorZDepthSlider->setValue(actor->zdepth * 100);
-    ui->actorZDepthSlider->blockSignals(false);
-    ui->actorZDepthDoubleSpinBox->blockSignals(true);
-        ui->actorZDepthDoubleSpinBox->setValue(actor->zdepth);
-    ui->actorZDepthDoubleSpinBox->blockSignals(false);
+    nonSignalSetValue(ui->actorZDepthSlider, actor->zdepth * 100);
+    nonSignalSetValue(ui->actorZDepthDoubleSpinBox, actor->zdepth);
 
     // lock and hide checkboxes
     ui->actorLockedCheckBox->blockSignals(true);
@@ -165,6 +134,34 @@ void QGameEditor::addActor(Actor *actor)
     onActorLeftClicked(actor);
 }
 
+void QGameEditor::nonSignalSetValue(QSpinBox *widget, int value)
+{
+    widget->blockSignals(true);
+        widget->setValue(value);
+    widget->blockSignals(false);
+}
+
+void QGameEditor::nonSignalSetValue(QDoubleSpinBox *widget, double value)
+{
+    widget->blockSignals(true);
+        widget->setValue(value);
+    widget->blockSignals(false);
+}
+
+void QGameEditor::nonSignalSetValue(QSlider *widget, int value)
+{
+    widget->blockSignals(true);
+        widget->setValue(value);
+    widget->blockSignals(false);
+}
+
+void QGameEditor::nonSignalSetValue(QComboBox *widget, QString value)
+{
+    widget->blockSignals(true);
+        widget->setCurrentText(value);
+    widget->blockSignals(false);
+}
+
 void QGameEditor::on_editorView_mouse_moved(QPoint point)
 {
     QString str = "Screen(" + QString::number(point.x())
@@ -184,21 +181,14 @@ void QGameEditor::on_editorView_zoom_changed()
 void QGameEditor::onActorLeftClicked(Actor *actor)
 {
     showPropertiesOfActor(actor);
-
-    bool oldState = ui->actorNameComboBox->blockSignals(true);
-        ui->actorNameComboBox->setCurrentText(actor->name);
-    ui->actorNameComboBox->blockSignals(oldState);
+    nonSignalSetValue(ui->actorNameComboBox, actor->name);
 }
 
 void QGameEditor::onActorPositionChange(Actor *actor)
 {
     if(actor->name == ui->actorNameComboBox->currentText()){
-        bool oldState = ui->actorXSpinBox->blockSignals(true);
-            ui->actorXSpinBox->setValue(actor->x);
-        ui->actorXSpinBox->blockSignals(oldState);
-        oldState = ui->actorYSpinBox->blockSignals(true);
-            ui->actorYSpinBox->setValue(actor->y);
-        ui->actorYSpinBox->blockSignals(oldState);
+        nonSignalSetValue(ui->actorXSpinBox, actor->x);
+        nonSignalSetValue(ui->actorYSpinBox, actor->y);
     }
 }
 
@@ -395,9 +385,7 @@ void QGameEditor::on_actorXScaleDoubleSpinBox_valueChanged(double xs)
 
     // Also set the width on the control tab
     Actor * actor = selectedActors[selectedActors.size()-1];
-    ui->actorWidthSpinBox->blockSignals(true);
-        ui->actorWidthSpinBox->setValue(actor->width);
-    ui->actorWidthSpinBox->blockSignals(false);
+    nonSignalSetValue(ui->actorWidthSpinBox, actor->width);
 }
 
 void QGameEditor::on_actorYScaleDoubleSpinBox_valueChanged(double xy)
@@ -408,9 +396,7 @@ void QGameEditor::on_actorYScaleDoubleSpinBox_valueChanged(double xy)
 
     // Aaand set the height on the control tab
     Actor * actor = selectedActors[selectedActors.size()-1];
-    ui->actorHeightSpinBox->blockSignals(true);
-        ui->actorHeightSpinBox->setValue(actor->height);
-    ui->actorHeightSpinBox->blockSignals(false);
+    nonSignalSetValue(ui->actorHeightSpinBox, actor->height);
 }
 
 void QGameEditor::on_actorRotationSlider_valueChanged(int value)
@@ -429,9 +415,7 @@ void QGameEditor::on_actorTranspSlider_valueChanged(int value)
     }
 
     // set the spinbox
-    ui->actorTranspDoubleSpinBox->blockSignals(true);
-        ui->actorTranspDoubleSpinBox->setValue(percent);
-    ui->actorTranspDoubleSpinBox->blockSignals(false);
+    nonSignalSetValue(ui->actorTranspDoubleSpinBox, percent);
 }
 
 void QGameEditor::on_actorTranspDoubleSpinBox_valueChanged(double value)
@@ -442,9 +426,7 @@ void QGameEditor::on_actorTranspDoubleSpinBox_valueChanged(double value)
     }
 
     // set the slider
-    ui->actorTranspSlider->blockSignals(true);
-        ui->actorTranspSlider->setValue(value * 100);
-    ui->actorTranspSlider->blockSignals(false);
+    nonSignalSetValue(ui->actorTranspSlider, value*100);
 }
 
 void QGameEditor::on_actorZDepthSlider_valueChanged(int value)
@@ -456,9 +438,7 @@ void QGameEditor::on_actorZDepthSlider_valueChanged(int value)
     }
 
     // set the spinbox
-    ui->actorZDepthDoubleSpinBox->blockSignals(true);
-        ui->actorZDepthDoubleSpinBox->setValue(percent);
-    ui->actorZDepthDoubleSpinBox->blockSignals(false);
+    nonSignalSetValue(ui->actorZDepthDoubleSpinBox, percent);
 }
 
 void QGameEditor::on_actorZDepthDoubleSpinBox_valueChanged(double value)
@@ -469,9 +449,7 @@ void QGameEditor::on_actorZDepthDoubleSpinBox_valueChanged(double value)
     }
 
     // set the slider
-    ui->actorZDepthSlider->blockSignals(true);
-        ui->actorZDepthSlider->setValue(value * 100);
-    ui->actorZDepthSlider->blockSignals(false);
+    nonSignalSetValue(ui->actorZDepthSlider, value*100);
 }
 
 void QGameEditor::on_actorWidthSpinBox_valueChanged(int newWidth)
@@ -482,9 +460,7 @@ void QGameEditor::on_actorWidthSpinBox_valueChanged(int newWidth)
     }
 
     // set the scale on the spinbox
-    ui->actorXScaleDoubleSpinBox->blockSignals(true);
-        ui->actorXScaleDoubleSpinBox->setValue(selectedActors[selectedActors.size()-1]->xscale);
-    ui->actorXScaleDoubleSpinBox->blockSignals(false);
+    nonSignalSetValue(ui->actorXScaleDoubleSpinBox, selectedActors[selectedActors.size()-1]->xscale);
 }
 
 void QGameEditor::on_actorHeightSpinBox_valueChanged(int newHeight)
@@ -495,9 +471,7 @@ void QGameEditor::on_actorHeightSpinBox_valueChanged(int newHeight)
     }
 
     // set the scale on the spinbox
-    ui->actorYScaleDoubleSpinBox->blockSignals(true);
-        ui->actorYScaleDoubleSpinBox->setValue(selectedActors[selectedActors.size()-1]->yscale);
-    ui->actorYScaleDoubleSpinBox->blockSignals(false);
+    nonSignalSetValue(ui->actorYScaleDoubleSpinBox, selectedActors[selectedActors.size()-1]->yscale);
 }
 
 void QGameEditor::on_actorOriginXSpinBox_valueChanged(int arg1)
@@ -548,7 +522,12 @@ void QGameEditor::on_actorLockedCheckBox_toggled(bool checked)
     selectedActors.clear();
 }
 
-void QGameEditor::on_propertiesGroupBox_toggled(bool checked)
+void QGameEditor::on_actorAnimationGroupBox_toggled(bool checked)
 {
-    ui->propertiesGroupBox->setMaximumHeight(checked ? 32000 : 25);
+    ui->actorAnimationGroupBox->setMaximumHeight(checked ? 32000 : 25);
+}
+
+void QGameEditor::on_actorPropertiesGroupBox_toggled(bool checked)
+{
+    ui->actorPropertiesGroupBox->setMaximumHeight(checked ? 32000 : 25);
 }

@@ -80,7 +80,7 @@ QAbstractItemView
 
 QWidget:focus
 {
-    /*border: 2px solid QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #ffa02f, stop: 1 #d7801a);*/
+    /*border: 1px solid QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #ffa02f, stop: 1 #d7801a);*/
 }
 
 QLineEdit
@@ -122,7 +122,7 @@ QComboBox
 
 QComboBox:hover,QPushButton:hover
 {
-    border: 2px solid QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #ffa02f, stop: 1 #d7801a);
+    border: 1px solid QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #ffa02f, stop: 1 #d7801a);
 }
 
 
@@ -136,7 +136,7 @@ QComboBox:on
 
 QComboBox QAbstractItemView
 {
-    border: 2px solid darkgray;
+    border: 1px solid darkgray;
     selection-background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #ffa02f, stop: 1 #d7801a);
 }
 
@@ -160,12 +160,12 @@ QComboBox::down-arrow
 
 QGroupBox:focus
 {
-border: 2px solid QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #ffa02f, stop: 1 #d7801a);
+border: 1px solid QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #ffa02f, stop: 1 #d7801a);
 }
 
 QTextEdit:focus
 {
-    border: 2px solid QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #ffa02f, stop: 1 #d7801a);
+    border: 1px solid QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #ffa02f, stop: 1 #d7801a);
 }
 
 QScrollBar:horizontal {
@@ -348,7 +348,7 @@ QMenu::separator
 
 QProgressBar
 {
-    border: 2px solid grey;
+    border: 1px solid grey;
     border-radius: 5px;
     text-align: center;
 }

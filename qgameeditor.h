@@ -7,6 +7,9 @@
 #include "editorview.h"
 #include "Dialogs/configdialog.h"
 #include "Dialogs/addactordialog.h"
+#include <QSpinBox>
+#include <QSlider>
+#include <QComboBox>
 
 namespace Ui {
 class QGameEditor;
@@ -22,6 +25,12 @@ public:
     void loadStylesheets();
     void showPropertiesOfActor(Actor * actor);
     void addActor(Actor * actor);
+
+    // ------------
+    void nonSignalSetValue(QSpinBox *widget, int value);
+    void nonSignalSetValue(QDoubleSpinBox *widget, double value);
+    void nonSignalSetValue(QSlider *widget, int value);
+    void nonSignalSetValue(QComboBox *widget, QString value);
 
 public slots:
     void on_editorView_mouse_moved(QPoint point);
@@ -81,7 +90,9 @@ private slots:
 
     void on_actorLockedCheckBox_toggled(bool checked);
 
-    void on_propertiesGroupBox_toggled(bool arg1);
+    void on_actorAnimationGroupBox_toggled(bool checked);
+
+    void on_actorPropertiesGroupBox_toggled(bool arg1);
 
 private:
     Ui::QGameEditor *ui;

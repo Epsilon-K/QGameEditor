@@ -12,7 +12,6 @@ ViewActor::ViewActor(QString _name, QRect r)
     width = getWidth();
     height = getHeight();
     Actor::setTransformOriginPoint(originPointItem->pos());
-    //originPointItem->setPos(Actor::x, Actor::y);
 }
 
 int ViewActor::getWidth()
