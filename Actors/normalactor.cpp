@@ -23,6 +23,30 @@ int NormalActor::getHeight()
     return int(pixmap().height());
 }
 
+void NormalActor::addAnimation(Animation *animation)
+{
+    animations.append(animation);
+    changeAnimation(animation->name, FORWARD);
+}
+
+int NormalActor::changeAnimation(QString animationName, AnimationState state)
+{
+    for(int i = 0; i < animations.size(); i++){
+        if(animations[i]->name == animationName){
+            // set animations[i] as current animation
+            animationState = state;
+            animindex = i;
+            nframes = animations[i]->frames.size();
+
+            // set the first frame of the animation
+            setPixmap(*(animations[i]->frames[0]->pixmap));
+            return 1;
+        }
+    }
+
+    return 0;   // no such animation exists!
+}
+
 QRectF NormalActor::boundingRect() const
 {
     return QGraphicsPixmapItem::boundingRect();

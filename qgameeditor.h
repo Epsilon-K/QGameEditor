@@ -99,6 +99,7 @@ private slots:
 private:
     Ui::QGameEditor *ui;
     QStringList stylesheets;
+    QString projectPath{QCoreApplication::applicationDirPath()};
     QVector<Actor *> selectedActors;
     QGraphicsLineItem *snappingGuideLine;
 };

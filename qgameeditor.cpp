@@ -45,6 +45,11 @@ QGameEditor::QGameEditor(QWidget *parent) :
         connect(actor, SIGNAL(snappingStateChanged(Actor*)), this, SLOT(copySnappingOfActor(Actor*)));
     }
     ui->editorView->gameScene->actors.last()->setSelected(true);
+
+
+    // make data folder for resources
+    QDir dir;
+    dir.mkdir(projectPath + "/data");
 }
 
 QGameEditor::~QGameEditor()
@@ -548,10 +553,31 @@ void QGameEditor::on_addAnimationBtn_clicked()
 {
     if(selectedActors.last()->type == NORMAL){
         NormalActor *actor = (NormalActor *)selectedActors.last();
-        AnimationDialog ad(this);
+        AnimationDialog ad(projectPath, this);
 
         if(ad.exec()){
-            // create an animation and add it to actor
+            // add animation to actor
+            qreal ox = actor->originPointItem->x() / actor->width;
+            qreal oy = actor->originPointItem->y() / actor->height;
+            int olx = actor->Actor::x;
+            int oly = actor->Actor::y;
+
+            actor->addAnimation(ad.animation);
+
+            // update...
+            actor->width = abs(actor->getWidth() * actor->xscale);
+            nonSignalSetValue(ui->actorWidthSpinBox, actor->width);
+            actor->height = abs(actor->getHeight() * actor->yscale);
+            nonSignalSetValue(ui->actorHeightSpinBox, actor->height);
+
+            actor->originPointItem->setPos(int(actor->width * ox), int(actor->height * oy));
+            actor->Actor::update();
+            actor->Actor::setPos(olx, oly);
+            actor->Actor::setRotation(actor->Actor::rotation);
+
+            // add animation to comboBox list
+            ui->actorAnimationNameComboBox->insertItem(0, ad.animation->name);
+            nonSignalSetValue(ui->actorAnimationNameComboBox, ad.animation->name);
         }
     }
 }

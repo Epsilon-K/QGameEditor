@@ -6,16 +6,25 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>591</width>
-    <height>307</height>
+    <width>600</width>
+    <height>300</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <property name="sizeGripEnabled">
+   <bool>false</bool>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout_3" stretch="10,0">
    <property name="leftMargin">
-    <number>2</number>
+    <number>6</number>
    </property>
    <property name="topMargin">
     <number>2</number>
@@ -31,21 +40,8 @@
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <layout class="QVBoxLayout" name="verticalLayout_2">
-       <item>
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
@@ -297,25 +293,30 @@
          </item>
         </layout>
        </item>
-       <item>
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <layout class="QVBoxLayout" name="verticalLayout" stretch="10,0">
        <item>
         <widget class="QLabel" name="imgLabel">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>360</width>
+           <height>240</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>360</width>
+           <height>240</height>
+          </size>
+         </property>
          <property name="text">
           <string>Image Preview Here</string>
          </property>
@@ -387,34 +388,18 @@
  <resources/>
  <connections>
   <connection>
-   <sender>OkBtn</sender>
-   <signal>clicked()</signal>
-   <receiver>AnimationDialog</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>373</x>
-     <y>228</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>342</x>
-     <y>260</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>cancelBtn</sender>
    <signal>clicked()</signal>
    <receiver>AnimationDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>468</x>
-     <y>233</y>
+     <x>350</x>
+     <y>291</y>
     </hint>
     <hint type="destinationlabel">
-     <x>480</x>
-     <y>255</y>
+     <x>427</x>
+     <y>301</y>
     </hint>
    </hints>
   </connection>

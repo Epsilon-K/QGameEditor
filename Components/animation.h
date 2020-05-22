@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QPixmap>
 #include <QImage>
+#include <QFile>
+#include <QDebug>
 
 class Frame{
 public:
@@ -18,13 +20,14 @@ class Animation : public QObject
 {
     Q_OBJECT
 public:
-    explicit Animation(QObject *parent = nullptr);
+    explicit Animation(QString filePath, QString projectPath, AnimationFileType fType, int hf, int vf, int fps);
 
     QString name;
     int frameRate;
     int verticalFrames;
     int horizontalFrames;
     AnimationFileType fileType;
+    QVector<QString> filesPaths;     // on "data/" folder
 
     // ------------------------------------
     QVector<Frame*> frames;
