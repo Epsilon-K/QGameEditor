@@ -4,6 +4,7 @@
 #include <QObject>
 
 #include "Actors/actor.h"
+#include "Components/animation.h"
 
 class NormalActor : public Actor, public QGraphicsPixmapItem
 {
@@ -12,6 +13,13 @@ public:
     NormalActor(QString _name);
     int getWidth();
     int getHeight();
+
+
+    // Animation stuff
+    QVector<Animation*> animations;
+    int animpos;
+    int animindex;
+    int nframes;
 
     // Pure Virtual functions...
     QRectF boundingRect() const;

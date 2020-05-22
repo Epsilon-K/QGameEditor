@@ -30,6 +30,7 @@ SOURCES += \
         Actors/actor.cpp \
         Actors/normalactor.cpp \
         Actors/viewactor.cpp \
+        Components/animation.cpp \
         Dialogs/addactordialog.cpp \
         Dialogs/animationdialog.cpp \
         Dialogs/configdialog.cpp \
@@ -42,6 +43,7 @@ HEADERS += \
         Actors/actor.h \
         Actors/normalactor.h \
         Actors/viewactor.h \
+        Components/animation.h \
         Dialogs/addactordialog.h \
         Dialogs/animationdialog.h \
         Dialogs/configdata.h \
