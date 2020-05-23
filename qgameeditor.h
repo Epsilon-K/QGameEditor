@@ -96,6 +96,8 @@ private slots:
 
     void on_addAnimationBtn_clicked();
 
+    void on_actorAnimationStateCheckBox_toggled(bool checked);
+
 private:
     Ui::QGameEditor *ui;
     QStringList stylesheets;

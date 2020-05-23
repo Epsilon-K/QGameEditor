@@ -17,7 +17,6 @@ Animation::Animation(QString filePath, QString projectPath, AnimationFileType fT
 
         if(horizontalFrames == 1 && verticalFrames == 1){
             Frame *frame = new Frame;
-            qDebug() << "PixMap path : " << dataFilePath;
             frame->pixmap = new QPixmap(dataFilePath);
             frames.append(frame);
         }

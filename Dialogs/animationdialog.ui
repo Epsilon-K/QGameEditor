@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
+    <width>674</width>
     <height>300</height>
    </rect>
   </property>
@@ -296,7 +296,17 @@
       </layout>
      </widget>
      <widget class="QWidget" name="layoutWidget">
-      <layout class="QVBoxLayout" name="verticalLayout" stretch="10,0">
+      <layout class="QVBoxLayout" name="verticalLayout" stretch="0,10,0">
+       <item>
+        <widget class="QLabel" name="dimensionsLabel">
+         <property name="text">
+          <string>Dimensions</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
        <item>
         <widget class="QLabel" name="imgLabel">
          <property name="sizePolicy">

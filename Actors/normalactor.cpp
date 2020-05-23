@@ -25,8 +25,23 @@ int NormalActor::getHeight()
 
 void NormalActor::addAnimation(Animation *animation)
 {
+    qreal ox = originPointItem->x() / width;
+    qreal oy = originPointItem->y() / height;
+    int olx = Actor::x;
+    int oly = Actor::y;
+
+
     animations.append(animation);
     changeAnimation(animation->name, FORWARD);
+
+    // update...
+    width = abs(getWidth() * xscale);
+    height = abs(getHeight() * yscale);
+
+    originPointItem->setPos(int(width * ox), int(height * oy));
+    Actor::update();
+    Actor::setPos(olx, oly);
+    Actor::setRotation(Actor::rotation);
 }
 
 int NormalActor::changeAnimation(QString animationName, AnimationState state)

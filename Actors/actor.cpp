@@ -180,7 +180,8 @@ QVariant Actor::itemChange(QGraphicsItem::GraphicsItemChange change, const QVari
     if(change == ItemSelectedHasChanged){
         bool selected = value.toBool();
 
-        if(selected){
+        // Disable colorizeEffect on selection
+        /*if(selected){
             colorEffect->setColor(QColor(160,70,255,255));
             if(type == NORMAL)
                 colorEffect->setStrength(0.3);
@@ -188,7 +189,7 @@ QVariant Actor::itemChange(QGraphicsItem::GraphicsItemChange change, const QVari
         }else{
             colorEffect->setColor(tint);
             colorEffect->setStrength(colorFXStrenght);
-        }
+        }*/
 
         originPointItem->setVisible(selected);
         // emit the change
