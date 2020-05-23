@@ -11,6 +11,10 @@ NormalActor::NormalActor(QString _name)
     width = getWidth();
     height = getHeight();
     Actor::setTransformOriginPoint(originPointItem->pos());
+
+    localTimeLine.setCurveShape(QTimeLine::LinearCurve);
+    localTimeLine.setLoopCount(0);
+    connect(&localTimeLine, SIGNAL(frameChanged(int)), this, SLOT(setFrame(int)));
 }
 
 int NormalActor::getWidth()
@@ -25,23 +29,8 @@ int NormalActor::getHeight()
 
 void NormalActor::addAnimation(Animation *animation)
 {
-    qreal ox = originPointItem->x() / width;
-    qreal oy = originPointItem->y() / height;
-    int olx = Actor::x;
-    int oly = Actor::y;
-
-
     animations.append(animation);
-    changeAnimation(animation->name, FORWARD);
-
-    // update...
-    width = abs(getWidth() * xscale);
-    height = abs(getHeight() * yscale);
-
-    originPointItem->setPos(int(width * ox), int(height * oy));
-    Actor::update();
-    Actor::setPos(olx, oly);
-    Actor::setRotation(Actor::rotation);
+    changeAnimation(animation->name, animationState);
 }
 
 int NormalActor::changeAnimation(QString animationName, AnimationState state)
@@ -53,13 +42,43 @@ int NormalActor::changeAnimation(QString animationName, AnimationState state)
             animindex = i;
             nframes = animations[i]->frames.size();
 
-            // set the first frame of the animation
-            setPixmap(*(animations[i]->frames[0]->pixmap));
+            localTimeLine.stop();
+            localTimeLine.setDuration((double(nframes) / animations[animindex]->frameRate) * 1000);
+            localTimeLine.setFrameRange(0, animations[animindex]->frames.size()-1);
+            if(animationState == FORWARD){
+                localTimeLine.setDirection(QTimeLine::Forward);
+                localTimeLine.start();
+            }else if(animationState == BACKWARD){
+                localTimeLine.setDirection(QTimeLine::Backward);
+                localTimeLine.start();
+            }
+            else if(animationState == STOPPED){
+                setFrame(0);
+            }
+
             return 1;
         }
     }
 
     return 0;   // no such animation exists!
+}
+
+int NormalActor::ChangeAnimationDirection(AnimationState state)
+{
+    localTimeLine.stop();
+    switch(state){
+    case FORWARD:
+        localTimeLine.setDirection(QTimeLine::Forward);
+        localTimeLine.start();
+        break;
+    case BACKWARD:
+        localTimeLine.setDirection(QTimeLine::Backward);
+        localTimeLine.start();
+        break;
+    case STOPPED:
+        setFrame(0);
+    }
+    return 1;
 }
 
 QRectF NormalActor::boundingRect() const
@@ -73,7 +92,7 @@ void NormalActor::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
 
     // 1] draw the pixmap
     // TODO: Render Settings to set rendering options, for now just use the default pixely look
-        painter->setRenderHint(QPainter::SmoothPixmapTransform, false);
+    painter->setRenderHint(QPainter::SmoothPixmapTransform, false);
 
     QPixmap img = pixmap();
     painter->drawPixmap(boundingRect(), img, QRect(QPoint(0,0), img.size()));
@@ -90,4 +109,24 @@ void NormalActor::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
 QPainterPath NormalActor::shape() const
 {
     return QGraphicsPixmapItem::shape();
+}
+
+void NormalActor::setFrame(int frameIndex)
+{
+    qreal ox = originPointItem->x() / width;
+    qreal oy = originPointItem->y() / height;
+    int olx = Actor::x;
+    int oly = Actor::y;
+
+    animpos = frameIndex;
+    setPixmap(*(animations[animindex]->frames[animpos]->pixmap));
+
+    // update...
+    width = abs(getWidth() * xscale);
+    height = abs(getHeight() * yscale);
+
+    originPointItem->setPos(int(width * ox), int(height * oy));
+    Actor::update();
+    Actor::setPos(olx, oly);
+    Actor::setRotation(Actor::rotation);
 }

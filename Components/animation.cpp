@@ -22,7 +22,18 @@ Animation::Animation(QString filePath, QString projectPath, AnimationFileType fT
         }
         else{
             // divide by hf and vf
+            QImage sheet = QImage(dataFilePath);
+            int framesCount = horizontalFrames * verticalFrames;
+            int imgWidth = sheet.width() / horizontalFrames;
+            int imgHeight = sheet.height() / verticalFrames;
 
+            for(int i = 0; i < framesCount; i++){
+                Frame *frame = new Frame;
+                int xp = i%hf * imgWidth;
+                int yp = i/hf * imgHeight;
+                frame->pixmap = new QPixmap(QPixmap::fromImage(sheet.copy(xp,yp, imgWidth, imgHeight)));
+                frames.append(frame);
+            }
         }
     break;
     }
