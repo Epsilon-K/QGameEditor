@@ -20,11 +20,14 @@ public:
     ~AnimationDialog();
     Animation * animation;
     QString path, dataPath;
+    bool transpPix{false};
 
 private slots:
     void on_OkBtn_clicked();
 
     void on_browseButton_clicked();
+
+    void on_checkBox_toggled(bool checked);
 
 private:
     Ui::AnimationDialog *ui;

@@ -1,6 +1,6 @@
 #include "animation.h"
 
-Animation::Animation(QString filePath, QString projectPath, AnimationFileType fType, int hf, int vf, int fps)
+Animation::Animation(QString filePath, QString projectPath, AnimationFileType fType, int hf, int vf, int fps, bool transpPixel)
 {
     QString fullName = filePath.right(filePath.length() - filePath.lastIndexOf("/") - 1);
     name = fullName.left(fullName.indexOf("."));
@@ -10,6 +10,7 @@ Animation::Animation(QString filePath, QString projectPath, AnimationFileType fT
     horizontalFrames = hf;
     verticalFrames = vf;
     frameRate = fps;
+    firstPixelAsTransparent = transpPixel;
 
     switch (fileType) {
     case SingleFile:{
@@ -25,13 +26,23 @@ Animation::Animation(QString filePath, QString projectPath, AnimationFileType fT
                 for(int i = 0; i < framesCount; i++){
                     Frame *frame = new Frame;
                     gifMovie->jumpToFrame(i);
-                    frame->pixmap = new QPixmap(gifMovie->currentPixmap());
+                    if(firstPixelAsTransparent){
+                        QImage img = gifMovie->currentImage();
+                        frame->pixmap = drawClippedImage(img, img.pixel(0,0));
+                    }else{
+                        frame->pixmap = new QPixmap(gifMovie->currentPixmap());
+                    }
                     frames.append(frame);
                 }
 
             }else{
                 Frame *frame = new Frame;
-                frame->pixmap = new QPixmap(dataFilePath);
+                if(firstPixelAsTransparent){
+                    QImage img(dataFilePath);
+                    frame->pixmap = drawClippedImage(img, img.pixel(0,0));
+                }else{
+                    frame->pixmap = new QPixmap(dataFilePath);
+                }
                 frames.append(frame);
             }
         }
@@ -46,7 +57,12 @@ Animation::Animation(QString filePath, QString projectPath, AnimationFileType fT
                 Frame *frame = new Frame;
                 int xp = i%hf * imgWidth;
                 int yp = i/hf * imgHeight;
-                frame->pixmap = new QPixmap(QPixmap::fromImage(sheet.copy(xp,yp, imgWidth, imgHeight)));
+                if(firstPixelAsTransparent){
+                    QImage img = sheet.copy(xp,yp, imgWidth, imgHeight);
+                    frame->pixmap = drawClippedImage(img, sheet.pixel(0,0));
+                }else{
+                    frame->pixmap = new QPixmap(QPixmap::fromImage(sheet.copy(xp,yp, imgWidth, imgHeight)));
+                }
                 frames.append(frame);
             }
         }
@@ -57,4 +73,16 @@ Animation::Animation(QString filePath, QString projectPath, AnimationFileType fT
     break;
     }       // end MultipleFiles
     }
+}
+
+QPixmap * Animation::drawClippedImage(QImage &img, QRgb maskColor)
+{
+    QBitmap mask = QBitmap::fromImage(img.createMaskFromColor(maskColor));
+    QPixmap * pix = new QPixmap(img.width(), img.height());
+    pix->fill(QColor(0,0,0,0));
+    QPainter p(pix);
+    p.setClipRegion(QRegion(mask));
+    p.drawImage(img.rect(), img, img.rect());
+
+    return pix;
 }

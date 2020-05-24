@@ -7,6 +7,9 @@
 #include <QFile>
 #include <QMovie>
 #include <QDebug>
+#include <QPainter>
+#include <QRegion>
+#include <QBitmap>
 
 class Frame{
 public:
@@ -21,12 +24,14 @@ class Animation : public QObject
 {
     Q_OBJECT
 public:
-    explicit Animation(QString filePath, QString projectPath, AnimationFileType fType, int hf, int vf, int fps);
+    explicit Animation(QString filePath, QString projectPath, AnimationFileType fType, int hf, int vf, int fps, bool transpPixel);
+    QPixmap *drawClippedImage(QImage &img, QRgb maskColor);
 
     QString name;
     int frameRate;
     int verticalFrames;
     int horizontalFrames;
+    bool firstPixelAsTransparent{false};
     AnimationFileType fileType;
     QVector<QString> filesPaths;     // on "data/" folder
 

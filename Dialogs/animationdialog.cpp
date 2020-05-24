@@ -22,7 +22,7 @@ void AnimationDialog::on_OkBtn_clicked()
     // create animation & and Accept dialog
     Animation * anim = new Animation(path, dataPath, (AnimationFileType) ui->typeComboBox->currentIndex(),
                                      ui->hFramesSpinBox->value(), ui->vFramesSpinBox->value(),
-                                     ui->fpsSpinBox->value());
+                                     ui->fpsSpinBox->value(), transpPix);
     animation = anim;
     accept();
 }
@@ -40,10 +40,17 @@ void AnimationDialog::on_browseButton_clicked()
     // set Image
     if(ui->typeComboBox->currentText() == "Single File"){
         QPixmap preview = QPixmap(filePath);
-        ui->dimensionsLabel->setText("Dimensions : " +
-                                       QString::number(preview.width()) + " x " +
-                                       QString::number(preview.height()));
+        QString fileInfo;
+        fileInfo += "Dimensions : " +
+                QString::number(preview.width()) + " x " +
+                QString::number(preview.height());
+        ui->dimensionsLabel->setText(fileInfo);
         preview = preview.scaled(360,240,Qt::KeepAspectRatio);
         ui->imgLabel->setPixmap(preview);
     }
+}
+
+void AnimationDialog::on_checkBox_toggled(bool checked)
+{
+    transpPix = checked;
 }
