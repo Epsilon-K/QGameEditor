@@ -1,10 +1,11 @@
 #include "animation.h"
 
-Animation::Animation(QString filePath, QString projectPath, AnimationFileType fType, int hf, int vf, int fps, bool transpPixel)
+Animation::Animation(QString animationName, QString filePath, QString projectPath, AnimationFileType fType, int hf, int vf, int fps, bool transpPixel)
 {
+    name = animationName;
     QString fullName = filePath.right(filePath.length() - filePath.lastIndexOf("/") - 1);
-    name = fullName.left(fullName.indexOf("."));
-    QString extension = fullName.right(fullName.size() - name.size() - 1);
+    QString fileName = fullName.left(fullName.indexOf("."));
+    QString extension = fullName.right(fullName.size() - fileName.size() - 1);
 
     fileType = fType;
     horizontalFrames = hf;
@@ -69,10 +70,38 @@ Animation::Animation(QString filePath, QString projectPath, AnimationFileType fT
     break;
     }       // end SingleFile
     case MultipleFiles:{
+        QString digitLess = fileName;
+        while(digitLess.at(digitLess.size()-1).isDigit()) digitLess.remove(digitLess.size()-1,1);
+        QString directory = filePath.left(filePath.lastIndexOf("/"));
+        QDir dir(directory);
+        dir.setFilter(QDir::Files);
+        QStringList files = dir.entryList();
 
+        for(int i = 0; i < files.size(); i++){
+            QString fileDigitLess = files[i];
+            fileDigitLess = fileDigitLess.left(fileDigitLess.indexOf("."));
+            while(fileDigitLess.at(fileDigitLess.size()-1).isDigit()) fileDigitLess.remove(fileDigitLess.size()-1,1);
+            if(digitLess == fileDigitLess){
+                QString dataFilePath = projectPath + "/data/" + files[i];
+                QString originalFilePath = directory + "/" + files[i];
+                QFile::copy(originalFilePath, dataFilePath);
+                filesPaths.append(dataFilePath);
+
+                // Load the dataFilePath into a frame
+                // --------------------------------------------------------
+                Frame *frame = new Frame;
+                if(firstPixelAsTransparent){
+                    QImage img(dataFilePath);
+                    frame->pixmap = drawClippedImage(img, img.pixel(0,0));
+                }else{
+                    frame->pixmap = new QPixmap(dataFilePath);
+                }
+                frames.append(frame);
+            }
+        }
     break;
     }       // end MultipleFiles
-    }
+    }   // end switch
 }
 
 QPixmap * Animation::drawClippedImage(QImage &img, QRgb maskColor)

@@ -44,7 +44,7 @@ int NormalActor::changeAnimation(QString animationName, AnimationState state)
 
             localTimeLine.stop();
             localTimeLine.setDuration((double(nframes) / animations[animindex]->frameRate) * 1000);
-            localTimeLine.setFrameRange(0, animations[animindex]->frames.size()-1);
+            localTimeLine.setFrameRange(0, animations[animindex]->frames.size());
             if(animationState == FORWARD){
                 localTimeLine.setDirection(QTimeLine::Forward);
                 localTimeLine.start();
@@ -113,6 +113,7 @@ QPainterPath NormalActor::shape() const
 
 void NormalActor::setFrame(int frameIndex)
 {
+    if(frameIndex > animations[animindex]->frames.size()-1) return;
     qreal ox = originPointItem->x() / width;
     qreal oy = originPointItem->y() / height;
     int olx = Actor::x;

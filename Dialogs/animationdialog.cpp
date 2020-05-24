@@ -20,7 +20,7 @@ void AnimationDialog::on_OkBtn_clicked()
     if(path.isEmpty()){reject(); return;}   // or maybe ask user for path
 
     // create animation & and Accept dialog
-    Animation * anim = new Animation(path, dataPath, (AnimationFileType) ui->typeComboBox->currentIndex(),
+    Animation * anim = new Animation(ui->nameLineEdit->text(), path, dataPath, (AnimationFileType) ui->typeComboBox->currentIndex(),
                                      ui->hFramesSpinBox->value(), ui->vFramesSpinBox->value(),
                                      ui->fpsSpinBox->value(), transpPix);
     animation = anim;

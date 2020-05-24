@@ -5,6 +5,7 @@
 #include <QPixmap>
 #include <QImage>
 #include <QFile>
+#include <QDir>
 #include <QMovie>
 #include <QDebug>
 #include <QPainter>
@@ -24,7 +25,7 @@ class Animation : public QObject
 {
     Q_OBJECT
 public:
-    explicit Animation(QString filePath, QString projectPath, AnimationFileType fType, int hf, int vf, int fps, bool transpPixel);
+    explicit Animation(QString animationName, QString filePath, QString projectPath, AnimationFileType fType, int hf, int vf, int fps, bool transpPixel);
     QPixmap *drawClippedImage(QImage &img, QRgb maskColor);
 
     QString name;
