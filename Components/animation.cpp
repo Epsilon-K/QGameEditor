@@ -2,8 +2,10 @@
 
 Animation::Animation(QString filePath, QString projectPath, AnimationFileType fType, int hf, int vf, int fps)
 {
-    name = filePath.right(filePath.length() - filePath.lastIndexOf("/") - 1);
-    name = name.left(name.indexOf("."));
+    QString fullName = filePath.right(filePath.length() - filePath.lastIndexOf("/") - 1);
+    name = fullName.left(fullName.indexOf("."));
+    QString extension = fullName.right(fullName.size() - name.size() - 1);
+
     fileType = fType;
     horizontalFrames = hf;
     verticalFrames = vf;
@@ -16,9 +18,22 @@ Animation::Animation(QString filePath, QString projectPath, AnimationFileType fT
         filesPaths.append(dataFilePath);
 
         if(horizontalFrames == 1 && verticalFrames == 1){
-            Frame *frame = new Frame;
-            frame->pixmap = new QPixmap(dataFilePath);
-            frames.append(frame);
+            if(extension == "gif"){
+                // use QMovie to extract frames
+                QMovie * gifMovie = new QMovie(dataFilePath);
+                int framesCount = gifMovie->frameCount();
+                for(int i = 0; i < framesCount; i++){
+                    Frame *frame = new Frame;
+                    gifMovie->jumpToFrame(i);
+                    frame->pixmap = new QPixmap(gifMovie->currentPixmap());
+                    frames.append(frame);
+                }
+
+            }else{
+                Frame *frame = new Frame;
+                frame->pixmap = new QPixmap(dataFilePath);
+                frames.append(frame);
+            }
         }
         else{
             // divide by hf and vf
@@ -36,10 +51,10 @@ Animation::Animation(QString filePath, QString projectPath, AnimationFileType fT
             }
         }
     break;
-    }
+    }       // end SingleFile
     case MultipleFiles:{
 
     break;
-    }
+    }       // end MultipleFiles
     }
 }

@@ -5,6 +5,7 @@
 #include <QPixmap>
 #include <QImage>
 #include <QFile>
+#include <QMovie>
 #include <QDebug>
 
 class Frame{
