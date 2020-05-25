@@ -124,7 +124,6 @@ void QGameEditor::showPropertiesOfActor(Actor *actor)
 void QGameEditor::addActor(Actor *actor)
 {
     ui->editorView->gameScene->addItem(actor);
-    //ui->editorView->gameScene->addItem(actor->originPointItem);
     actor->setPos(ui->editorView->mapToScene(ui->editorView->viewport()->visibleRegion().boundingRect().x()
                                              + ui->editorView->viewport()->visibleRegion().boundingRect().width()/2,
                                              ui->editorView->viewport()->visibleRegion().boundingRect().y()
@@ -137,6 +136,24 @@ void QGameEditor::addActor(Actor *actor)
         ui->actorNameComboBox->insertItem(0,actor->name);
     ui->actorNameComboBox->blockSignals(false);
     onActorLeftClicked(actor);
+}
+
+bool QGameEditor::isValidActorName(QString actorName)
+{
+    // name should NOT :
+        // 1- begin with something other than a letter
+        // 2- contain a symbol other than '_'
+        // 3- name is not unique
+    if(actorName.isEmpty()) return false;
+    if(!actorName[0].isLetter()) return false;
+    for(int i = 0; i < actorName.size(); i++){
+        if(!(actorName[i].isLetter() || actorName[i].isDigit() || actorName[i] == '_')) return false;
+    }
+    for(int i = 0; i < ui->editorView->gameScene->actors.size(); i++){
+        if(ui->editorView->gameScene->actors[i]->name == actorName) return false;
+    }
+
+    return true;
 }
 
 void QGameEditor::nonSignalSetValue(QSpinBox *widget, int value)
@@ -304,8 +321,15 @@ void QGameEditor::on_actionAdd_Actor_triggered()
     AddActorDialog dialog(this);
     if(dialog.exec() == QDialog::Accepted){
         QString actorName = dialog.getName();
+        if(!isValidActorName(actorName)) {
+            QMessageBox mb(this);
+            mb.setWindowTitle("Error");
+            mb.setText("Invalid actor name.");
+            mb.exec();
+            return;
+            // TODO: Reopen the addActorDialog
+        }
         ActorType actorType = dialog.getType();
-
         switch (actorType) {
             case NORMAL:{
                 NormalActor * actor = new NormalActor(actorName);
@@ -494,12 +518,12 @@ void QGameEditor::on_actorHeightSpinBox_valueChanged(int newHeight)
 
 void QGameEditor::on_actorOriginXSpinBox_valueChanged(int arg1)
 {
-
+    // TODO
 }
 
 void QGameEditor::on_actorOriginYSpinBox_valueChanged(int arg1)
 {
-
+    // TODO
 }
 
 void QGameEditor::on_actionShow_Hidden_Actors_triggered()

@@ -26,6 +26,7 @@ public:
     void loadStylesheets();
     void showPropertiesOfActor(Actor * actor);
     void addActor(Actor * actor);
+    bool isValidActorName(QString actorName);
 
     // ------------
     void nonSignalSetValue(QSpinBox *widget, int value);
