@@ -100,6 +100,8 @@ private slots:
 
     void on_actorAnimationStateCheckBox_toggled(bool checked);
 
+    void on_animationFPSSpinBox_valueChanged(int arg1);
+
 private:
     Ui::QGameEditor *ui;
     QStringList stylesheets;

@@ -43,19 +43,8 @@ int NormalActor::changeAnimation(QString animationName, AnimationState state)
             nframes = animations[i]->frames.size();
 
             localTimeLine.stop();
-            localTimeLine.setDuration((double(nframes) / animations[animindex]->frameRate) * 1000);
-            localTimeLine.setFrameRange(0, animations[animindex]->frames.size());
-            if(animationState == FORWARD){
-                localTimeLine.setDirection(QTimeLine::Forward);
-                localTimeLine.start();
-            }else if(animationState == BACKWARD){
-                localTimeLine.setDirection(QTimeLine::Backward);
-                localTimeLine.start();
-            }
-            else if(animationState == STOPPED){
-                setFrame(0);
-            }
-
+            changeAnimationFrameRate(animations[i]->frameRate);
+            changeAnimationDirection(state);
             return 1;
         }
     }
@@ -63,7 +52,7 @@ int NormalActor::changeAnimation(QString animationName, AnimationState state)
     return 0;   // no such animation exists!
 }
 
-int NormalActor::ChangeAnimationDirection(AnimationState state)
+int NormalActor::changeAnimationDirection(AnimationState state)
 {
     localTimeLine.stop();
     switch(state){
@@ -79,6 +68,15 @@ int NormalActor::ChangeAnimationDirection(AnimationState state)
         setFrame(0);
     }
     return 1;
+}
+
+void NormalActor::changeAnimationFrameRate(int fps)
+{
+    localTimeLine.setPaused(true);
+    animations[animindex]->frameRate = fps;
+    localTimeLine.setDuration((double(nframes) / fps) * 1000);
+    localTimeLine.setFrameRange(0, nframes);
+    localTimeLine.setPaused(false);
 }
 
 QRectF NormalActor::boundingRect() const

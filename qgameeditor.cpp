@@ -617,6 +617,14 @@ void QGameEditor::on_actorAnimationStateCheckBox_toggled(bool checked)
 {
     if(selectedActors.last()->type == NORMAL){
         NormalActor *actor = (NormalActor *)selectedActors.last();
-        actor->ChangeAnimationDirection(checked ? FORWARD : STOPPED);
+        actor->changeAnimationDirection(checked ? FORWARD : STOPPED);
+    }
+}
+
+void QGameEditor::on_animationFPSSpinBox_valueChanged(int fps)
+{
+    if(selectedActors.last()->type == NORMAL){
+        NormalActor *actor = (NormalActor *)selectedActors.last();
+        actor->changeAnimationFrameRate(fps);
     }
 }
