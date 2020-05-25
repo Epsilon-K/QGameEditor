@@ -33,8 +33,8 @@ void AnimationDialog::on_browseButton_clicked()
           "Open Image", QDir::currentPath(), "Image File (*.png *.bmp *.jpg *.jpe *.jpeg *.gif *.tiff *.tif *.iff *.xpm *.xcf *.pcx *.jfif)");
     path = filePath;
     QDir::setCurrent(path.left(path.lastIndexOf("/")));
-    QString fileName = path.right(path.length() - path.lastIndexOf("/") - 1);
-    fileName = fileName.left(fileName.indexOf("."));
+    QString fileName = Helper::getFileNameWithExtension(filePath);
+    fileName = Helper::getNameWithOutExtension(fileName);
     ui->nameLineEdit->setText(fileName);
 
     // set Image

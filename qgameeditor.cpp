@@ -156,6 +156,17 @@ bool QGameEditor::isValidActorName(QString actorName)
     return true;
 }
 
+bool QGameEditor::isValidAnimationName(NormalActor *actor, QString animationName)
+{
+    // only criteria is uniqueness
+    if(animationName.isEmpty()) return false;
+    for(int i = 0; i < actor->animations.size(); i++){
+        if(actor->animations[i]->name == animationName) return false;
+    }
+
+    return true;
+}
+
 void QGameEditor::nonSignalSetValue(QSpinBox *widget, int value)
 {
     widget->blockSignals(true);
@@ -581,6 +592,14 @@ void QGameEditor::on_addAnimationBtn_clicked()
         AnimationDialog ad(projectPath, this);
 
         if(ad.exec()){
+            if(!isValidAnimationName(actor, ad.animation->name)){
+                QMessageBox mb(this);
+                mb.setWindowTitle("Error");
+                mb.setText("Invalid, Animation name already exists.");
+                mb.exec();
+                return;
+                // TODO: Reopen the addActorDialog
+            }
             actor->addAnimation(ad.animation);
 
             // update width & height
