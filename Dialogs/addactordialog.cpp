@@ -6,21 +6,12 @@ AddActorDialog::AddActorDialog(QWidget *parent) :
     ui(new Ui::AddActorDialog)
 {
     ui->setupUi(this);
-    ui->actorNameLineEdit->setText(getRandomString(5));
+    ui->actorNameLineEdit->setText(Helper::getRandomString(5));
 }
 
 AddActorDialog::~AddActorDialog()
 {
     delete ui;
-}
-
-QString AddActorDialog::getRandomString(int size)
-{
-    QString str;
-    for(int i = 0; i < size; i++){
-        str.append(rand()%26 + 65);
-    }
-    return str;
 }
 
 QString AddActorDialog::getName()
@@ -46,5 +37,6 @@ ActorType AddActorDialog::getType()
     }
 
     // Should NOT HAPPEN!!!
+    Helper::debugMSG("Warning", "Unknown Actor Type in function AddActorDialog::getType()");
     return ActorType::NORMAL;
 }

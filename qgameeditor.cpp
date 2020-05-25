@@ -320,6 +320,7 @@ void QGameEditor::on_actionAdd_Actor_triggered()
             }
             default:{
                 // Should never happen!! unknown or unimplementd somehow
+                Helper::debugMSG("Error", "Unknown ActorType in function QGameEditor::on_actionAdd_Actor_triggered()");
             }
         }
     }

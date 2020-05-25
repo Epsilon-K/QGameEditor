@@ -1,6 +1,8 @@
 #ifndef ACTOR_H
 #define ACTOR_H
 
+#include "helper.h"
+
 #include <QObject>
 #include <QDebug>
 #include <QCursor>

@@ -38,7 +38,7 @@ Actor *GameScene::getActorByName(QString actorName)
     }
 
     // this should not happen!!!
-    // TODO: log a warning message
+    Helper::debugMSG("Error", "Unknown Actor name \"" + actorName + "\" in function GameScene::getActorByName()");
     return actors[0];
 }
 

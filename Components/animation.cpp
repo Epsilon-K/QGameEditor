@@ -3,9 +3,9 @@
 Animation::Animation(QString animationName, QString filePath, QString projectPath, AnimationFileType fType, int hf, int vf, int fps, bool transpPixel)
 {
     name = animationName;
-    QString fullName = filePath.right(filePath.length() - filePath.lastIndexOf("/") - 1);
-    QString fileName = fullName.left(fullName.indexOf("."));
-    QString extension = fullName.right(fullName.size() - fileName.size() - 1);
+    QString fullName = Helper::getFileNameWithExtension(filePath);
+    QString fileName = Helper::getNameWithOutExtension(fullName);
+    QString extension = Helper::getExtension(fullName);
 
     fileType = fType;
     horizontalFrames = hf;
@@ -15,7 +15,7 @@ Animation::Animation(QString animationName, QString filePath, QString projectPat
 
     switch (fileType) {
     case SingleFile:{
-        QString dataFilePath = projectPath + "/data/" + filePath.right(filePath.length() - filePath.lastIndexOf("/") - 1);
+        QString dataFilePath = projectPath + "/data/" + fullName;
         QFile::copy(filePath, dataFilePath);
         filesPaths.append(dataFilePath);
 
@@ -78,8 +78,7 @@ Animation::Animation(QString animationName, QString filePath, QString projectPat
         QStringList files = dir.entryList();
 
         for(int i = 0; i < files.size(); i++){
-            QString fileDigitLess = files[i];
-            fileDigitLess = fileDigitLess.left(fileDigitLess.indexOf("."));
+            QString fileDigitLess = Helper::getNameWithOutExtension(files[i]);
             while(fileDigitLess.at(fileDigitLess.size()-1).isDigit()) fileDigitLess.remove(fileDigitLess.size()-1,1);
             if(digitLess == fileDigitLess){
                 QString dataFilePath = projectPath + "/data/" + files[i];
@@ -104,6 +103,7 @@ Animation::Animation(QString animationName, QString filePath, QString projectPat
     }   // end switch
 }
 
+// Draws the image to a new QPixmap with the maskColor as transparent pixels
 QPixmap * Animation::drawClippedImage(QImage &img, QRgb maskColor)
 {
     QBitmap mask = QBitmap::fromImage(img.createMaskFromColor(maskColor));

@@ -7,10 +7,11 @@
 #include <QFile>
 #include <QDir>
 #include <QMovie>
-#include <QDebug>
 #include <QPainter>
 #include <QRegion>
 #include <QBitmap>
+
+#include "helper.h"
 
 class Frame{
 public:

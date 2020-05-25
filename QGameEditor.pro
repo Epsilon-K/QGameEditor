@@ -50,6 +50,7 @@ HEADERS += \
         Dialogs/configdialog.h \
         editorview.h \
         gamescene.h \
+        helper.h \
         qgameeditor.h
 
 FORMS += \
