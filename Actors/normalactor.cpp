@@ -38,13 +38,15 @@ int NormalActor::changeAnimation(QString animationName, AnimationState state)
     for(int i = 0; i < animations.size(); i++){
         if(animations[i]->name == animationName){
             // set animations[i] as current animation
-            animationState = state;
+            if(state != NO_CHANGE){
+                animationState = state;
+            }
             animindex = i;
             nframes = animations[i]->frames.size();
 
             localTimeLine.stop();
             changeAnimationFrameRate(animations[i]->frameRate);
-            changeAnimationDirection(state);
+            changeAnimationDirection(animationState);
             return 1;
         }
     }
@@ -54,6 +56,8 @@ int NormalActor::changeAnimation(QString animationName, AnimationState state)
 
 int NormalActor::changeAnimationDirection(AnimationState state)
 {
+    animationState = state;
+    if(animations.isEmpty()) return 0;
     localTimeLine.stop();
     switch(state){
     case FORWARD:
@@ -72,11 +76,12 @@ int NormalActor::changeAnimationDirection(AnimationState state)
 
 void NormalActor::changeAnimationFrameRate(int fps)
 {
-    localTimeLine.setPaused(true);
+    QTimeLine::State st = localTimeLine.state();
+    if(st == QTimeLine::Running) localTimeLine.setPaused(true);
     animations[animindex]->frameRate = fps;
     localTimeLine.setDuration((double(nframes) / fps) * 1000);
     localTimeLine.setFrameRange(0, nframes);
-    localTimeLine.setPaused(false);
+    if(st == QTimeLine::Paused) localTimeLine.setPaused(false);
 }
 
 QRectF NormalActor::boundingRect() const
@@ -111,7 +116,8 @@ QPainterPath NormalActor::shape() const
 
 void NormalActor::setFrame(int frameIndex)
 {
-    if(frameIndex > animations[animindex]->frames.size()-1) return;
+    if(animations.isEmpty()) return;
+    if(frameIndex > animations[animindex]->frames.size()-1 || frameIndex < 0) return;
     qreal ox = originPointItem->x() / width;
     qreal oy = originPointItem->y() / height;
     int olx = Actor::x;

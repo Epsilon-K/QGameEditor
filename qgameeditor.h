@@ -34,6 +34,7 @@ public:
     void nonSignalSetValue(QDoubleSpinBox *widget, double value);
     void nonSignalSetValue(QSlider *widget, int value);
     void nonSignalSetValue(QComboBox *widget, QString value);
+    void nonSignalSetValue(QCheckBox *widget, bool value);
 
 public slots:
     void on_editorView_mouse_moved(QPoint point);
@@ -101,6 +102,8 @@ private slots:
     void on_actorAnimationStateCheckBox_toggled(bool checked);
 
     void on_animationFPSSpinBox_valueChanged(int arg1);
+
+    void on_actorAnimationNameComboBox_currentIndexChanged(int index);
 
 private:
     Ui::QGameEditor *ui;

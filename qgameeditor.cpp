@@ -119,6 +119,31 @@ void QGameEditor::showPropertiesOfActor(Actor *actor)
     ui->actorHiddenCheckBox->blockSignals(true);
         ui->actorHiddenCheckBox->setChecked(!actor->isVisible());
     ui->actorHiddenCheckBox->blockSignals(false);
+
+    // Normal Actor stuff
+    if(actor->type == NORMAL){
+        NormalActor *normal = (NormalActor *)actor;
+        // Set Animations Name
+        ui->actorAnimationNameComboBox->blockSignals(true);
+            ui->actorAnimationNameComboBox->clear();
+            for(int i = 0; i < normal->animations.size(); i++){
+                QString text = normal->animations[i]->name;
+                QIcon ico(normal->animations[i]->frames[0]->pixmap->scaled(32,32));
+                ui->actorAnimationNameComboBox->addItem(ico,text);
+            }
+            if(!normal->animations.isEmpty()){
+                ui->actorAnimationNameComboBox->setCurrentText(normal->animations[normal->animindex]->name);
+            }
+        ui->actorAnimationNameComboBox->blockSignals(false);
+
+        // Playing state
+        nonSignalSetValue(ui->actorAnimationStateCheckBox, normal->animationState == FORWARD ? true : false);
+
+        // Frame rate
+        if(!normal->animations.isEmpty()){
+            nonSignalSetValue(ui->animationFPSSpinBox, normal->animations[normal->animindex]->frameRate);
+        }
+    }
 }
 
 void QGameEditor::addActor(Actor *actor)
@@ -192,6 +217,13 @@ void QGameEditor::nonSignalSetValue(QComboBox *widget, QString value)
 {
     widget->blockSignals(true);
         widget->setCurrentText(value);
+    widget->blockSignals(false);
+}
+
+void QGameEditor::nonSignalSetValue(QCheckBox *widget, bool value)
+{
+    widget->blockSignals(true);
+        widget->setChecked(value);
     widget->blockSignals(false);
 }
 
@@ -601,14 +633,7 @@ void QGameEditor::on_addAnimationBtn_clicked()
                 // TODO: Reopen the addActorDialog
             }
             actor->addAnimation(ad.animation);
-
-            // update width & height
-            nonSignalSetValue(ui->actorWidthSpinBox, actor->width);
-            nonSignalSetValue(ui->actorHeightSpinBox, actor->height);
-
-            // add animation to comboBox list
-            ui->actorAnimationNameComboBox->insertItem(0, ad.animation->name);
-            nonSignalSetValue(ui->actorAnimationNameComboBox, ad.animation->name);
+            showPropertiesOfActor(actor);
         }
     }
 }
@@ -626,5 +651,15 @@ void QGameEditor::on_animationFPSSpinBox_valueChanged(int fps)
     if(selectedActors.last()->type == NORMAL){
         NormalActor *actor = (NormalActor *)selectedActors.last();
         actor->changeAnimationFrameRate(fps);
+    }
+}
+
+void QGameEditor::on_actorAnimationNameComboBox_currentIndexChanged(int index)
+{
+    // change to animation at index
+    if(selectedActors.last()->type == NORMAL){
+        NormalActor *actor = (NormalActor *)selectedActors.last();
+        actor->changeAnimation(ui->actorAnimationNameComboBox->itemText(index), actor->animationState);
+        showPropertiesOfActor(actor);
     }
 }
