@@ -143,7 +143,11 @@ void QGameEditor::showPropertiesOfActor(Actor *actor)
         if(!normal->animations.isEmpty()){
             nonSignalSetValue(ui->animationFPSSpinBox, normal->animations[normal->animindex]->frameRate);
         }
-    }
+
+        // Antialiasing
+        nonSignalSetValue(ui->antialiasingCheckBox, normal->antialiasing);
+
+    }// end Normal Actor
 }
 
 void QGameEditor::addActor(Actor *actor)
@@ -661,5 +665,14 @@ void QGameEditor::on_actorAnimationNameComboBox_currentIndexChanged(int index)
         NormalActor *actor = (NormalActor *)selectedActors.last();
         actor->changeAnimation(ui->actorAnimationNameComboBox->itemText(index), actor->animationState);
         showPropertiesOfActor(actor);
+    }
+}
+
+void QGameEditor::on_antialiasingCheckBox_toggled(bool checked)
+{
+    if(selectedActors.last()->type == NORMAL){
+        NormalActor *actor = (NormalActor *)selectedActors.last();
+        actor->antialiasing = checked;
+        actor->Actor::update();
     }
 }

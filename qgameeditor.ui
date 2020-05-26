@@ -1297,6 +1297,29 @@
                    </spacer>
                   </item>
                   <item>
+                   <widget class="QCheckBox" name="antialiasingCheckBox">
+                    <property name="text">
+                     <string>Antialiasing</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_37">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                     <enum>QSizePolicy::Fixed</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>15</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
                    <widget class="QLabel" name="label_13">
                     <property name="text">
                      <string>Frame Rate : </string>
@@ -1638,12 +1661,12 @@
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>927</x>
-     <y>338</y>
+     <x>963</x>
+     <y>401</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1020</x>
-     <y>348</y>
+     <x>1002</x>
+     <y>407</y>
     </hint>
    </hints>
   </connection>
@@ -1654,12 +1677,12 @@
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1018</x>
-     <y>331</y>
+     <x>1002</x>
+     <y>407</y>
     </hint>
     <hint type="destinationlabel">
-     <x>974</x>
-     <y>341</y>
+     <x>963</x>
+     <y>401</y>
     </hint>
    </hints>
   </connection>

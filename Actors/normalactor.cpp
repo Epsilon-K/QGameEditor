@@ -99,8 +99,7 @@ void NormalActor::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
     //QGraphicsPixmapItem::paint(painter, option, widget);
 
     // 1] draw the pixmap
-    // TODO: Render Settings to set rendering options, for now just use the default pixely look
-    painter->setRenderHint(QPainter::SmoothPixmapTransform, false);
+    painter->setRenderHint(QPainter::SmoothPixmapTransform, antialiasing);
 
     QPixmap img = pixmap();
     painter->drawPixmap(boundingRect(), img, QRect(QPoint(0,0), img.size()));

@@ -105,6 +105,8 @@ private slots:
 
     void on_actorAnimationNameComboBox_currentIndexChanged(int index);
 
+    void on_antialiasingCheckBox_toggled(bool checked);
+
 private:
     Ui::QGameEditor *ui;
     QStringList stylesheets;

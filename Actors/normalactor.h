@@ -28,6 +28,7 @@ public:
     int changeAnimation(QString animationName, AnimationState state);
     int changeAnimationDirection(AnimationState state);
     int changeAnimationFrameRate(int fps);
+    bool antialiasing{false};
 
     // Pure Virtual functions...
     QRectF boundingRect() const;
