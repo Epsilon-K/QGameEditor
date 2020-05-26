@@ -22,12 +22,28 @@ public:
     QString path, dataPath;
     bool transpPix{false};
 
+    QTimeLine localTimeLine;
+    Animation * tempAnimation;
+    void startPlayingAnimation();
+    void createTempAnimation();
+
+public slots:
+    void setFrame(int frameIndex);
+
 private slots:
     void on_OkBtn_clicked();
 
     void on_browseButton_clicked();
 
-    void on_checkBox_toggled(bool checked);
+    void on_alphaPixelCheckBox_toggled(bool checked);
+
+    void on_typeComboBox_currentIndexChanged(const QString &txt);
+
+    void on_hFramesSpinBox_valueChanged(int arg1);
+
+    void on_vFramesSpinBox_valueChanged(int arg1);
+
+    void on_fpsSpinBox_valueChanged(int fps);
 
 private:
     Ui::AnimationDialog *ui;

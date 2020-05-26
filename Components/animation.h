@@ -15,6 +15,10 @@
 
 class Frame{
 public:
+    Frame(){}
+    ~Frame(){
+        delete pixmap;
+    }
     QPixmap *pixmap;
 
     // other frame information [future stuff]
@@ -26,7 +30,8 @@ class Animation : public QObject
 {
     Q_OBJECT
 public:
-    explicit Animation(QString animationName, QString filePath, QString projectPath, AnimationFileType fType, int hf, int vf, int fps, bool transpPixel);
+    explicit Animation(QString animationName, QString filePath, QString projectPath, AnimationFileType fType, int hf, int vf, int fps, bool transpPixel, bool temporary);
+    ~Animation();
     QPixmap *drawClippedImage(QImage &img, QRgb maskColor);
 
     QString name;

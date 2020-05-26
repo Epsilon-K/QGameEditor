@@ -1,6 +1,7 @@
 #include "animation.h"
 
-Animation::Animation(QString animationName, QString filePath, QString projectPath, AnimationFileType fType, int hf, int vf, int fps, bool transpPixel)
+// temporary flag is used by the animation dialog for live preview, it just doesn't copy the files to projectPath/data
+Animation::Animation(QString animationName, QString filePath, QString projectPath, AnimationFileType fType, int hf, int vf, int fps, bool transpPixel, bool temporary)
 {
     name = animationName;
     QString fullName = Helper::getFileNameWithExtension(filePath);
@@ -16,13 +17,15 @@ Animation::Animation(QString animationName, QString filePath, QString projectPat
     switch (fileType) {
     case SingleFile:{
         QString dataFilePath = projectPath + "/data/" + fullName;
-        QFile::copy(filePath, dataFilePath);
+        if(!temporary){
+            QFile::copy(filePath, dataFilePath);
+        }
         filesPaths.append(dataFilePath);
 
         if(horizontalFrames == 1 && verticalFrames == 1){
             if(extension == "gif"){
                 // use QMovie to extract frames
-                QMovie * gifMovie = new QMovie(dataFilePath);
+                QMovie * gifMovie = new QMovie(filePath);
                 int framesCount = gifMovie->frameCount();
                 for(int i = 0; i < framesCount; i++){
                     Frame *frame = new Frame;
@@ -35,21 +38,22 @@ Animation::Animation(QString animationName, QString filePath, QString projectPat
                     }
                     frames.append(frame);
                 }
+                delete gifMovie;
 
             }else{
                 Frame *frame = new Frame;
                 if(firstPixelAsTransparent){
-                    QImage img(dataFilePath);
+                    QImage img(filePath);
                     frame->pixmap = drawClippedImage(img, img.pixel(0,0));
                 }else{
-                    frame->pixmap = new QPixmap(dataFilePath);
+                    frame->pixmap = new QPixmap(filePath);
                 }
                 frames.append(frame);
             }
         }
         else{
             // divide by hf and vf
-            QImage sheet = QImage(dataFilePath);
+            QImage sheet = QImage(filePath);
             int framesCount = horizontalFrames * verticalFrames;
             int imgWidth = sheet.width() / horizontalFrames;
             int imgHeight = sheet.height() / verticalFrames;
@@ -83,17 +87,19 @@ Animation::Animation(QString animationName, QString filePath, QString projectPat
             if(digitLess == fileDigitLess){
                 QString dataFilePath = projectPath + "/data/" + files[i];
                 QString originalFilePath = directory + "/" + files[i];
-                QFile::copy(originalFilePath, dataFilePath);
+                if(!temporary){
+                    QFile::copy(originalFilePath, dataFilePath);
+                }
                 filesPaths.append(dataFilePath);
 
-                // Load the dataFilePath into a frame
+                // Load the image into a frame
                 // --------------------------------------------------------
                 Frame *frame = new Frame;
                 if(firstPixelAsTransparent){
-                    QImage img(dataFilePath);
+                    QImage img(originalFilePath);
                     frame->pixmap = drawClippedImage(img, img.pixel(0,0));
                 }else{
-                    frame->pixmap = new QPixmap(dataFilePath);
+                    frame->pixmap = new QPixmap(originalFilePath);
                 }
                 frames.append(frame);
             }
@@ -101,6 +107,13 @@ Animation::Animation(QString animationName, QString filePath, QString projectPat
     break;
     }       // end MultipleFiles
     }   // end switch
+}
+
+Animation::~Animation()
+{
+    for(int i = 0; i < frames.size(); i++){
+        delete frames[i];
+    }
 }
 
 // Draws the image to a new QPixmap with the maskColor as transparent pixels
