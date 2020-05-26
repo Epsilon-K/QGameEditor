@@ -74,14 +74,19 @@ int NormalActor::changeAnimationDirection(AnimationState state)
     return 1;
 }
 
-void NormalActor::changeAnimationFrameRate(int fps)
+int NormalActor::changeAnimationFrameRate(int fps)
 {
-    QTimeLine::State st = localTimeLine.state();
-    if(st == QTimeLine::Running) localTimeLine.setPaused(true);
+    if(animations.isEmpty()) return 0;
+
     animations[animindex]->frameRate = fps;
+    QTimeLine::State originalState = localTimeLine.state();
+
+    if(originalState == QTimeLine::Running) localTimeLine.setPaused(true);
     localTimeLine.setDuration((double(nframes) / fps) * 1000);
     localTimeLine.setFrameRange(0, nframes);
-    if(st == QTimeLine::Paused) localTimeLine.setPaused(false);
+    if(originalState == QTimeLine::Running) localTimeLine.setPaused(false);
+
+    return 1;
 }
 
 QRectF NormalActor::boundingRect() const

@@ -27,7 +27,7 @@ public:
     void addAnimation(Animation * animation);
     int changeAnimation(QString animationName, AnimationState state);
     int changeAnimationDirection(AnimationState state);
-    void changeAnimationFrameRate(int fps);
+    int changeAnimationFrameRate(int fps);
 
     // Pure Virtual functions...
     QRectF boundingRect() const;
