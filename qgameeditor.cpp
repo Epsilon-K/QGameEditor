@@ -147,6 +147,37 @@ void QGameEditor::showPropertiesOfActor(Actor *actor)
         // Antialiasing
         nonSignalSetValue(ui->antialiasingCheckBox, normal->antialiasing);
 
+        // Composition Mode
+        QString mode;
+        switch (normal->compositionMode) {
+        default:
+        case QPainter::CompositionMode_SourceOver:  mode = "Normal (Source Over)"; break;
+        case QPainter::CompositionMode_Plus:  mode = "Plus"; break;
+        case QPainter::CompositionMode_Multiply:  mode = "Multiply"; break;
+        case QPainter::CompositionMode_Screen:  mode = "Screen"; break;
+        case QPainter::CompositionMode_Overlay:  mode = "Overlay"; break;
+        case QPainter::CompositionMode_Darken:  mode = "Darken"; break;
+        case QPainter::CompositionMode_Lighten:  mode = "Lighten"; break;
+        case QPainter::CompositionMode_ColorDodge:  mode = "Color Dodge"; break;
+        case QPainter::CompositionMode_ColorBurn:  mode = "Color Burn"; break;
+        case QPainter::CompositionMode_HardLight:  mode = "Hard Light"; break;
+        case QPainter::CompositionMode_SoftLight:  mode = "Soft Light"; break;
+        case QPainter::CompositionMode_Difference:  mode = "Difference"; break;
+        case QPainter::CompositionMode_Exclusion:  mode = "Exclusion"; break;
+        case QPainter::CompositionMode_DestinationOver:  mode = "Destination Over"; break;
+        case QPainter::CompositionMode_Clear:  mode = "Clear"; break;
+        case QPainter::CompositionMode_Source:  mode = "Source"; break;
+        case QPainter::CompositionMode_Destination:  mode = "Destination"; break;
+        case QPainter::CompositionMode_SourceIn:  mode = "Source-In"; break;
+        case QPainter::CompositionMode_DestinationIn:  mode = "Destination-In"; break;
+        case QPainter::CompositionMode_SourceOut:  mode = "Source Out"; break;
+        case QPainter::CompositionMode_DestinationOut:  mode = "Destination Out"; break;
+        case QPainter::CompositionMode_SourceAtop:  mode = "Source Atop"; break;
+        case QPainter::CompositionMode_DestinationAtop:  mode = "Destination Atop"; break;
+        case QPainter::CompositionMode_Xor:  mode = "XOR"; break;
+        }
+        nonSignalSetValue(ui->actorCompositionModeComboBox, mode);
+
     }// end Normal Actor
 }
 
@@ -674,5 +705,13 @@ void QGameEditor::on_antialiasingCheckBox_toggled(bool checked)
         NormalActor *actor = (NormalActor *)selectedActors.last();
         actor->antialiasing = checked;
         actor->Actor::update();
+    }
+}
+
+void QGameEditor::on_actorCompositionModeComboBox_currentIndexChanged(const QString &mode)
+{
+    if(selectedActors.last()->type == NORMAL){
+        NormalActor *actor = (NormalActor *)selectedActors.last();
+        actor->setCompositionMode(mode);
     }
 }

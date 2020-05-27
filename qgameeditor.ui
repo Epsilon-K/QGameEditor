@@ -1358,6 +1358,176 @@
                  </layout>
                 </item>
                 <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_18">
+                  <item>
+                   <spacer name="horizontalSpacer_39">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_17">
+                    <property name="text">
+                     <string>Composition Mode : </string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QComboBox" name="actorCompositionModeComboBox">
+                    <property name="sizeAdjustPolicy">
+                     <enum>QComboBox::AdjustToContents</enum>
+                    </property>
+                    <property name="iconSize">
+                     <size>
+                      <width>32</width>
+                      <height>32</height>
+                     </size>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>Normal (Source Over)</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Plus</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Multiply</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Screen</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Overlay</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Darken</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Lighten</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Color Dodge</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Color Burn</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Hard Light</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Soft Light</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Difference</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Exclusion</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Destination Over</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Clear</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Source</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Destination</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Source-In</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Destination-In</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Source Out</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Destination Out</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Source Atop</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Destination Atop</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>XOR</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_41">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                 </layout>
+                </item>
+                <item>
                  <layout class="QHBoxLayout" name="horizontalLayout_17">
                   <item>
                    <spacer name="horizontalSpacer_35">

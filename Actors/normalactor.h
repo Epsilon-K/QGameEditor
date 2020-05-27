@@ -6,6 +6,7 @@
 #include "Actors/actor.h"
 #include "Components/animation.h"
 #include <QTimeLine>
+#include <QPainter>
 
 enum AnimationState {FORWARD, BACKWARD, STOPPED, NO_CHANGE};
 
@@ -29,6 +30,8 @@ public:
     int changeAnimationDirection(AnimationState state);
     int changeAnimationFrameRate(int fps);
     bool antialiasing{false};
+    QPainter::CompositionMode compositionMode{QPainter::CompositionMode_SourceOver};
+    void setCompositionMode(QString mode);
 
     // Pure Virtual functions...
     QRectF boundingRect() const;

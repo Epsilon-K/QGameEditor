@@ -107,6 +107,8 @@ private slots:
 
     void on_antialiasingCheckBox_toggled(bool checked);
 
+    void on_actorCompositionModeComboBox_currentIndexChanged(const QString &mode);
+
 private:
     Ui::QGameEditor *ui;
     QStringList stylesheets;

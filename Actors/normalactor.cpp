@@ -89,6 +89,36 @@ int NormalActor::changeAnimationFrameRate(int fps)
     return 1;
 }
 
+void NormalActor::setCompositionMode(QString mode)
+{
+    if(mode == "Normal (Source Over)") compositionMode = QPainter::CompositionMode_SourceOver;
+    else if(mode == "Plus") compositionMode = QPainter::CompositionMode_Plus;
+    else if(mode == "Multiply") compositionMode = QPainter::CompositionMode_Multiply;
+    else if(mode == "Screen") compositionMode = QPainter::CompositionMode_Screen;
+    else if(mode == "Overlay") compositionMode = QPainter::CompositionMode_Overlay;
+    else if(mode == "Darken") compositionMode = QPainter::CompositionMode_Darken;
+    else if(mode == "Lighten") compositionMode = QPainter::CompositionMode_Lighten;
+    else if(mode == "Color Dodge") compositionMode = QPainter::CompositionMode_ColorDodge;
+    else if(mode == "Color Burn") compositionMode = QPainter::CompositionMode_ColorBurn;
+    else if(mode == "Hard Light") compositionMode = QPainter::CompositionMode_HardLight;
+    else if(mode == "Soft Light") compositionMode = QPainter::CompositionMode_SoftLight;
+    else if(mode == "Difference") compositionMode = QPainter::CompositionMode_Difference;
+    else if(mode == "Exclusion") compositionMode = QPainter::CompositionMode_Exclusion;
+    else if(mode == "Destination Over") compositionMode = QPainter::CompositionMode_DestinationOver;
+    else if(mode == "Clear") compositionMode = QPainter::CompositionMode_Clear;
+    else if(mode == "Source") compositionMode = QPainter::CompositionMode_Source;
+    else if(mode == "Destination") compositionMode = QPainter::CompositionMode_Destination;
+    else if(mode == "Source-In") compositionMode = QPainter::CompositionMode_SourceIn;
+    else if(mode == "Destination-In") compositionMode = QPainter::CompositionMode_DestinationIn;
+    else if(mode == "Source Out") compositionMode = QPainter::CompositionMode_SourceOut;
+    else if(mode == "Destination Out") compositionMode = QPainter::CompositionMode_DestinationOut;
+    else if(mode == "Source Atop") compositionMode = QPainter::CompositionMode_SourceAtop;
+    else if(mode == "Destination Atop") compositionMode = QPainter::CompositionMode_DestinationAtop;
+    else if(mode == "XOR") compositionMode = QPainter::CompositionMode_Xor;
+
+    Actor::update();
+}
+
 QRectF NormalActor::boundingRect() const
 {
     return QGraphicsPixmapItem::boundingRect();
@@ -100,6 +130,7 @@ void NormalActor::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
 
     // 1] draw the pixmap
     painter->setRenderHint(QPainter::SmoothPixmapTransform, antialiasing);
+    painter->setCompositionMode(compositionMode);
 
     QPixmap img = pixmap();
     painter->drawPixmap(boundingRect(), img, QRect(QPoint(0,0), img.size()));
