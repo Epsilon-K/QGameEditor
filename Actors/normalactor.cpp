@@ -5,7 +5,9 @@ NormalActor::NormalActor(QString _name)
     name = _name;
     Actor::type = NORMAL;
     QPixmap pix(":/Resources/images/GE Actor in editor.png");
+    tintImage = QPixmap(pix.size());
     setPixmap(pix);
+    createTintImage(pixmap().size());
 
     originPointItem->setPos(QPoint(getWidth()/2, getHeight()/2));
     width = getWidth();
@@ -25,6 +27,25 @@ int NormalActor::getWidth()
 int NormalActor::getHeight()
 {
     return int(pixmap().height());
+}
+
+void NormalActor::createTintImage(QSize s)
+{
+    if(pixmap().hasAlpha()){
+        QBitmap mask = pixmap().mask();
+        tintImage = QPixmap(s);
+        tintImage.fill(QColor(0,0,0,0));
+        QPainter p(&tintImage);
+        p.setClipRegion(QRegion(mask));
+        QPixmap pix(pixmap().size()); pix.fill(tint);
+        p.drawImage(pix.rect(), pix.toImage(), pix.rect());
+    }
+    else{
+        tintImage = QPixmap(s);
+        tintImage.fill(tint);
+    }
+
+    Actor::update();
 }
 
 void NormalActor::addAnimation(Animation *animation)
@@ -47,6 +68,7 @@ int NormalActor::changeAnimation(QString animationName, AnimationState state)
             localTimeLine.stop();
             changeAnimationFrameRate(animations[i]->frameRate);
             changeAnimationDirection(animationState);
+            Actor::update();
             return 1;
         }
     }
@@ -63,10 +85,12 @@ int NormalActor::changeAnimationDirection(AnimationState state)
     case FORWARD:
         localTimeLine.setDirection(QTimeLine::Forward);
         localTimeLine.start();
+        if(nframes == 1) setFrame(0);   // because QTimeLine does NOT start when range is [x to x+1]
         break;
     case BACKWARD:
         localTimeLine.setDirection(QTimeLine::Backward);
         localTimeLine.start();
+        if(nframes == 1) setFrame(0);
         break;
     case STOPPED:
         setFrame(0);
@@ -126,14 +150,21 @@ QRectF NormalActor::boundingRect() const
 
 void NormalActor::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    //QGraphicsPixmapItem::paint(painter, option, widget);
-
     // 1] draw the pixmap
     painter->setRenderHint(QPainter::SmoothPixmapTransform, antialiasing);
-    painter->setCompositionMode(compositionMode);
 
-    QPixmap img = pixmap();
-    painter->drawPixmap(boundingRect(), img, QRect(QPoint(0,0), img.size()));
+    painter->setCompositionMode(compositionMode);
+    painter->drawPixmap(boundingRect(), pixmap(), QRect(QPoint(0,0), pixmap().size()));
+
+    // tint the image
+    if(colorFXStrenght > 0){
+        painter->setCompositionMode(QPainter::CompositionMode_Multiply);    // this is original GE way of tinting with rgb values
+        painter->setOpacity(colorFXStrenght * transp);
+        painter->drawPixmap(boundingRect(), tintImage, QRect(QPoint(0,0), pixmap().size()));
+
+        painter->setCompositionMode(compositionMode);
+        painter->setOpacity(1);
+    }
 
     // 2] draw the purple selection box
     if(Actor::isSelected()){
@@ -147,6 +178,29 @@ void NormalActor::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
 QPainterPath NormalActor::shape() const
 {
     return QGraphicsPixmapItem::shape();
+}
+
+void NormalActor::setPixmap(const QPixmap &pix)
+{
+    QGraphicsPixmapItem::setPixmap(pix);
+    if(colorFXStrenght > 0){
+        createTintImage(pixmap().size());
+    }
+}
+
+void NormalActor::setTintColor(QColor color)
+{
+    tint = color;
+    if(colorFXStrenght > 0){
+        createTintImage(pixmap().size());
+    }
+}
+
+void NormalActor::setTintStrength(qreal strength)
+{
+    if(colorFXStrenght <= 0 && strength > 0) createTintImage(pixmap().size());
+    colorFXStrenght = strength;
+    Actor::update();
 }
 
 void NormalActor::setFrame(int frameIndex)

@@ -47,6 +47,17 @@ void ViewActor::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     }*/
 }
 
+void ViewActor::setTintColor(QColor color)
+{
+    tint = color;
+}
+
+void ViewActor::setTintStrength(qreal strength)
+{
+    colorFXStrenght = strength;
+    Actor::update();
+}
+
 QPainterPath ViewActor::shape() const
 {
     // the default shape has a filled rect, which we don't want, It should be a hollow rectangle

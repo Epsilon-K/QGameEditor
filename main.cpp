@@ -3,7 +3,6 @@
 
 int main(int argc, char *argv[])
 {
-
     QApplication a(argc, argv);
     a.setApplicationName("QGameEditor");
     a.setApplicationVersion("1.0");

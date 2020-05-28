@@ -22,6 +22,8 @@ public:
     // Pure Virtual functions...
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    void setTintColor(QColor color);
+    void setTintStrength(qreal strength);
 
     // overriden
     QPainterPath shape() const;

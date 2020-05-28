@@ -12,11 +12,6 @@ Actor::Actor()
 
     //default RGB colorEffect in GE
     tint = QColor(255,170,0);
-    colorEffect = new QGraphicsColorizeEffect();
-    colorEffect->setColor(tint);
-    colorEffect->setStrength(colorFXStrenght);
-    Actor::setGraphicsEffect(colorEffect);
-    colorEffect->setEnabled(true);
 
     // origin point item
     originPointItem = new QGraphicsEllipseItem(0,0,12,12, this);
@@ -108,21 +103,6 @@ void Actor::setRotation(qreal ro)
 
     setTransform(tr);
     rotation = ro;
-}
-
-void Actor::setTintColor(QColor color)
-{
-    tint = color;
-    colorEffect->setColor(tint);
-}
-
-void Actor::setTintStrength(qreal strength)
-{
-    colorFXStrenght = strength;
-    colorEffect->setStrength(strength);
-
-    // calling this to live-update the actor when dragging the tint-Strength slider
-    setTintColor(tint);
 }
 
 void Actor::lockUnLock()
@@ -242,12 +222,13 @@ void Actor::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
             int yDiff = abs(yprevious - Actor::y);
             if(xDiff < yDiff) ySnap = true;
             else xSnap = true;
+            emit snappingStateChanged(this);
         }
-    }else{
+    }else if(xSnap || ySnap){
         // reset snap axis
         xSnap = ySnap = false;
+        emit snappingStateChanged(this);
     }
-    emit snappingStateChanged(this);
 }
 
 void Actor::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)

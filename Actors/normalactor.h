@@ -17,6 +17,7 @@ public:
     NormalActor(QString _name);
     int getWidth();
     int getHeight();
+    void createTintImage(QSize s);
 
     // Animation stuff
     QTimeLine localTimeLine;
@@ -32,13 +33,17 @@ public:
     bool antialiasing{false};
     QPainter::CompositionMode compositionMode{QPainter::CompositionMode_SourceOver};
     void setCompositionMode(QString mode);
+    QPixmap tintImage;
 
     // Pure Virtual functions...
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    void setTintColor(QColor color);
+    void setTintStrength(qreal strength);
 
     // overriden functions
     QPainterPath shape() const;
+    void setPixmap(const QPixmap &pix);
 
 public slots:
     void setFrame(int frameIndex);

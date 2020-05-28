@@ -73,9 +73,9 @@ public:
     bool isLocked{false};
 
     // Effects
-    QGraphicsColorizeEffect * colorEffect;
-    void setTintColor(QColor color);
-    void setTintStrength(qreal strength);
+    // ... to be implemented
+    virtual void setTintColor(QColor color) = 0;
+    virtual void setTintStrength(qreal strength) = 0;
 
 signals:
     // in-Editor signals

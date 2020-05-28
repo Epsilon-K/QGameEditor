@@ -1282,6 +1282,64 @@
                  </layout>
                 </item>
                 <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_17">
+                  <item>
+                   <spacer name="horizontalSpacer_35">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="addAnimationBtn">
+                    <property name="text">
+                     <string>Add Animation</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="addSequenceBtn">
+                    <property name="text">
+                     <string>Add Sequence</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="editAnimationBtn">
+                    <property name="text">
+                     <string>Edit</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="removeAnimationBtn">
+                    <property name="text">
+                     <string>Remove</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_36">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                 </layout>
+                </item>
+                <item>
                  <layout class="QHBoxLayout" name="horizontalLayout_15">
                   <item>
                    <spacer name="horizontalSpacer_32">
@@ -1514,64 +1572,6 @@
                   </item>
                   <item>
                    <spacer name="horizontalSpacer_41">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>40</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_17">
-                  <item>
-                   <spacer name="horizontalSpacer_35">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>40</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="addAnimationBtn">
-                    <property name="text">
-                     <string>Add Animation</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="addSequenceBtn">
-                    <property name="text">
-                     <string>Add Sequence</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="editAnimationBtn">
-                    <property name="text">
-                     <string>Edit</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="removeAnimationBtn">
-                    <property name="text">
-                     <string>Remove</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <spacer name="horizontalSpacer_36">
                     <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>

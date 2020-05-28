@@ -5,7 +5,7 @@ EditorView::EditorView(QWidget *&p)
     setParent(p);
     setInteractive(true);
     // this should be a preference, for performance
-    setRenderHints(QPainter::Antialiasing | QPainter::HighQualityAntialiasing | QPainter::SmoothPixmapTransform);
+    setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     setTransformationAnchor(AnchorUnderMouse);
 
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -174,6 +174,6 @@ void EditorView::wheelEvent(QWheelEvent *e)
 
 void EditorView::mouseMoveEvent(QMouseEvent *e)
 {
-    emit signalMouseMoveEvent(e->pos());
     QGraphicsView::mouseMoveEvent(e);
+    emit signalMouseMoveEvent(e->pos());
 }
