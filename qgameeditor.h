@@ -28,6 +28,7 @@ public:
     void addActor(Actor * actor);
     bool isValidActorName(QString actorName);
     bool isValidAnimationName(NormalActor * actor, QString animationName);
+    void deselectAllActors();
 
     // ------------
     void nonSignalSetValue(QSpinBox *widget, int value);

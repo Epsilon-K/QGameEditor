@@ -11,15 +11,10 @@ Actor::Actor()
 
 
     //default RGB colorEffect in GE
-    tint = QColor(255,170,0);
+    tint = QColor(255,255,255);
 
     // origin point item
-    originPointItem = new QGraphicsEllipseItem(0,0,12,12, this);
-    originPointItem->setBrush(QColor(160,70,255));
-    originPointItem->setPen(QPen(Qt::NoPen));
-    originPointItem->setFlag(QGraphicsItem::ItemIgnoresTransformations);
-    originPointItem->setFlag(QGraphicsItem::ItemIgnoresParentOpacity);  // Why is this Flag not respected!!, the point have same opacity as Actor
-    originPointItem->setVisible(false);
+    originPointItem = new PointHandleItem(QRect(0,0,12,12), this);
 }
 
 QPoint Actor::pos()
@@ -130,27 +125,32 @@ void Actor::sendDeleteSignal()
 QVariant Actor::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
     if (change == ItemPositionChange){
-        QPoint newPos = value.toPointF().toPoint();
-        newPos.rx() += originPointItem->x();
-        newPos.ry() += originPointItem->y();
+        if(scene()->mouseGrabberItem() != originPointItem){
+            QPoint newPos = value.toPointF().toPoint();
+            newPos.rx() += originPointItem->x();
+            newPos.ry() += originPointItem->y();
 
-        Actor::xprevious = Actor::x;
-        Actor::yprevious = Actor::y;
+            Actor::xprevious = Actor::x;
+            Actor::yprevious = Actor::y;
 
-        // handle mouse move snapping
-        if(ySnap){  // Snap to Y Axis
-            newPos.rx() = xprevious;
-        }else if(xSnap) {  // Snap to X Axis
-            newPos.ry() = yprevious;
+            // handle mouse move snapping
+            if(ySnap){  // Snap to Y Axis
+                newPos.rx() = xprevious;
+            }else if(xSnap) {  // Snap to X Axis
+                newPos.ry() = yprevious;
+            }
+
+            Actor::x = newPos.rx();
+            Actor::y = newPos.ry();
+
+            newPos.rx() -= originPointItem->x();
+            newPos.ry() -= originPointItem->y();
+
+            return QPointF(newPos);
         }
-
-        Actor::x = newPos.rx();
-        Actor::y = newPos.ry();
-
-        newPos.rx() -= originPointItem->x();
-        newPos.ry() -= originPointItem->y();
-
-        return QPointF(newPos);
+        else{   // Don't Move when the origin point is being moved!!!
+            return QGraphicsItem::pos().toPoint();
+        }
     }
     else if(change == ItemPositionHasChanged){
         // emit a pos change signal
@@ -159,18 +159,6 @@ QVariant Actor::itemChange(QGraphicsItem::GraphicsItemChange change, const QVari
 
     if(change == ItemSelectedHasChanged){
         bool selected = value.toBool();
-
-        // Disable colorizeEffect on selection
-        /*if(selected){
-            colorEffect->setColor(QColor(160,70,255,255));
-            if(type == NORMAL)
-                colorEffect->setStrength(0.3);
-            else colorEffect->setStrength(1);
-        }else{
-            colorEffect->setColor(tint);
-            colorEffect->setStrength(colorFXStrenght);
-        }*/
-
         originPointItem->setVisible(selected);
         // emit the change
         emit actorSelectionChanged(this, selected);
@@ -192,13 +180,13 @@ void Actor::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 
 void Actor::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+    QGraphicsItem::mousePressEvent(event);
     switch(event->button()){
         default:
         case Qt::LeftButton:
             emit actorClicked(this);
         break;
     }
-    QGraphicsItem::mousePressEvent(event);
     setCursor(QCursor(Qt::PointingHandCursor));
 }
 

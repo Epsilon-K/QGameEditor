@@ -1131,7 +1131,7 @@
                   <item>
                    <widget class="QToolButton" name="actorTintBtn">
                     <property name="text">
-                     <string>C</string>
+                     <string/>
                     </property>
                    </widget>
                   </item>

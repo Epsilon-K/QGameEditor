@@ -41,7 +41,7 @@ void ViewActor::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     // no need to draw this...
     /*// 2] draw the purple selection box
     if(Actor::isSelected()){
-        p.setColor(QColor(160,70,255)); p.setWidth(1);
+        p.setColor(selectionColor); p.setWidth(1);
         painter->setPen(p);
         painter->drawRect(rf);
     }*/

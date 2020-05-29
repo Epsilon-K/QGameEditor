@@ -195,7 +195,9 @@ void QGameEditor::addActor(Actor *actor)
     ui->actorNameComboBox->blockSignals(true);
         ui->actorNameComboBox->insertItem(0,actor->name);
     ui->actorNameComboBox->blockSignals(false);
-    onActorLeftClicked(actor);
+
+    deselectAllActors();
+    actor->setSelected(true);
 }
 
 bool QGameEditor::isValidActorName(QString actorName)
@@ -225,6 +227,19 @@ bool QGameEditor::isValidAnimationName(NormalActor *actor, QString animationName
     }
 
     return true;
+}
+
+void QGameEditor::deselectAllActors()
+{
+    for(int i = 0; i < selectedActors.size(); i++){
+        selectedActors[i]->blockSignals(true);
+            selectedActors[i]->setSelected(false);
+        selectedActors[i]->blockSignals(false);
+    }
+    ui->actorNameComboBox->blockSignals(true);
+        ui->actorNameComboBox->removeItem(ui->actorNameComboBox->findText("Multiple Actors"));
+    ui->actorNameComboBox->blockSignals(false);
+    selectedActors.clear();
 }
 
 void QGameEditor::nonSignalSetValue(QSpinBox *widget, int value)
@@ -329,8 +344,10 @@ void QGameEditor::onActorSelectionChanged(Actor *actor, bool state)
             if(selectedActors.last()->type == NORMAL){
                 ui->actorAnimationGroupBox->setChecked(true);
                 ui->actorAnimationGroupBox->setEnabled(true);
-            }else{ui->actorAnimationGroupBox->setChecked(false);
-                ui->actorAnimationGroupBox->setEnabled(false);}
+            }else{
+                ui->actorAnimationGroupBox->setChecked(false);
+                ui->actorAnimationGroupBox->setEnabled(false);
+            }
         }
 
     }else{
@@ -456,13 +473,7 @@ void QGameEditor::on_actorNameComboBox_currentIndexChanged(int index)
         Actor * actor = ui->editorView->gameScene->getActorByName(name);
 
         // deselect Everything...
-        for(int i = 0; i < selectedActors.size(); i++){
-            selectedActors[i]->blockSignals(true);
-                selectedActors[i]->setSelected(false);
-            selectedActors[i]->blockSignals(false);
-        }
-        ui->actorNameComboBox->removeItem(ui->actorNameComboBox->findText("Multiple Actors"));
-        selectedActors.clear();
+        deselectAllActors();
 
         // and select only this actor
         actor->setSelected(true);

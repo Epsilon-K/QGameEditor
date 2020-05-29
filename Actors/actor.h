@@ -15,8 +15,8 @@
 #include <QGraphicsSceneContextMenuEvent>
 #include <QKeyEvent>
 #include <QMenu>
-#include <QGraphicsColorizeEffect>
 #include <QTimeLine>
+#include "Custom_Items/pointhandleitem.h"
 
 enum ActorType{NORMAL, VIEW, CANVAS, WIRE_FRAME_REGION, FILLED_REGION, LABEL /*,TILE*/};
 
@@ -50,7 +50,7 @@ public:
 
     int x, y;
     int xprevious, yprevious;
-    QGraphicsEllipseItem * originPointItem;
+    PointHandleItem * originPointItem;
     int xscreen, yscreen;
     int xvelocity{0}, yvelocity{0};
     int angle{0}, directional_velocity{0};
@@ -71,6 +71,7 @@ public:
     bool xSnap{false};
     bool ySnap{false};
     bool isLocked{false};
+    QColor selectionColor{QColor(100,100,255)};
 
     // Effects
     // ... to be implemented

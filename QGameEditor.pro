@@ -31,6 +31,7 @@ SOURCES += \
         Actors/normalactor.cpp \
         Actors/viewactor.cpp \
         Components/animation.cpp \
+        Custom_Items/pointhandleitem.cpp \
         Dialogs/addactordialog.cpp \
         Dialogs/animationdialog.cpp \
         Dialogs/configdialog.cpp \
@@ -44,6 +45,7 @@ HEADERS += \
         Actors/normalactor.h \
         Actors/viewactor.h \
         Components/animation.h \
+        Custom_Items/pointhandleitem.h \
         Dialogs/addactordialog.h \
         Dialogs/animationdialog.h \
         Dialogs/configdata.h \
@@ -66,8 +68,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     resources.qrc
-
-DISTFILES +=
 
 #This is for Android
 android {

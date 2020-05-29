@@ -163,12 +163,12 @@ void NormalActor::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
         painter->drawPixmap(boundingRect(), tintImage, QRect(QPoint(0,0), pixmap().size()));
 
         painter->setCompositionMode(compositionMode);
-        painter->setOpacity(1);
     }
 
+    painter->setOpacity(1);
     // 2] draw the purple selection box
     if(Actor::isSelected()){
-        QPen p; p.setColor(QColor(160,70,255)); p.setWidth(0);
+        QPen p; p.setColor(selectionColor); p.setWidth(0);
         painter->setPen(p);
         QRectF r(boundingRect());
         painter->drawRect(r);
