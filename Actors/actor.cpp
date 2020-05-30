@@ -16,6 +16,7 @@ Actor::Actor()
     // origin point item
     originPointItem = new PointHandleItem(QRect(0,0,6,6), this);
     connect(originPointItem, SIGNAL(pointChanged()), this, SLOT(updateOriginPoint()));
+    connect(originPointItem, SIGNAL(posChanging()), this, SLOT(emitOriginChange()));
 }
 
 QPoint Actor::pos()
@@ -136,6 +137,11 @@ void Actor::updateOriginPoint()
     // then set position to old point
     setPos(originPointItem->releasePoint);
     emit positionChanged(this);     // because it doesn't update the GUI when rotation = 0
+}
+
+void Actor::emitOriginChange()
+{
+    emit originChanged(this);
 }
 
 // Protected --------------------------------------------------------------------

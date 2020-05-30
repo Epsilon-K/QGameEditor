@@ -5,19 +5,20 @@ PointHandleItem::PointHandleItem(QRect r, QGraphicsItem * _parent)
     setRect(r);
     if(_parent != nullptr) setParentItem(_parent);
 
-    setBrush(selectionColor);
+    setBrush(color);
     setPen(QPen(Qt::NoPen));
 
     setVisible(false);
     setAcceptHoverEvents(true);
-    //setFlag(ItemIgnoresTransformations);      TODO : activate this without messing eveything up!
+    //setFlag(ItemIgnoresTransformations);      //TODO : activate this without messing eveything up!
     setFlag(ItemIgnoresParentOpacity);
     setFlag(ItemSendsScenePositionChanges);
 }
 
 void PointHandleItem::setPos(int nx, int ny)
 {
-    QGraphicsItem::setPos(nx - boundingRect().width()/2, ny - boundingRect().height()/2);
+    QGraphicsItem::setPos(nx - boundingRect().width()/2,
+                          ny - boundingRect().height()/2);
     if(!mouseGrabber){
         finalPosition = QPoint(nx, ny);
         emit pointChanged();
@@ -26,10 +27,8 @@ void PointHandleItem::setPos(int nx, int ny)
 
 void PointHandleItem::setPos(QPoint p)
 {
-    p.setX(p.x() - boundingRect().width()/2);
-    p.setY(p.y() - boundingRect().height()/2);
-    QGraphicsItem::setPos(p);
-
+    QGraphicsItem::setPos(p.x() - boundingRect().width()/2,
+                          p.y() - boundingRect().height()/2);
     if(!mouseGrabber){
         finalPosition = p;
         emit pointChanged();
@@ -39,6 +38,16 @@ void PointHandleItem::setPos(QPoint p)
 void PointHandleItem::setPos(QPointF f)
 {
     PointHandleItem::setPos(f.toPoint());
+}
+
+void PointHandleItem::setX(int x)
+{
+    setPos(x, y());
+}
+
+void PointHandleItem::setY(int y)
+{
+    setPos(x(), y);
 }
 
 QPoint PointHandleItem::pos()
@@ -90,6 +99,7 @@ void PointHandleItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 void PointHandleItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     mouseGrabber = true;
+    pressPos = mapToParent(event->pos()).toPoint();
     setCursor(QCursor(Qt::PointingHandCursor));
 }
 
@@ -97,6 +107,7 @@ void PointHandleItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     if(scene()->mouseGrabberItem() == this){
         setPos(mapToParent(event->pos().toPoint()));
+        emit posChanging();
     }
 }
 

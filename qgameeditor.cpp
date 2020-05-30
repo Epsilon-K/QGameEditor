@@ -44,6 +44,7 @@ QGameEditor::QGameEditor(QWidget *parent) :
         connect(actor, SIGNAL(positionChanged(Actor *)), this, SLOT(onActorPositionChange(Actor *)));
         connect(actor, SIGNAL(actorSelectionChanged(Actor *, bool)), this, SLOT(onActorSelectionChanged(Actor *, bool)));
         connect(actor, SIGNAL(snappingStateChanged(Actor*)), this, SLOT(copySnappingOfActor(Actor*)));
+        connect(actor, SIGNAL(originChanged(Actor*)), this, SLOT(onActorOriginChanged(Actor*)));
     }
     ui->editorView->gameScene->actors.last()->setSelected(true);
 
@@ -81,8 +82,8 @@ void QGameEditor::showPropertiesOfActor(Actor *actor)
     nonSignalSetValue(ui->actorYSpinBox, actor->y);
 
     // Origin X & Y
-    nonSignalSetValue(ui->actorOriginXSpinBox, actor->originPointItem->x());
-    nonSignalSetValue(ui->actorOriginYSpinBox, actor->originPointItem->y());
+    nonSignalSetValue(ui->actorOriginXSpinBox, actor->originPointItem->finalPosition.x());
+    nonSignalSetValue(ui->actorOriginYSpinBox, actor->originPointItem->finalPosition.y());
 
 
     // Width & Height
@@ -387,6 +388,14 @@ void QGameEditor::copySnappingOfActor(Actor *actor)
     }
 }
 
+void QGameEditor::onActorOriginChanged(Actor *actor)
+{
+    if(actor->name == ui->actorNameComboBox->currentText()){
+        nonSignalSetValue(ui->actorOriginXSpinBox, actor->originPointItem->pos().x());
+        nonSignalSetValue(ui->actorOriginYSpinBox, actor->originPointItem->pos().y());
+    }
+}
+
 void QGameEditor::on_actionExit_triggered()
 {
     // TODO: confirmation to exit program
@@ -606,14 +615,18 @@ void QGameEditor::on_actorHeightSpinBox_valueChanged(int newHeight)
     nonSignalSetValue(ui->actorYScaleDoubleSpinBox, selectedActors.last()->yscale);
 }
 
-void QGameEditor::on_actorOriginXSpinBox_valueChanged(int arg1)
+void QGameEditor::on_actorOriginXSpinBox_valueChanged(int xVal)
 {
-    // TODO
+    for(int i = 0; i < selectedActors.size(); i++){
+        selectedActors[i]->originPointItem->setX(xVal);
+    }
 }
 
-void QGameEditor::on_actorOriginYSpinBox_valueChanged(int arg1)
+void QGameEditor::on_actorOriginYSpinBox_valueChanged(int yVal)
 {
-    // TODO
+    for(int i = 0; i < selectedActors.size(); i++){
+        selectedActors[i]->originPointItem->setY(yVal);
+    }
 }
 
 void QGameEditor::on_actionShow_Hidden_Actors_triggered()

@@ -80,12 +80,14 @@ signals:
     void actorSelectionChanged(Actor * actor, bool state);
     void deleteActor(Actor*);
     void snappingStateChanged(Actor*);
+    void originChanged(Actor*);
 
 public slots:
     void lockUnLock();  // locks if unlocked and vice-versa
     void hideUnHide();
     void sendDeleteSignal();
     void updateOriginPoint();
+    void emitOriginChange();
 
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value);

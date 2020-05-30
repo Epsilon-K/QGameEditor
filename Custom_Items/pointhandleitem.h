@@ -10,6 +10,7 @@
 #include <QPainter>
 #include <QDebug>
 #include "helper.h"
+#include <QGraphicsView>
 
 class PointHandleItem : public QObject, public QGraphicsEllipseItem
 {
@@ -19,17 +20,21 @@ public:
     void setPos(int nx, int ny);
     void setPos(QPoint p);
     void setPos(QPointF f);
+    void setX(int x);
+    void setY(int y);
     QPoint pos();
     qreal x();
     qreal y();
 
-    QColor selectionColor{QColor(255,255,255)};
+    QColor color{QColor(255,255,255)};
+    QPoint pressPos{QPoint(0,0)};
     QPoint releasePoint{QPoint(0,0)};
     QPoint finalPosition{QPoint(0,0)};
     bool mouseGrabber = false;
 
 signals:
     void pointChanged();
+    void posChanging();
 
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value);

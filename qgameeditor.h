@@ -44,6 +44,7 @@ public slots:
     void onActorPositionChange(Actor * actor);
     void onActorSelectionChanged(Actor *actor, bool state);
     void copySnappingOfActor(Actor* actor);
+    void onActorOriginChanged(Actor *actor);
 
 private slots:
     void on_actionExit_triggered();
@@ -84,9 +85,9 @@ private slots:
 
     void on_actorHeightSpinBox_valueChanged(int arg1);
 
-    void on_actorOriginXSpinBox_valueChanged(int arg1);
+    void on_actorOriginXSpinBox_valueChanged(int xVal);
 
-    void on_actorOriginYSpinBox_valueChanged(int arg1);
+    void on_actorOriginYSpinBox_valueChanged(int yVal);
 
     void on_actionShow_Hidden_Actors_triggered();
 

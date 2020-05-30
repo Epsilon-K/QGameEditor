@@ -11,7 +11,7 @@ ViewActor::ViewActor(QString _name, QRect r)
     originPointItem->setPos(QPoint(getWidth()/2, getHeight()/2));
     width = getWidth();
     height = getHeight();
-    Actor::setTransformOriginPoint(originPointItem->pos());
+    updateOriginPoint();
 }
 
 int ViewActor::getWidth()
