@@ -17,6 +17,10 @@ Actor::Actor()
     originPointItem = new PointHandleItem(QRect(0,0,6,6), this);
     connect(originPointItem, SIGNAL(pointChanged()), this, SLOT(updateOriginPoint()));
     connect(originPointItem, SIGNAL(posChanging()), this, SLOT(emitOriginChange()));
+
+    // transform point
+    transformPointItem = new PointHandleItem(QRect(0,0,6,6), this, Qt::SizeAllCursor);
+
 }
 
 QPoint Actor::pos()
@@ -184,6 +188,7 @@ QVariant Actor::itemChange(QGraphicsItem::GraphicsItemChange change, const QVari
     if(change == ItemSelectedHasChanged){
         bool selected = value.toBool();
         originPointItem->setVisible(selected);
+        transformPointItem->setVisible(selected);
         // emit the change
         emit actorSelectionChanged(this, selected);
     }

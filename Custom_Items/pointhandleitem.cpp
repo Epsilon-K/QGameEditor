@@ -1,6 +1,6 @@
 #include "pointhandleitem.h"
 
-PointHandleItem::PointHandleItem(QRect r, QGraphicsItem * _parent)
+PointHandleItem::PointHandleItem(QRect r, QGraphicsItem * _parent,  Qt::CursorShape cursor)
 {
     setRect(r);
     if(_parent != nullptr) setParentItem(_parent);
@@ -13,6 +13,8 @@ PointHandleItem::PointHandleItem(QRect r, QGraphicsItem * _parent)
     //setFlag(ItemIgnoresTransformations);      //TODO : activate this without messing eveything up!
     setFlag(ItemIgnoresParentOpacity);
     setFlag(ItemSendsScenePositionChanges);
+
+    cursorShape = cursor;
 }
 
 void PointHandleItem::setPos(int nx, int ny)
@@ -88,7 +90,7 @@ void PointHandleItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 
 void PointHandleItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
-    setCursor(QCursor(Qt::PointingHandCursor));
+    setCursor(QCursor(cursorShape));
 }
 
 void PointHandleItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
@@ -100,7 +102,7 @@ void PointHandleItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     mouseGrabber = true;
     pressPos = mapToParent(event->pos()).toPoint();
-    setCursor(QCursor(Qt::PointingHandCursor));
+    setCursor(QCursor(cursorShape));
 }
 
 void PointHandleItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
@@ -114,7 +116,7 @@ void PointHandleItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 void PointHandleItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     mouseGrabber = false;
-    setCursor(QCursor(Qt::PointingHandCursor));
+    setCursor(QCursor(cursorShape));
     finalPosition = pos();
     releasePoint = parentItem()->mapToParent(mapToParent(event->pos().toPoint())).toPoint();
     emit pointChanged();

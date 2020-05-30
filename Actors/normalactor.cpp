@@ -14,6 +14,8 @@ NormalActor::NormalActor(QString _name)
     height = getHeight();
     updateOriginPoint();
 
+    transformPointItem->setPos(QPoint(getWidth(), 0));
+
     localTimeLine.setCurveShape(QTimeLine::LinearCurve);
     localTimeLine.setLoopCount(0);
     connect(&localTimeLine, SIGNAL(frameChanged(int)), this, SLOT(setFrame(int)));
