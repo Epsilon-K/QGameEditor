@@ -14,22 +14,23 @@ Actor::Actor()
     tint = QColor(255,255,255);
 
     // origin point item
-    originPointItem = new PointHandleItem(QRect(0,0,12,12), this);
+    originPointItem = new PointHandleItem(QRect(0,0,6,6), this);
+    connect(originPointItem, SIGNAL(pointChanged()), this, SLOT(updateOriginPoint()));
 }
 
 QPoint Actor::pos()
 {
     QPoint po = QGraphicsItem::pos().toPoint();
-    po.setX(po.x() + originPointItem->x());
-    po.setY(po.y() + originPointItem->y());
+    po.setX(po.x() + originPointItem->finalPosition.x());
+    po.setY(po.y() + originPointItem->finalPosition.y());
     return po;
 }
 
 QPoint Actor::scenePos()
 {
     QPoint po = QGraphicsItem::scenePos().toPoint();
-    po.setX(po.x() + originPointItem->x());
-    po.setY(po.y() + originPointItem->y());
+    po.setX(po.x() + originPointItem->finalPosition.x());
+    po.setY(po.y() + originPointItem->finalPosition.y());
     return po;
 }
 
@@ -37,36 +38,34 @@ void Actor::setPos(int nx, int ny)
 {
     Actor::x = nx;
     Actor::y = ny;
-    QGraphicsItem::setPos(nx - originPointItem->x(), ny - originPointItem->y());
+    QGraphicsItem::setPos(nx - originPointItem->finalPosition.x(), ny - originPointItem->finalPosition.y());
 }
 
 void Actor::setPos(QPointF f)
 {
-    Actor::x = int(f.rx());
-    Actor::y = int(f.ry());
-    QGraphicsItem::setPos(QPointF(f.rx() - originPointItem->x(), f.ry() - originPointItem->y()));
+    Actor::setPos(f.toPoint().x(), f.toPoint().y());
 }
 
 void Actor::setX(int nx)
 {
     Actor::x = nx;
-    QGraphicsItem::setX(nx - originPointItem->x());
+    QGraphicsItem::setX(nx - originPointItem->finalPosition.x());
 }
 
 void Actor::setY(int ny)
 {
     Actor::y = ny;
-    QGraphicsItem::setY(ny - originPointItem->y());
+    QGraphicsItem::setY(ny - originPointItem->finalPosition.y());
 }
 
 void Actor::setXScale(qreal newXScale)
 {
     QTransform tr;
 
-    tr.translate(originPointItem->x(), originPointItem->y());  // to origin
+    tr.translate(originPointItem->finalPosition.x(), originPointItem->finalPosition.y());  // to origin
     tr.rotate(rotation);
     tr.scale(newXScale, yscale);
-    tr.translate(-originPointItem->x(), -originPointItem->y()); // and back
+    tr.translate(-originPointItem->finalPosition.x(), -originPointItem->finalPosition.y()); // and back
 
     setTransform(tr);
     xscale = newXScale;
@@ -77,10 +76,10 @@ void Actor::setYScale(qreal newYScale)
 {
     QTransform tr;
 
-    tr.translate(originPointItem->x(), originPointItem->y());  // to origin
+    tr.translate(originPointItem->finalPosition.x(), originPointItem->finalPosition.y());  // to origin
     tr.rotate(rotation);
     tr.scale(xscale, newYScale);
-    tr.translate(-originPointItem->x(), -originPointItem->y()); // and back
+    tr.translate(-originPointItem->finalPosition.x(), -originPointItem->finalPosition.y()); // and back
 
     setTransform(tr);
     yscale = newYScale;
@@ -91,10 +90,10 @@ void Actor::setRotation(qreal ro)
 {
     QTransform tr;
 
-    tr.translate(originPointItem->x(), originPointItem->y());  // to origin
+    tr.translate(originPointItem->finalPosition.x(), originPointItem->finalPosition.y());  // to origin
     tr.rotate(ro);
     tr.scale(xscale, yscale);
-    tr.translate(-originPointItem->x(), - originPointItem->y()); // and back
+    tr.translate(-originPointItem->finalPosition.x(), - originPointItem->finalPosition.y()); // and back
 
     setTransform(tr);
     rotation = ro;
@@ -119,41 +118,60 @@ void Actor::sendDeleteSignal()
     emit deleteActor(this); // :(
 }
 
+void Actor::updateOriginPoint()
+{
+    setTransformOriginPoint(originPointItem->finalPosition);
+
+    // ---------------- I think this code here repositions the Transform to the new Origing point ---------------
+    QTransform tr;
+
+    tr.translate(originPointItem->finalPosition.x(), originPointItem->finalPosition.y());  // to origin
+    tr.rotate(rotation);
+    tr.scale(xscale, yscale);
+    tr.translate(-originPointItem->finalPosition.x(), - originPointItem->finalPosition.y()); // and back
+
+    setTransform(tr);
+    // ---------------------------------------------------------------------------------------
+
+    // then set position to old point
+    setPos(originPointItem->releasePoint);
+    emit positionChanged(this);     // because it doesn't update the GUI when rotation = 0
+}
+
 // Protected --------------------------------------------------------------------
 //     -----------------------------------------------------------------------
 
 QVariant Actor::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
     if (change == ItemPositionChange){
-        if(scene()->mouseGrabberItem() != originPointItem){
-            QPoint newPos = value.toPointF().toPoint();
-            newPos.rx() += originPointItem->x();
-            newPos.ry() += originPointItem->y();
+        QPoint newPos = value.toPointF().toPoint();
+        newPos.rx() += originPointItem->finalPosition.x();
+        newPos.ry() += originPointItem->finalPosition.y();
 
-            Actor::xprevious = Actor::x;
-            Actor::yprevious = Actor::y;
+        Actor::xprevious = Actor::x;
+        Actor::yprevious = Actor::y;
 
-            // handle mouse move snapping
-            if(ySnap){  // Snap to Y Axis
-                newPos.rx() = xprevious;
-            }else if(xSnap) {  // Snap to X Axis
-                newPos.ry() = yprevious;
-            }
-
-            Actor::x = newPos.rx();
-            Actor::y = newPos.ry();
-
-            newPos.rx() -= originPointItem->x();
-            newPos.ry() -= originPointItem->y();
-
-            return QPointF(newPos);
+        // handle mouse move snapping
+        if(ySnap){  // Snap to Y Axis
+            newPos.rx() = xprevious;
+        }else if(xSnap) {  // Snap to X Axis
+            newPos.ry() = yprevious;
         }
-        else{   // Don't Move when the origin point is being moved!!!
-            return QGraphicsItem::pos().toPoint();
-        }
+
+        Actor::x = newPos.rx();
+        Actor::y = newPos.ry();
+
+        newPos.rx() -= originPointItem->finalPosition.x();
+        newPos.ry() -= originPointItem->finalPosition.y();
+
+        //qDebug() << name << " Position Changing to : " << Helper::pointToString(newPos);
+        return QPointF(newPos);
     }
     else if(change == ItemPositionHasChanged){
         // emit a pos change signal
+
+        //qDebug() << name << " Position HAS changed to : " << Helper::pointToString(QGraphicsItem::pos().toPoint());
+
         emit positionChanged(this);
     }
 

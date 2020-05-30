@@ -36,6 +36,10 @@ public:
         }
         return str;
     }
+
+    static QString pointToString(QPoint p){
+        return QString::number(p.rx()) + ", " + QString::number(p.ry());
+    }
 };
 
 #endif // HELPER_H

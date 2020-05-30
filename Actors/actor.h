@@ -1,17 +1,12 @@
 #ifndef ACTOR_H
 #define ACTOR_H
 
-#include "helper.h"
-
 #include <QObject>
-#include <QDebug>
 #include <QCursor>
 #include <QGraphicsItem>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsRectItem>
-#include <QGraphicsScene>
 #include <QGraphicsView>
-#include <QGraphicsSceneMouseEvent>
 #include <QGraphicsSceneContextMenuEvent>
 #include <QKeyEvent>
 #include <QMenu>
@@ -90,6 +85,7 @@ public slots:
     void lockUnLock();  // locks if unlocked and vice-versa
     void hideUnHide();
     void sendDeleteSignal();
+    void updateOriginPoint();
 
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value);

@@ -12,7 +12,7 @@ NormalActor::NormalActor(QString _name)
     originPointItem->setPos(QPoint(getWidth()/2, getHeight()/2));
     width = getWidth();
     height = getHeight();
-    Actor::setTransformOriginPoint(originPointItem->pos());
+    updateOriginPoint();
 
     localTimeLine.setCurveShape(QTimeLine::LinearCurve);
     localTimeLine.setLoopCount(0);
@@ -207,8 +207,9 @@ void NormalActor::setFrame(int frameIndex)
 {
     if(animations.isEmpty()) return;
     if(frameIndex > animations[animindex]->frames.size()-1 || frameIndex < 0) return;
-    qreal ox = originPointItem->x() / width;
-    qreal oy = originPointItem->y() / height;
+
+    qreal ox = originPointItem->finalPosition.x() / qreal(width);
+    qreal oy = originPointItem->finalPosition.y() / qreal(height);
     int olx = Actor::x;
     int oly = Actor::y;
 
@@ -219,7 +220,9 @@ void NormalActor::setFrame(int frameIndex)
     width = abs(getWidth() * xscale);
     height = abs(getHeight() * yscale);
 
-    originPointItem->setPos(int(width * ox), int(height * oy));
+    if(animationState == STOPPED){
+        originPointItem->setPos(int(qreal(width) * ox), int(qreal(height) * oy));
+    }
     Actor::update();
     Actor::setPos(olx, oly);
     Actor::setRotation(Actor::rotation);

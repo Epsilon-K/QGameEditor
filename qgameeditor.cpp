@@ -37,6 +37,7 @@ QGameEditor::QGameEditor(QWidget *parent) :
     // add whatever default actors in the scene & connect their signals to the main UI
     for(int i = 0; i < ui->editorView->gameScene->actors.size(); i++){
         Actor * actor = ui->editorView->gameScene->actors[i];
+        actor->setPos(0,0);
         ui->actorNameComboBox->blockSignals(true);
             ui->actorNameComboBox->insertItem(0,actor->name);
         ui->actorNameComboBox->blockSignals(false);
