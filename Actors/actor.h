@@ -55,7 +55,7 @@ public:
     qreal xscale{1}, yscale{1};
     QColor tint;
     qreal colorFXStrenght{0};
-    PointHandleItem * transformPointItem;
+    PointHandleItem * rotationPointItem;
     // user vars...
 
     // QGraphicsItem Interface

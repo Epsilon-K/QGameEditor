@@ -25,7 +25,7 @@ public:
         audioChannels = AudioChannels::Stereo;
         maxNumOfSimultaneousSounds = 8;
 
-        sceneSize = QSize(60000,60000);
+        sceneSize = QSize(2000000,2000000);
     }
 
     QSize windowSize;
@@ -50,7 +50,7 @@ public:
     Preferences(){
         gridSize = QSize(20, 20);
         gridColor = QColor(100,100,100);
-        resoultionColor = QColor(130,130,130);
+        resoultionColor = QColor(150,140,160);
         showGrid = true;
         gridSnap = false;
         toolTips = true;

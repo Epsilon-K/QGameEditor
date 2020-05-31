@@ -14,7 +14,7 @@ NormalActor::NormalActor(QString _name)
     height = getHeight();
     updateOriginPoint();
 
-    transformPointItem->setPos(QPoint(getWidth(), 0));
+    rotationPointItem->setPos(QPoint(getWidth(), 0));
 
     localTimeLine.setCurveShape(QTimeLine::LinearCurve);
     localTimeLine.setLoopCount(0);
@@ -172,8 +172,7 @@ void NormalActor::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
     if(Actor::isSelected()){
         QPen p; p.setColor(selectionColor); p.setWidth(0);
         painter->setPen(p);
-        QRectF r(boundingRect());
-        painter->drawRect(r);
+        painter->drawRect(boundingRect());
     }
 }
 

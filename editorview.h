@@ -16,16 +16,10 @@ public:
     EditorView(QWidget*& p);
 
     GameScene * gameScene;
+    QTimer mainLoopTimer;
     double scaleLevel = 1;
 
-    // TODO: is there a more optimized way of doing this?
-            // instead of having a ton of LineItems and RectItems for the grid?
-    QVector <QGraphicsLineItem*> gridLines;
-    QVector <QGraphicsRectItem*> screenRects;
-
     void updateScale();
-    void drawGrid();
-    void setGridVisibility();
     void clamp(double * v, double min, double max){
         if(*v > max)  *v = max;
         else if(*v < min) *v = min;
@@ -39,12 +33,14 @@ signals:
 public slots:
     void centering();
     void updateSceneConfigurations();
+    void frameUpdate();
 
 protected :
     void mousePressEvent(QMouseEvent *e);
     void mouseReleaseEvent(QMouseEvent *e);
     void wheelEvent(QWheelEvent *e);
     void mouseMoveEvent(QMouseEvent *e);
+    void drawBackground(QPainter *painter, const QRectF &rect);
 };
 
 #endif // EDITORVIEW_H
