@@ -16,5 +16,6 @@
         <file>Resources/images/Magnet grey.png</file>
         <file>Resources/images/groupbox_down_arrow.png</file>
         <file>Resources/images/groupbox_right_arrow.png</file>
+        <file>Resources/images/rotate cursor.png</file>
     </qresource>
 </RCC>

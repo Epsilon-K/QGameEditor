@@ -12,8 +12,6 @@ ViewActor::ViewActor(QString _name, QRect r)
     width = getWidth();
     height = getHeight();
     updateOriginPoint();
-
-    rotationPointItem->setPos(QPoint(getWidth(), 0));
 }
 
 int ViewActor::getWidth()

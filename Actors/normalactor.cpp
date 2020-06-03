@@ -14,8 +14,6 @@ NormalActor::NormalActor(QString _name)
     height = getHeight();
     updateOriginPoint();
 
-    rotationPointItem->setPos(QPoint(getWidth(), 0));
-
     localTimeLine.setCurveShape(QTimeLine::LinearCurve);
     localTimeLine.setLoopCount(0);
     connect(&localTimeLine, SIGNAL(frameChanged(int)), this, SLOT(setFrame(int)));
@@ -152,7 +150,7 @@ QRectF NormalActor::boundingRect() const
 
 void NormalActor::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    // 1] draw the pixmap
+    // draw the pixmap
     painter->setRenderHint(QPainter::SmoothPixmapTransform, antialiasing);
 
     painter->setCompositionMode(compositionMode);
@@ -168,9 +166,9 @@ void NormalActor::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
     }
 
     painter->setOpacity(1);
-    // 2] draw the purple selection box
+    // draw the purple selection box
     if(Actor::isSelected()){
-        QPen p; p.setColor(selectionColor); p.setWidth(0);
+        QPen p(selectionColor, 0, Qt::DashLine);
         painter->setPen(p);
         painter->drawRect(boundingRect());
     }

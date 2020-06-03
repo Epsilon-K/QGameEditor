@@ -17,10 +17,6 @@ Actor::Actor()
     originPointItem = new PointHandleItem(QRect(0,0,6,6), this);
     connect(originPointItem, SIGNAL(pointChanged()), this, SLOT(updateOriginPoint()));
     connect(originPointItem, SIGNAL(posChanging()), this, SLOT(emitOriginChange()));
-
-    // transform point
-    rotationPointItem = new PointHandleItem(QRect(0,0,6,6), this);
-
 }
 
 QPoint Actor::pos()
@@ -95,10 +91,10 @@ void Actor::setRotation(qreal ro)
 {
     QTransform tr;
 
-    tr.translate(originPointItem->finalPosition.x(), originPointItem->finalPosition.y());  // to origin
+    tr.translate(originPointItem->finalPosition.x(), originPointItem->finalPosition.y());
     tr.rotate(ro);
     tr.scale(xscale, yscale);
-    tr.translate(-originPointItem->finalPosition.x(), - originPointItem->finalPosition.y()); // and back
+    tr.translate(-originPointItem->finalPosition.x(), - originPointItem->finalPosition.y());
 
     setTransform(tr);
     rotation = ro;
@@ -127,7 +123,6 @@ void Actor::updateOriginPoint()
 {
     setTransformOriginPoint(originPointItem->finalPosition);
 
-    // ---------------- I think this code here repositions the Transform to the new Origing point ---------------
     QTransform tr;
 
     tr.translate(originPointItem->finalPosition.x(), originPointItem->finalPosition.y());  // to origin
@@ -136,7 +131,6 @@ void Actor::updateOriginPoint()
     tr.translate(-originPointItem->finalPosition.x(), - originPointItem->finalPosition.y()); // and back
 
     setTransform(tr);
-    // ---------------------------------------------------------------------------------------
 
     // then set position to old point
     setPos(originPointItem->releasePoint);
@@ -174,13 +168,10 @@ QVariant Actor::itemChange(QGraphicsItem::GraphicsItemChange change, const QVari
         newPos.rx() -= originPointItem->finalPosition.x();
         newPos.ry() -= originPointItem->finalPosition.y();
 
-        //qDebug() << name << " Position Changing to : " << Helper::pointToString(newPos);
         return QPointF(newPos);
     }
     else if(change == ItemPositionHasChanged){
         // emit a pos change signal
-
-        //qDebug() << name << " Position HAS changed to : " << Helper::pointToString(QGraphicsItem::pos().toPoint());
 
         emit positionChanged(this);
     }
@@ -188,7 +179,6 @@ QVariant Actor::itemChange(QGraphicsItem::GraphicsItemChange change, const QVari
     if(change == ItemSelectedHasChanged){
         bool selected = value.toBool();
         originPointItem->setVisible(selected);
-        rotationPointItem->setVisible(selected);
         // emit the change
         emit actorSelectionChanged(this, selected);
     }

@@ -193,6 +193,7 @@ void QGameEditor::addActor(Actor *actor)
     connect(actor, SIGNAL(positionChanged(Actor *)), this, SLOT(onActorPositionChange(Actor *)));
     connect(actor, SIGNAL(actorSelectionChanged(Actor *, bool)), this, SLOT(onActorSelectionChanged(Actor *, bool)));
     connect(actor, SIGNAL(snappingStateChanged(Actor*)), this, SLOT(copySnappingOfActor(Actor*)));
+    connect(actor, SIGNAL(originChanged(Actor*)), this, SLOT(onActorOriginChanged(Actor*)));
     ui->editorView->gameScene->actors.append(actor);
     ui->actorNameComboBox->blockSignals(true);
         ui->actorNameComboBox->insertItem(0,actor->name);

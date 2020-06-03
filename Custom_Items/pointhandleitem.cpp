@@ -1,9 +1,10 @@
 #include "pointhandleitem.h"
 
-PointHandleItem::PointHandleItem(QRect r, QGraphicsItem * _parent,  Qt::CursorShape cursor)
+PointHandleItem::PointHandleItem(QRect r, QGraphicsItem * _parent,  QCursor _cursor)
 {
     setRect(r);
     if(_parent != nullptr) setParentItem(_parent);
+    cursor = _cursor;
 
     setBrush(color);
     setPen(QPen(Qt::NoPen));
@@ -13,8 +14,6 @@ PointHandleItem::PointHandleItem(QRect r, QGraphicsItem * _parent,  Qt::CursorSh
     //setFlag(ItemIgnoresTransformations);      //TODO : activate this without messing eveything up!
     setFlag(ItemIgnoresParentOpacity);
     setFlag(ItemSendsScenePositionChanges);
-
-    cursorShape = cursor;
 }
 
 void PointHandleItem::setPos(int nx, int ny)
@@ -70,14 +69,6 @@ qreal PointHandleItem::y()
     return PointHandleItem::pos().y();
 }
 
-QVariant PointHandleItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
-{
-    if (change == ItemPositionChange){
-        return value.toPoint();
-    }
-    return QGraphicsItem::itemChange(change, value);
-}
-
 void PointHandleItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     painter->setCompositionMode(QPainter::CompositionMode_Difference);
@@ -90,7 +81,7 @@ void PointHandleItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 
 void PointHandleItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
-    setCursor(QCursor(cursorShape));
+    setCursor(cursor);
 }
 
 void PointHandleItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
@@ -102,21 +93,23 @@ void PointHandleItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     mouseGrabber = true;
     pressPos = mapToParent(event->pos()).toPoint();
-    setCursor(QCursor(cursorShape));
+    setCursor(cursor);
 }
 
 void PointHandleItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     if(scene()->mouseGrabberItem() == this){
-        setPos(mapToParent(event->pos().toPoint()));
-        emit posChanging();
+        if(pos() != mapToParent(event->pos().toPoint())){
+            setPos(mapToParent(event->pos().toPoint()));
+            emit posChanging();
+        }
     }
 }
 
 void PointHandleItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     mouseGrabber = false;
-    setCursor(QCursor(cursorShape));
+    setCursor(cursor);
     finalPosition = pos();
     releasePoint = parentItem()->mapToParent(mapToParent(event->pos().toPoint())).toPoint();
     emit pointChanged();

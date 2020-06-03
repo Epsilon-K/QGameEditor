@@ -16,7 +16,7 @@ class PointHandleItem : public QObject, public QGraphicsEllipseItem
 {
     Q_OBJECT
 public:
-    PointHandleItem(QRect r, QGraphicsItem * _parent, Qt::CursorShape cursor = Qt::PointingHandCursor);
+    PointHandleItem(QRect r, QGraphicsItem * _parent, QCursor _cursor = Qt::PointingHandCursor);
     void setPos(int nx, int ny);
     void setPos(QPoint p);
     void setPos(QPointF f);
@@ -31,14 +31,14 @@ public:
     QPoint releasePoint{QPoint(0,0)};
     QPoint finalPosition{QPoint(0,0)};
     bool mouseGrabber = false;
-    Qt::CursorShape cursorShape{Qt::PointingHandCursor};
+    QCursor cursor{Qt::PointingHandCursor};
 
 signals:
     void pointChanged();
     void posChanging();
 
 protected:
-    QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+    //QVariant itemChange(GraphicsItemChange change, const QVariant &value);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event);

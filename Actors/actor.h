@@ -55,7 +55,6 @@ public:
     qreal xscale{1}, yscale{1};
     QColor tint;
     qreal colorFXStrenght{0};
-    PointHandleItem * rotationPointItem;
     // user vars...
 
     // QGraphicsItem Interface
@@ -87,6 +86,7 @@ public slots:
     void lockUnLock();  // locks if unlocked and vice-versa
     void hideUnHide();
     void sendDeleteSignal();
+
     void updateOriginPoint();
     void emitOriginChange();
 
