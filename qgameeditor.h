@@ -8,6 +8,7 @@
 #include "Dialogs/configdialog.h"
 #include "Dialogs/addactordialog.h"
 #include "Dialogs/animationdialog.h"
+#include "Dialogs/animationsequencedialog.h"
 #include <QSpinBox>
 #include <QSlider>
 #include <QComboBox>
@@ -110,6 +111,8 @@ private slots:
     void on_antialiasingCheckBox_toggled(bool checked);
 
     void on_actorCompositionModeComboBox_currentIndexChanged(const QString &mode);
+
+    void on_addSequenceBtn_clicked();
 
 private:
     Ui::QGameEditor *ui;

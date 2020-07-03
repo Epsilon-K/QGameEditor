@@ -4,6 +4,7 @@
 Animation::Animation(QString animationName, QString filePath, QString projectPath, AnimationFileType fType, int hf, int vf, int fps, bool transpPixel, bool temporary)
 {
     name = animationName;
+    type = PURE_ANIMATION;
     QString fullName = Helper::getFileNameWithExtension(filePath);
     QString fileName = Helper::getNameWithOutExtension(fullName);
     QString extension = Helper::getExtension(fullName);
@@ -15,7 +16,7 @@ Animation::Animation(QString animationName, QString filePath, QString projectPat
     firstPixelAsTransparent = transpPixel;
 
     switch (fileType) {
-    case SingleFile:{
+    case SINGLE_FILE:{
         QString dataFilePath = projectPath + "/data/" + fullName;
         if(!temporary){
             QFile::copy(filePath, dataFilePath);
@@ -73,7 +74,7 @@ Animation::Animation(QString animationName, QString filePath, QString projectPat
         }
     break;
     }       // end SingleFile
-    case MultipleFiles:{
+    case MULTIPLE_FILES:{
         QString digitLess = fileName;
         while(digitLess.at(digitLess.size()-1).isDigit()) digitLess.remove(digitLess.size()-1,1);
         QString directory = filePath.left(filePath.lastIndexOf("/"));
@@ -109,6 +110,17 @@ Animation::Animation(QString animationName, QString filePath, QString projectPat
     }   // end switch
 }
 
+
+// This is used to instantiate a Sequence-type animation
+Animation::Animation(QString animationName, Animation *base, QVector<int> seq, int fps)
+{
+    name = animationName;
+    type = SEQUENCE_ANIMATION;
+    baseAnimation = base;
+    sequence = seq;
+    frameRate = fps;
+}
+
 Animation::~Animation()
 {
     for(int i = 0; i < frames.size(); i++){
@@ -127,4 +139,26 @@ QPixmap * Animation::drawClippedImage(QImage &img, QRgb maskColor)
     p.drawImage(img.rect(), img, img.rect());
 
     return pix;
+}
+
+int Animation::getNumberOfFrames()
+{
+    switch(type){
+    default:
+    case PURE_ANIMATION:
+        return frames.size();
+    case SEQUENCE_ANIMATION:
+        return sequence.size();
+    }
+}
+
+QPixmap *Animation::getFramePixmap(int frameNumber)
+{
+    switch(type){
+    default:
+    case PURE_ANIMATION:
+        return frames[frameNumber]->pixmap;
+    case SEQUENCE_ANIMATION:
+        return baseAnimation->frames[sequence[frameNumber]]->pixmap;
+    }
 }

@@ -8,6 +8,11 @@ QToolTip
      opacity: 100;
 }
 
+QListView {
+    alternate-background-color: #555555;
+    background-color: #181818;
+}
+
 QWidget
 {
     color: #eeeeee;

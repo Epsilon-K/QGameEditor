@@ -130,7 +130,7 @@ void QGameEditor::showPropertiesOfActor(Actor *actor)
             ui->actorAnimationNameComboBox->clear();
             for(int i = 0; i < normal->animations.size(); i++){
                 QString text = normal->animations[i]->name;
-                QIcon ico(normal->animations[i]->frames[0]->pixmap->scaled(32,32));
+                QIcon ico(normal->animations[i]->getFramePixmap(0)->scaled(32,32));
                 ui->actorAnimationNameComboBox->addItem(ico,text);
             }
             if(!normal->animations.isEmpty()){
@@ -739,5 +739,37 @@ void QGameEditor::on_actorCompositionModeComboBox_currentIndexChanged(const QStr
     if(selectedActors.last()->type == NORMAL){
         NormalActor *actor = (NormalActor *)selectedActors.last();
         actor->setCompositionMode(mode);
+    }
+}
+
+void QGameEditor::on_addSequenceBtn_clicked()
+{
+    /*
+     *
+     * NormalActor *actor = (NormalActor *)selectedActors.last();
+        AnimationDialog ad(projectPath, this);
+
+        if(ad.exec()){
+            if(!isValidAnimationName(actor, ad.animation->name)){
+                QMessageBox mb(this);
+                mb.setWindowTitle("Error");
+                mb.setText("Invalid, Animation name already exists.");
+                mb.exec();
+                return;
+                // TODO: Reopen the addActorDialog
+            }
+            actor->addAnimation(ad.animation);
+            showPropertiesOfActor(actor);
+        }
+     */
+
+    if(selectedActors.last()->type == NORMAL){
+        NormalActor *actor = (NormalActor *)selectedActors.last();
+        AnimationSequenceDialog dialog(this, actor->animations);
+        if(dialog.exec()){
+
+            actor->addAnimation(dialog.finalAnimation);
+            showPropertiesOfActor(actor);
+        }
     }
 }

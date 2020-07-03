@@ -4,7 +4,7 @@ ViewActor::ViewActor(QString _name, QRect r)
 {
     name = _name;
     Actor::type = VIEW;
-    QPen cp; cp.setColor(QColor(255,255,255)); cp.setWidth(0);
+    QPen cp(Qt::white, 0);
     setPen(cp);
     setRect(r);
 
@@ -32,19 +32,16 @@ QRectF ViewActor::boundingRect() const
 void ViewActor::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {    
     // 1] draw the view rect
-    QPen p = QGraphicsRectItem::pen();
-    p.setWidth(0); // why does this have no effect?
     QRectF rf = QRectF(QPointF(QGraphicsRectItem::x()+0.5, QGraphicsRectItem::y()+0.5), QSizeF(QGraphicsRectItem::boundingRect().width()-1, QGraphicsRectItem::boundingRect().height()-1));
     painter->drawRect(rf);
 
 
-    // no need to draw this...
-    /*// 2] draw the purple selection box
+
     if(Actor::isSelected()){
-        p.setColor(selectionColor); p.setWidth(1);
+        QPen p(selectionColor, 0, Qt::DashLine);
         painter->setPen(p);
         painter->drawRect(rf);
-    }*/
+    }
 }
 
 void ViewActor::setTintColor(QColor color)

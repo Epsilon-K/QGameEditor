@@ -4,9 +4,9 @@ NormalActor::NormalActor(QString _name)
 {
     name = _name;
     Actor::type = NORMAL;
-    QPixmap pix(":/Resources/images/GE Actor in editor.png");
-    tintImage = QPixmap(pix.size());
-    setPixmap(pix);
+    QPixmap defaultSprite(defaultSpritePath);
+    tintImage = QPixmap(defaultSprite.size());
+    setPixmap(defaultSprite);
     createTintImage(pixmap().size());
 
     originPointItem->setPos(QPoint(getWidth()/2, getHeight()/2));
@@ -63,7 +63,7 @@ int NormalActor::changeAnimation(QString animationName, AnimationState state)
                 animationState = state;
             }
             animindex = i;
-            nframes = animations[i]->frames.size();
+            nframes = animations[i]->getNumberOfFrames();
 
             localTimeLine.stop();
             changeAnimationFrameRate(animations[i]->frameRate);
@@ -205,7 +205,7 @@ void NormalActor::setTintStrength(qreal strength)
 void NormalActor::setFrame(int frameIndex)
 {
     if(animations.isEmpty()) return;
-    if(frameIndex > animations[animindex]->frames.size()-1 || frameIndex < 0) return;
+    if(frameIndex > animations[animindex]->getNumberOfFrames()-1 || frameIndex < 0) return;
 
     qreal ox = originPointItem->finalPosition.x() / qreal(width);
     qreal oy = originPointItem->finalPosition.y() / qreal(height);
@@ -213,7 +213,7 @@ void NormalActor::setFrame(int frameIndex)
     int oly = Actor::y;
 
     animpos = frameIndex;
-    setPixmap(*(animations[animindex]->frames[animpos]->pixmap));
+    setPixmap(*(animations[animindex]->getFramePixmap(animpos)));
 
     // update...
     width = abs(getWidth() * xscale);

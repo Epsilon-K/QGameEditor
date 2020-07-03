@@ -338,7 +338,7 @@
             <string notr="true">background-color:rgb(11, 11, 11);</string>
            </property>
            <property name="text">
-            <string>Image Preview</string>
+            <string>Preview</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>

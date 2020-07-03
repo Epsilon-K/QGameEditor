@@ -34,6 +34,7 @@ SOURCES += \
         Custom_Items/pointhandleitem.cpp \
         Dialogs/addactordialog.cpp \
         Dialogs/animationdialog.cpp \
+        Dialogs/animationsequencedialog.cpp \
         Dialogs/configdialog.cpp \
         editorview.cpp \
         gamescene.cpp \
@@ -48,6 +49,7 @@ HEADERS += \
         Custom_Items/pointhandleitem.h \
         Dialogs/addactordialog.h \
         Dialogs/animationdialog.h \
+        Dialogs/animationsequencedialog.h \
         Dialogs/configdata.h \
         Dialogs/configdialog.h \
         editorview.h \
@@ -58,6 +60,7 @@ HEADERS += \
 FORMS += \
         Dialogs/addactordialog.ui \
         Dialogs/animationdialog.ui \
+        Dialogs/animationsequencedialog.ui \
         Dialogs/configdialog.ui \
         qgameeditor.ui
 
