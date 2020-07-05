@@ -79,6 +79,9 @@ void AnimationDialog::on_browseButton_clicked()
 {
     QString filePath = QFileDialog::getOpenFileName(this,
           "Open Image", QDir::currentPath(), "Image File (*.png *.bmp *.jpg *.jpe *.jpeg *.gif *.tiff *.tif *.iff *.xpm *.xcf *.pcx *.jfif)");
+    if(filePath.isEmpty())
+        return;
+
     path = filePath;
     QDir::setCurrent(path.left(path.lastIndexOf("/")));
     QString fileName = Helper::getFileNameWithExtension(filePath);
