@@ -16,8 +16,9 @@ class AnimationDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit AnimationDialog(QString projectPath, QWidget *parent = nullptr);
+    explicit AnimationDialog(QString projectPath, QWidget *parent, QVector<Animation *> &actorAnimations);
     ~AnimationDialog();
+    QVector<QString> names;
     Animation * animation;
     QString path, dataPath;
     bool transpPix{false};

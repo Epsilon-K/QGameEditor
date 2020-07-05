@@ -27,8 +27,6 @@ public:
     void loadStylesheets();
     void showPropertiesOfActor(Actor * actor);
     void addActor(Actor * actor);
-    bool isValidActorName(QString actorName);
-    bool isValidAnimationName(NormalActor * actor, QString animationName);
     void deselectAllActors();
 
     // ------------

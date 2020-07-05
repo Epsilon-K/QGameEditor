@@ -203,35 +203,6 @@ void QGameEditor::addActor(Actor *actor)
     actor->setSelected(true);
 }
 
-bool QGameEditor::isValidActorName(QString actorName)
-{
-    // name should NOT :
-        // 1- begin with something other than a letter
-        // 2- contain a symbol other than '_'
-        // 3- name is not unique
-    if(actorName.isEmpty()) return false;
-    if(!actorName[0].isLetter()) return false;
-    for(int i = 0; i < actorName.size(); i++){
-        if(!(actorName[i].isLetter() || actorName[i].isDigit() || actorName[i] == '_')) return false;
-    }
-    for(int i = 0; i < ui->editorView->gameScene->actors.size(); i++){
-        if(ui->editorView->gameScene->actors[i]->name == actorName) return false;
-    }
-
-    return true;
-}
-
-bool QGameEditor::isValidAnimationName(NormalActor *actor, QString animationName)
-{
-    // only criteria is uniqueness
-    if(animationName.isEmpty()) return false;
-    for(int i = 0; i < actor->animations.size(); i++){
-        if(actor->animations[i]->name == animationName) return false;
-    }
-
-    return true;
-}
-
 void QGameEditor::deselectAllActors()
 {
     for(int i = 0; i < selectedActors.size(); i++){
@@ -424,17 +395,14 @@ void QGameEditor::on_actionConfig_triggered()
 void QGameEditor::on_actionAdd_Actor_triggered()
 {
     // Add Actor Button triggered
-    AddActorDialog dialog(this);
-    if(dialog.exec() == QDialog::Accepted){
+    QVector<QString> actorNames;
+    foreach (Actor * actor, ui->editorView->gameScene->actors) {
+        actorNames.append(actor->name);
+    }
+
+    AddActorDialog dialog(this, actorNames);
+    if(dialog.exec()){
         QString actorName = dialog.getName();
-        if(!isValidActorName(actorName)) {
-            QMessageBox mb(this);
-            mb.setWindowTitle("Error");
-            mb.setText("Invalid actor name.");
-            mb.exec();
-            return;
-            // TODO: Reopen the addActorDialog
-        }
         ActorType actorType = dialog.getType();
         switch (actorType) {
             case NORMAL:{
@@ -682,18 +650,10 @@ void QGameEditor::on_addAnimationBtn_clicked()
 {
     if(selectedActors.last()->type == NORMAL){
         NormalActor *actor = (NormalActor *)selectedActors.last();
-        AnimationDialog ad(projectPath, this);
+        AnimationDialog dialog(projectPath, this, actor->animations);
 
-        if(ad.exec()){
-            if(!isValidAnimationName(actor, ad.animation->name)){
-                QMessageBox mb(this);
-                mb.setWindowTitle("Error");
-                mb.setText("Invalid, Animation name already exists.");
-                mb.exec();
-                return;
-                // TODO: Reopen the addActorDialog
-            }
-            actor->addAnimation(ad.animation);
+        if(dialog.exec()){
+            actor->addAnimation(dialog.animation);
             showPropertiesOfActor(actor);
         }
     }
@@ -744,30 +704,10 @@ void QGameEditor::on_actorCompositionModeComboBox_currentIndexChanged(const QStr
 
 void QGameEditor::on_addSequenceBtn_clicked()
 {
-    /*
-     *
-     * NormalActor *actor = (NormalActor *)selectedActors.last();
-        AnimationDialog ad(projectPath, this);
-
-        if(ad.exec()){
-            if(!isValidAnimationName(actor, ad.animation->name)){
-                QMessageBox mb(this);
-                mb.setWindowTitle("Error");
-                mb.setText("Invalid, Animation name already exists.");
-                mb.exec();
-                return;
-                // TODO: Reopen the addActorDialog
-            }
-            actor->addAnimation(ad.animation);
-            showPropertiesOfActor(actor);
-        }
-     */
-
     if(selectedActors.last()->type == NORMAL){
         NormalActor *actor = (NormalActor *)selectedActors.last();
         AnimationSequenceDialog dialog(this, actor->animations);
         if(dialog.exec()){
-
             actor->addAnimation(dialog.finalAnimation);
             showPropertiesOfActor(actor);
         }

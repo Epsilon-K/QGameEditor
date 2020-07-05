@@ -13,11 +13,18 @@ class AddActorDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit AddActorDialog(QWidget *parent = nullptr);
+    explicit AddActorDialog(QWidget *parent, QVector<QString> &actorNames);
     ~AddActorDialog();
-
+    QVector<QString> names;
     QString getName();
     ActorType getType();
+
+private slots:
+
+
+    void on_okBtn_clicked();
+
+    void on_cancelBtn_clicked();
 
 private:
     Ui::AddActorDialog *ui;

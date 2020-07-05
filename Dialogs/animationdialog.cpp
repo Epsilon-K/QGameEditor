@@ -1,12 +1,16 @@
 #include "animationdialog.h"
 #include "ui_animationdialog.h"
 
-AnimationDialog::AnimationDialog(QString projectPath, QWidget *parent) :
+AnimationDialog::AnimationDialog(QString projectPath, QWidget *parent, QVector<Animation *> &actorAnimations) :
     QDialog(parent),
     ui(new Ui::AnimationDialog)
 {
     ui->setupUi(this);
     setWindowTitle("Add Animation");
+
+    foreach (Animation *anim, actorAnimations) {
+        names.append(anim->name);
+    }
 
     dataPath = projectPath;
     tempAnimation = nullptr;
@@ -61,14 +65,31 @@ void AnimationDialog::setFrame(int frameIndex)
 
 void AnimationDialog::on_OkBtn_clicked()
 {
-    if(path.isEmpty() || ui->nameLineEdit->text().isEmpty()){
-        // TODO: ask user for filePath and entring an actual animation name
-        reject();
+    QString animName = ui->nameLineEdit->text();
+
+    if(path.isEmpty() || animName.isEmpty()){
+        QMessageBox mb(this);
+        mb.setWindowTitle("Warning");
+        if(animName.isEmpty())
+            mb.setText("Give a name for this animation.");
+        else mb.setText("Browse for a file.");
+        mb.exec();
         return;
     }
 
+    // check for name uniqueness
+    for(int i = 0 ; i < names.size(); i++){
+        if(names[i] == animName){
+            QMessageBox mb(this);
+            mb.setWindowTitle("Warning");
+            mb.setText("Invalid, Animation name already exists.");
+            mb.exec();
+            return;
+        }
+    }
+
     // create final animation & and Accept dialog
-    Animation * anim = new Animation(ui->nameLineEdit->text(), path, dataPath, (AnimationFileType) ui->typeComboBox->currentIndex(),
+    Animation * anim = new Animation(animName, path, dataPath, (AnimationFileType) ui->typeComboBox->currentIndex(),
                                      ui->hFramesSpinBox->value(), ui->vFramesSpinBox->value(),
                                      ui->fpsSpinBox->value(), ui->alphaPixelCheckBox->isChecked(), false);
     animation = anim;
@@ -77,6 +98,7 @@ void AnimationDialog::on_OkBtn_clicked()
 
 void AnimationDialog::on_browseButton_clicked()
 {
+    // NOTE : Qt doesn't actually support all the image formats listed below. but it can read most of them.
     QString filePath = QFileDialog::getOpenFileName(this,
           "Open Image", QDir::currentPath(), "Image File (*.png *.bmp *.jpg *.jpe *.jpeg *.gif *.tiff *.tif *.iff *.xpm *.xcf *.pcx *.jfif)");
     if(filePath.isEmpty())
