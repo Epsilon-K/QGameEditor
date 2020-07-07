@@ -54,6 +54,22 @@ void NormalActor::addAnimation(Animation *animation)
     changeAnimation(animation->name, animationState);
 }
 
+void NormalActor::editAnimation(Animation *newAnimation, Animation *oldAnimation)
+{
+    int oldIndex = getAnimationIndex(oldAnimation->name);
+    // before deleting the old animation, get All sequence animations to update them.
+    foreach(Animation * seqAnim, animations){
+        if(seqAnim->type == SEQUENCE_ANIMATION && seqAnim->baseAnimation->name == oldAnimation->name){
+            seqAnim->baseAnimation = newAnimation;
+        }
+    }
+
+    animations.removeAt(oldIndex);
+    delete  oldAnimation;
+    animations.insert(oldIndex, newAnimation);
+    changeAnimation(newAnimation->name, animationState);
+}
+
 int NormalActor::changeAnimation(QString animationName, AnimationState state)
 {
     for(int i = 0; i < animations.size(); i++){
@@ -111,6 +127,19 @@ int NormalActor::changeAnimationFrameRate(int fps)
     if(originalState == QTimeLine::Running) localTimeLine.setPaused(false);
 
     return 1;
+}
+
+int NormalActor::getAnimationIndex(QString animName)
+{
+    for(int i = 0; i < animations.size(); i++){
+        if(animations[i]->name == animName){
+            return i;
+        }
+    }
+
+    // Animation not found!
+    Helper::debugMSG("Error", "@ getAnimationByIndex(QString) : animation " + animName + " not found!");
+    return -1;
 }
 
 void NormalActor::setCompositionMode(QString mode)

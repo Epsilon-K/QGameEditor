@@ -1,22 +1,35 @@
 #include "animationdialog.h"
 #include "ui_animationdialog.h"
 
-AnimationDialog::AnimationDialog(QString projectPath, QWidget *parent, QVector<Animation *> &actorAnimations) :
+AnimationDialog::AnimationDialog(QString projectPath, QWidget *parent, QVector<Animation *> &actorAnimations, bool edit, Animation * animToEdit) :
     QDialog(parent),
     ui(new Ui::AnimationDialog)
 {
     ui->setupUi(this);
-    setWindowTitle("Add Animation");
+    setWindowTitle(edit ? "Edit Animation" : "Add Animation");
 
     foreach (Animation *anim, actorAnimations) {
+        if(edit && anim->name == animToEdit->name) continue;
         names.append(anim->name);
     }
 
     dataPath = projectPath;
-    tempAnimation = nullptr;
     localTimeLine.setCurveShape(QTimeLine::LinearCurve);
     localTimeLine.setLoopCount(0);
     connect(&localTimeLine, SIGNAL(frameChanged(int)), this, SLOT(setFrame(int)));
+
+    tempAnimation = nullptr;
+
+    if(edit){
+        path = animToEdit->filesPaths.first();
+        ui->nameLineEdit->setText(animToEdit->name);
+        ui->typeComboBox->setCurrentText(animToEdit->fileType == SINGLE_FILE ? "Single File" : "Multiple Files");
+        ui->alphaPixelCheckBox->setChecked(animToEdit->firstPixelAsTransparent);
+        ui->hFramesSpinBox->setValue(animToEdit->horizontalFrames);
+        ui->vFramesSpinBox->setValue(animToEdit->verticalFrames);
+        ui->fpsSpinBox->setValue(animToEdit->frameRate);
+        createTempAnimation();
+    }
 }
 
 AnimationDialog::~AnimationDialog()
@@ -150,4 +163,9 @@ void AnimationDialog::on_fpsSpinBox_valueChanged(int fps)
     localTimeLine.setDuration((double(tempAnimation->frames.size()) / tempAnimation->frameRate) * 1000);
     localTimeLine.setFrameRange(0, tempAnimation->frames.size());
     if(originalState == QTimeLine::Running) localTimeLine.setPaused(false);
+}
+
+void AnimationDialog::on_cancelBtn_clicked()
+{
+    reject();
 }

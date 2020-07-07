@@ -112,6 +112,8 @@ private slots:
 
     void on_addSequenceBtn_clicked();
 
+    void on_editAnimationBtn_clicked();
+
 private:
     Ui::QGameEditor *ui;
     QStringList stylesheets;

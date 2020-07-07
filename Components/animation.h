@@ -43,7 +43,7 @@ public:
     int verticalFrames;
     int horizontalFrames;
     bool firstPixelAsTransparent{false};
-    AnimationFileType fileType;
+    AnimationFileType fileType{SINGLE_FILE};
     QVector<QString> filesPaths;     // on "data/" folder
 
     AnimationType type{PURE_ANIMATION};

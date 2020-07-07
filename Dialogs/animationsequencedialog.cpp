@@ -1,28 +1,50 @@
 #include "animationsequencedialog.h"
 #include "ui_animationsequencedialog.h"
 
-AnimationSequenceDialog::AnimationSequenceDialog(QWidget *parent, QVector<Animation*> actorAnimations) :
+AnimationSequenceDialog::AnimationSequenceDialog(QWidget *parent, QVector<Animation*> actorAnimations, bool edit, Animation *animToEdit) :
     QDialog(parent),
     ui(new Ui::AnimationSequenceDialog)
 {
     ui->setupUi(this);
-    setWindowTitle("Add Sequence Animation");
+    setWindowTitle(edit ? "Edit Sequence Animation" : "Add Sequence Animation");
 
     for(int i = 0; i < actorAnimations.size(); i++){
-        names.append(actorAnimations[i]->name);
-
         if(actorAnimations[i]->type == PURE_ANIMATION){
             baseAnimations.append(actorAnimations[i]);
         }
+
+        if(edit && actorAnimations[i]->name == animToEdit->name) continue;
+        names.append(actorAnimations[i]->name);
     }
 
+
+    if(edit) ui->baseAnimationComboBox->blockSignals(true);
     for(int i = 0; i < baseAnimations.size(); i++){
         ui->baseAnimationComboBox->addItem(baseAnimations[i]->name);
     }
+    if(edit) ui->baseAnimationComboBox->blockSignals(false);
 
     timeLine.setCurveShape(QTimeLine::LinearCurve);
     timeLine.setLoopCount(0);
     connect(&timeLine, SIGNAL(frameChanged(int)), this, SLOT(setFrame(int)));
+
+    if(edit){
+        ui->baseAnimationComboBox->blockSignals(true);
+            ui->baseAnimationComboBox->setCurrentText(animToEdit->baseAnimation->name);
+        ui->baseAnimationComboBox->blockSignals(false);
+
+        for(int i = 0; i < animToEdit->baseAnimation->frames.size(); i++){
+            QListWidgetItem *item = new QListWidgetItem(QIcon(animToEdit->baseAnimation->getFramePixmap(i)->scaled(32,32)), QString::number(i));
+            ui->baseAnimationFramesList->addItem(item);
+        }
+        ui->nameLineEdit->setText(animToEdit->name);
+        ui->fpsSpinBox->setValue(animToEdit->frameRate);
+
+        for(int i = 0; i < animToEdit->sequence.size(); i++){
+            QListWidgetItem *item = new QListWidgetItem(QIcon(animToEdit->baseAnimation->getFramePixmap(animToEdit->sequence[i])->scaled(32,32)), QString::number(animToEdit->sequence[i]));
+            ui->sequenceFramesList->addItem(item);
+        }
+    }
 }
 
 AnimationSequenceDialog::~AnimationSequenceDialog()

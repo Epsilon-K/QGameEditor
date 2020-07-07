@@ -16,7 +16,7 @@ class AnimationDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit AnimationDialog(QString projectPath, QWidget *parent, QVector<Animation *> &actorAnimations);
+    explicit AnimationDialog(QString projectPath, QWidget *parent, QVector<Animation *> &actorAnimations, bool edit = false, Animation *animToEdit = nullptr);
     ~AnimationDialog();
     QVector<QString> names;
     Animation * animation;
@@ -45,6 +45,8 @@ private slots:
     void on_vFramesSpinBox_valueChanged(int arg1);
 
     void on_fpsSpinBox_valueChanged(int fps);
+
+    void on_cancelBtn_clicked();
 
 private:
     Ui::AnimationDialog *ui;

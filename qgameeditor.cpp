@@ -713,3 +713,27 @@ void QGameEditor::on_addSequenceBtn_clicked()
         }
     }
 }
+
+void QGameEditor::on_editAnimationBtn_clicked()
+{
+    if(selectedActors.last()->type == NORMAL){
+        NormalActor *actor = (NormalActor *)selectedActors.last();
+        Animation * anim = actor->animations[actor->getAnimationIndex(ui->actorAnimationNameComboBox->currentText())];
+
+        if(anim->type == PURE_ANIMATION){
+            AnimationDialog dialog(projectPath, this, actor->animations, true, anim);
+            if(dialog.exec()){
+                // TODO: check for associated Sequence animations which might be useless if this animation lost some frames
+                actor->editAnimation(dialog.animation, anim);
+                showPropertiesOfActor(actor);
+            }
+        }
+        else if(anim->type == SEQUENCE_ANIMATION){
+            AnimationSequenceDialog dialog(this, actor->animations,true, anim);
+            if(dialog.exec()){
+                actor->editAnimation(dialog.finalAnimation, anim);
+                showPropertiesOfActor(actor);
+            }
+        }
+    }
+}

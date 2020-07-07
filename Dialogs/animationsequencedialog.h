@@ -17,7 +17,7 @@ class AnimationSequenceDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit AnimationSequenceDialog(QWidget *parent, QVector<Animation *> actorAnimations);
+    explicit AnimationSequenceDialog(QWidget *parent, QVector<Animation *> actorAnimations, bool edit = false, Animation * animToEdit = nullptr);
     ~AnimationSequenceDialog();
 
     QVector<Animation*> baseAnimations;

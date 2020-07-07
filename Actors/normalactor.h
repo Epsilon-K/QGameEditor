@@ -19,7 +19,7 @@ public:
     int getHeight();
     void createTintImage(QSize s);
 
-    // Animation stuff
+    // Animation/Graphics stuff
     QTimeLine localTimeLine;
     QVector<Animation*> animations;
     int animpos{0};
@@ -27,9 +27,11 @@ public:
     int nframes;
     AnimationState animationState{STOPPED};
     void addAnimation(Animation * animation);
+    void editAnimation(Animation * newAnimation, Animation * oldAnimation);
     int changeAnimation(QString animationName, AnimationState state);
     int changeAnimationDirection(AnimationState state);
     int changeAnimationFrameRate(int fps);
+    int getAnimationIndex(QString animName);
     bool antialiasing{false};
     QPainter::CompositionMode compositionMode{QPainter::CompositionMode_SourceOver};
     void setCompositionMode(QString mode);
