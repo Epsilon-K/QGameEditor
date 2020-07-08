@@ -5,10 +5,7 @@ NormalActor::NormalActor(QString _name)
     qDebug() << "Normal Actor Constructor";
     name = _name;
     Actor::type = NORMAL;
-    QPixmap defaultSprite(defaultSpritePath);
-    tintImage = QPixmap(defaultSprite.size());
-    setPixmap(defaultSprite);
-    createTintImage(pixmap().size());
+    setDefaultPixmap();
 
     originPointItem->setPos(QPoint(getWidth()/2, getHeight()/2));
     width = getWidth();
@@ -49,6 +46,14 @@ void NormalActor::createTintImage(QSize s)
     Actor::update();
 }
 
+void NormalActor::setDefaultPixmap()
+{
+    QPixmap defaultSprite(defaultSpritePath);
+    tintImage = QPixmap(defaultSprite.size());
+    setPixmap(defaultSprite);
+    createTintImage(pixmap().size());
+}
+
 void NormalActor::addAnimation(Animation *animation)
 {
     animations.append(animation);
@@ -71,11 +76,58 @@ void NormalActor::editAnimation(Animation *newAnimation, Animation *oldAnimation
     changeAnimation(newAnimation->name, animationState);
 }
 
+void NormalActor::removeAnimation(QString animationName)
+{
+    int index = getAnimationIndex(animationName);
+    Animation * anim = animations[index];
+
+    changeAnimationDirection(STOPPED);
+
+    if(anim->type == PURE_ANIMATION){
+        // TODO : warning before deleting all dependent sequence animations
+        for(int i = 0; i < animations.size(); i++){
+            if(animations[i]->type == SEQUENCE_ANIMATION && animations[i]->baseAnimation->name == anim->name){
+                Animation * a = animations[i];
+                animations.removeAt(i);
+                delete a;
+                i--;
+            }
+        }
+    }
+
+    animations.removeAt(index);
+    delete  anim;
+
+    if(animations.isEmpty()){
+        // CLEAN UP THIS CODE BLOCK!!!!
+
+        qreal ox = originPointItem->finalPosition.x() / qreal(width);
+        qreal oy = originPointItem->finalPosition.y() / qreal(height);
+        int olx = Actor::x;
+        int oly = Actor::y;
+
+        setDefaultPixmap();
+
+        // update...
+        width = abs(getWidth() * xscale);
+        height = abs(getHeight() * yscale);
+
+        if(animationState == STOPPED){
+            originPointItem->setPos(int(qreal(width) * ox), int(qreal(height) * oy));
+        }
+        Actor::update();
+        Actor::setPos(olx, oly);
+        Actor::setRotation(Actor::rotation);
+    }else{
+        if(index == animations.size()) index--;
+        changeAnimation(animations[index]->name, animationState);
+    }
+}
+
 int NormalActor::changeAnimation(QString animationName, AnimationState state)
 {
     for(int i = 0; i < animations.size(); i++){
         if(animations[i]->name == animationName){
-            // set animations[i] as current animation
             if(state != NO_CHANGE){
                 animationState = state;
             }

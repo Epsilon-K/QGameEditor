@@ -138,6 +138,9 @@ void QGameEditor::showPropertiesOfActor(Actor *actor)
             }
         ui->actorAnimationNameComboBox->blockSignals(false);
 
+        ui->editAnimationBtn->setDisabled(normal->animations.isEmpty());
+        ui->removeAnimationBtn->setDisabled(normal->animations.isEmpty());
+
         // Playing state
         nonSignalSetValue(ui->actorAnimationStateCheckBox, normal->animationState == FORWARD ? true : false);
 
@@ -734,5 +737,14 @@ void QGameEditor::on_editAnimationBtn_clicked()
                 showPropertiesOfActor(actor);
             }
         }
+    }
+}
+
+void QGameEditor::on_removeAnimationBtn_clicked()
+{
+    if(selectedActors.last()->type == NORMAL){
+        NormalActor *actor = (NormalActor *)selectedActors.last();
+        actor->removeAnimation(ui->actorAnimationNameComboBox->currentText());
+        showPropertiesOfActor(actor);
     }
 }

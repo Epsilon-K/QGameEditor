@@ -26,8 +26,10 @@ public:
     int animindex{0};
     int nframes;
     AnimationState animationState{STOPPED};
+    void setDefaultPixmap();
     void addAnimation(Animation * animation);
     void editAnimation(Animation * newAnimation, Animation * oldAnimation);
+    void removeAnimation(QString animationName);
     int changeAnimation(QString animationName, AnimationState state);
     int changeAnimationDirection(AnimationState state);
     int changeAnimationFrameRate(int fps);
