@@ -723,7 +723,6 @@ void QGameEditor::on_editAnimationBtn_clicked()
         if(anim->type == PURE_ANIMATION){
             AnimationDialog dialog(projectPath, this, actor->animations, true, anim);
             if(dialog.exec()){
-                // TODO: check for associated Sequence animations which might be useless if this animation lost some frames
                 actor->editAnimation(dialog.animation, anim);
                 showPropertiesOfActor(actor);
             }

@@ -2,6 +2,7 @@
 
 NormalActor::NormalActor(QString _name)
 {
+    qDebug() << "Normal Actor Constructor";
     name = _name;
     Actor::type = NORMAL;
     QPixmap defaultSprite(defaultSpritePath);

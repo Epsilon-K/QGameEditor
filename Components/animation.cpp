@@ -126,6 +126,7 @@ Animation::~Animation()
     for(int i = 0; i < frames.size(); i++){
         delete frames[i];
     }
+    delete defaultPixmap;
 }
 
 // Draws the image to a new QPixmap with the maskColor as transparent pixels
@@ -157,8 +158,14 @@ QPixmap *Animation::getFramePixmap(int frameNumber)
     switch(type){
     default:
     case PURE_ANIMATION:
-        return frames[frameNumber]->pixmap;
+        if(frameNumber > frames.size()-1 || frameNumber < 0){
+            return defaultPixmap;
+        }
+        else return frames[frameNumber]->pixmap;
     case SEQUENCE_ANIMATION:
-        return baseAnimation->frames[sequence[frameNumber]]->pixmap;
+        if(sequence[frameNumber] > baseAnimation->frames.size()-1 || sequence[frameNumber] < 0){
+            return defaultPixmap;
+        }
+        else return baseAnimation->frames[sequence[frameNumber]]->pixmap;
     }
 }

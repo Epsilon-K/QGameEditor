@@ -2,9 +2,7 @@
 #define ANIMATION_H
 
 #include <QObject>
-#include <QPixmap>
 #include <QImage>
-#include <QFile>
 #include <QDir>
 #include <QMovie>
 #include <QPainter>
@@ -12,8 +10,6 @@
 #include <QBitmap>
 
 #include "helper.h"
-
-const QString defaultSpritePath{":/Resources/images/GE Actor in editor.png"};
 
 class Frame{
 public:
@@ -36,6 +32,8 @@ public:
     explicit Animation(QString animationName, QString filePath, QString projectPath, AnimationFileType fType, int hf, int vf, int fps, bool transpPixel, bool temporary);
     explicit Animation(QString animationName, Animation * base, QVector<int> seq, int fps);
     ~Animation();
+    QPixmap * defaultPixmap{new QPixmap(defaultSpritePath)};
+
     QPixmap *drawClippedImage(QImage &img, QRgb maskColor);
 
     QString name;

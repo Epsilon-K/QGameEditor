@@ -4,8 +4,13 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <stdlib.h>
+#include <QFile>
+#include <QPixmap>
 
 // Contains Static functions only
+// Aaaand globals... this is a mess
+
+const QString defaultSpritePath{":/Resources/images/GE Actor in editor.png"};
 
 class Helper
 {

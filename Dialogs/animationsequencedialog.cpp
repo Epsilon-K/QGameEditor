@@ -41,7 +41,7 @@ AnimationSequenceDialog::AnimationSequenceDialog(QWidget *parent, QVector<Animat
         ui->fpsSpinBox->setValue(animToEdit->frameRate);
 
         for(int i = 0; i < animToEdit->sequence.size(); i++){
-            QListWidgetItem *item = new QListWidgetItem(QIcon(animToEdit->baseAnimation->getFramePixmap(animToEdit->sequence[i])->scaled(32,32)), QString::number(animToEdit->sequence[i]));
+            QListWidgetItem *item = new QListWidgetItem(QIcon(animToEdit->getFramePixmap(i)->scaled(32,32)), QString::number(animToEdit->sequence[i]));
             ui->sequenceFramesList->addItem(item);
         }
     }
