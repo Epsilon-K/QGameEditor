@@ -42,6 +42,8 @@ private slots:
 
     void on_previewBtn_clicked(bool checked);
 
+    void on_sequenceFramesList_itemClicked(QListWidgetItem *item);
+
 private:
     Ui::AnimationSequenceDialog *ui;
 };

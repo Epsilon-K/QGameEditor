@@ -179,3 +179,10 @@ void AnimationSequenceDialog::on_previewBtn_clicked(bool checked)
         ui->previewBtn->setText("Preview");
     }
 }
+
+void AnimationSequenceDialog::on_sequenceFramesList_itemClicked(QListWidgetItem *item)
+{
+    // Feel free to breakup this unnecssary long line
+    // it basically shows the frame pixmap on the preview label
+    ui->imgLabel->setPixmap(baseAnimations.at(ui->baseAnimationComboBox->currentIndex())->frames.at(item->text().toInt())->pixmap->scaled(360,240,Qt::KeepAspectRatio));
+}
