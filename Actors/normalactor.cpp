@@ -2,14 +2,13 @@
 
 NormalActor::NormalActor(QString _name)
 {
-    qDebug() << "Normal Actor Constructor";
     name = _name;
     Actor::type = NORMAL;
     setDefaultPixmap();
 
-    originPointItem->setPos(QPoint(getWidth()/2, getHeight()/2));
     width = getWidth();
     height = getHeight();
+    originPointItem->setPos(QPoint(width/2, height/2));
     updateOriginPoint();
 
     localTimeLine.setCurveShape(QTimeLine::LinearCurve);

@@ -184,6 +184,31 @@ void QGameEditor::showPropertiesOfActor(Actor *actor)
         nonSignalSetValue(ui->actorCompositionModeComboBox, mode);
 
     }// end Normal Actor
+
+    if(actor->type == LABEL){   // Text-Actor
+        TextActor *textActor = (TextActor *)actor;
+        QFont font = textActor->font();
+
+        nonSignalSetValue(ui->textLineEdit, textActor->toPlainText());
+
+        ui->fontComboBox->blockSignals(true);
+            ui->fontComboBox->setCurrentFont(font);
+        ui->fontComboBox->blockSignals(false);
+
+        nonSignalSetValue(ui->actorTextSizeSpinBox, font.pointSize());
+        ui->setTextColorBtn->setStyleSheet("background-color: " + textActor->defaultTextColor().name());
+
+        nonSignalSetValue(ui->textWidthDSpinBox, textActor->textWidth());
+
+        QString al = "Center";
+        switch(textActor->document()->defaultTextOption().alignment()){
+        case Qt::AlignLeft: al = "Left"; break;
+        default : case Qt::AlignHCenter: al = "Center"; break;
+        case Qt::AlignRight: al = "Right"; break;
+        case Qt::AlignJustify: al = "Justify"; break;
+        }
+        nonSignalSetValue(ui->textAlignComboBox, al);
+    }// end Text-Actor
 }
 
 void QGameEditor::addActor(Actor *actor)
@@ -254,6 +279,13 @@ void QGameEditor::nonSignalSetValue(QCheckBox *widget, bool value)
     widget->blockSignals(false);
 }
 
+void QGameEditor::nonSignalSetValue(QLineEdit *widget, QString value)
+{
+    widget->blockSignals(true);
+        widget->setText(value);
+    widget->blockSignals(false);
+}
+
 void QGameEditor::on_editorView_mouse_moved(QPoint point)
 {
     QString str = "Screen(" + QString::number(point.x())
@@ -284,9 +316,18 @@ void QGameEditor::onActorPositionChange(Actor *actor)
     }
 }
 
-void QGameEditor::onActorSelectionChanged(Actor *actor, bool state)
+
+// TODO: clean up this function, pls.
+
+// What it does is manage the properties tab, based on what actors are selected...
+// if multiple are selected then only the shared properties are enabled and what is
+// changed through the gui is then applied to all of them.
+// and if one is selected then based on what type of actor it is the related
+// groupboxes are activated and the other's are disabled.
+// (NormalActor's animations,  TextActor's styling options  etc...)
+void QGameEditor::onActorSelectionChanged(Actor *actor, bool selectionState)
 {
-    if(state){
+    if(selectionState){
         selectedActors.append(actor);
     }else{
         selectedActors.removeOne(actor);
@@ -297,7 +338,13 @@ void QGameEditor::onActorSelectionChanged(Actor *actor, bool state)
         }
     }
 
+    // Hide all non-shared groups
+    ui->actorAnimationGroupBox->setVisible(false);
+    ui->actorTextGroupBox->setVisible(false);
+
     if(!selectedActors.isEmpty()){ // if there are selected actors
+        ui->actorPropertiesGroupBox->setVisible(true);
+        // enable everything
         QList<QWidget*> list = ui->actorControlTab->findChildren<QWidget*>() ;
         foreach( QWidget* w, list ) {
            w->setEnabled( true ) ;
@@ -305,7 +352,7 @@ void QGameEditor::onActorSelectionChanged(Actor *actor, bool state)
         // then show the properties of last actor in selection list
         onActorLeftClicked(selectedActors.last());
 
-        if(selectedActors.size() > 1){
+        if(selectedActors.size() > 1){ // multiple selected
             if(ui->actorNameComboBox->findText("Multiple Actors") == -1){
                 ui->actorNameComboBox->blockSignals(true);
                     ui->actorNameComboBox->insertItem(0, "Multiple Actors");
@@ -313,22 +360,29 @@ void QGameEditor::onActorSelectionChanged(Actor *actor, bool state)
                 ui->actorNameComboBox->blockSignals(false);
             }else ui->actorNameComboBox->setCurrentText("Multiple Actors");
 
-            ui->actorAnimationGroupBox->setChecked(false);
-            ui->actorAnimationGroupBox->setEnabled(false);
+            ui->actorAnimationGroupBox->setVisible(false);
         }
-        else{
-            // Only One Actor is selected
-            if(selectedActors.last()->type == NORMAL){
-                ui->actorAnimationGroupBox->setChecked(true);
-                ui->actorAnimationGroupBox->setEnabled(true);
-            }else{
-                ui->actorAnimationGroupBox->setChecked(false);
-                ui->actorAnimationGroupBox->setEnabled(false);
+        else{   // Only One Actor is selected
+
+            switch (selectedActors.last()->type) {
+            case NORMAL:
+                ui->actorAnimationGroupBox->setVisible(true);
+                break;
+            case VIEW:
+                    // view stuff later??
+                break;
+            case LABEL:
+                ui->actorTextGroupBox->setVisible(true);
+                break;
+            default:
+                // sigh...
+                ;
             }
         }
 
     }else{
-        // if no currently selected actor..
+        // if no currently selected actor.. disable everything
+        ui->actorPropertiesGroupBox->setVisible(false);
         QList<QWidget*> list = ui->actorControlTab->findChildren<QWidget*>() ;
         foreach( QWidget* w, list ) {
            w->setEnabled( false ) ;
@@ -416,6 +470,11 @@ void QGameEditor::on_actionAdd_Actor_triggered()
             case VIEW:{
                 ViewActor * actor = new ViewActor(actorName,
                         ui->editorView->gameScene->getwindowRect());
+                addActor(actor);
+                break;
+            }
+            case LABEL:{
+                TextActor * actor = new TextActor(actorName);
                 addActor(actor);
                 break;
             }
@@ -548,6 +607,7 @@ void QGameEditor::on_actorZDepthSlider_valueChanged(int value)
     for(int i = 0; i < selectedActors.size(); i++){
         selectedActors[i]->setZValue(percent);
         selectedActors[i]->zdepth = percent;
+        selectedActors[i]->update();
     }
 
     // set the spinbox
@@ -747,4 +807,74 @@ void QGameEditor::on_removeAnimationBtn_clicked()
         actor->removeAnimation(ui->actorAnimationNameComboBox->currentText());
         showPropertiesOfActor(actor);
     }
+}
+
+void QGameEditor::on_setFontBtn_clicked()
+{
+    QFontDialog fd(this);
+    bool *ok = new bool;
+    QFont f = fd.getFont(ok, ((TextActor *)selectedActors.last())->font());
+    ((TextActor *)selectedActors.last())->setFont(f);
+    delete ok;
+}
+
+void QGameEditor::on_fontComboBox_currentFontChanged(const QFont &f)
+{
+    TextActor * actor = (TextActor*)selectedActors.last();
+    QFont font = actor->font();
+    font.setFamily(f.family());
+    actor->setFont(font);
+}
+
+void QGameEditor::on_actorTextSizeSpinBox_valueChanged(int size)
+{
+    TextActor * actor = (TextActor*)selectedActors.last();
+    QFont font = actor->font();
+    font.setPointSize(size);
+    actor->setFont(font);
+}
+
+void QGameEditor::on_textLineEdit_textChanged(const QString &text)
+{
+    TextActor * actor = (TextActor*)selectedActors.last();
+    actor->setPlainText(text);
+}
+
+void QGameEditor::on_setTextColorBtn_clicked()
+{
+    TextActor * actor = (TextActor*)selectedActors.last();
+    QColorDialog cd;
+    QColor newColor = cd.getColor(actor->defaultTextColor(), this, "Select Text Color");
+
+    if(newColor.isValid()){
+        ui->setTextColorBtn->setStyleSheet("background-color: " + newColor.name());
+        actor->setDefaultTextColor(newColor);
+    }
+}
+
+void QGameEditor::on_textWidthDSpinBox_valueChanged(double wid)
+{
+    TextActor * actor = (TextActor*)selectedActors.last();
+    actor->setTextWidth(wid);
+}
+
+void QGameEditor::on_textAlignComboBox_currentIndexChanged(int index)
+{
+    TextActor * actor = (TextActor*)selectedActors.last();
+    switch (index) {
+        case 0:
+            actor->setAlignment(Qt::AlignLeft); break;
+        default:
+        case 1:
+            actor->setAlignment(Qt::AlignHCenter); break;
+        case 2:
+            actor->setAlignment(Qt::AlignRight); break;
+        case 3:
+            actor->setAlignment(Qt::AlignJustify); break;
+    }
+}
+
+void QGameEditor::on_actorTextGroupBox_toggled(bool checked)
+{
+    ui->actorTextGroupBox->setMaximumHeight(checked ? 32000 : 25);
 }

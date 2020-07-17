@@ -13,6 +13,8 @@
 #include <QTimeLine>
 #include "Custom_Items/pointhandleitem.h"
 
+class TextActor;
+
 enum ActorType{NORMAL, VIEW, CANVAS, WIRE_FRAME_REGION, FILLED_REGION, LABEL /*,TILE*/};
 
 class Actor : public QObject, public QGraphicsItem
@@ -50,7 +52,7 @@ public:
     int xvelocity{0}, yvelocity{0};
     int angle{0}, directional_velocity{0};
     int width, height;
-    qreal zdepth{0}, transp{1};
+    qreal zdepth{0.5}, transp{1};
     qreal rotation{0};
     qreal xscale{1}, yscale{1};
     QColor tint;

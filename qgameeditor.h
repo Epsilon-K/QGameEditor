@@ -12,6 +12,7 @@
 #include <QSpinBox>
 #include <QSlider>
 #include <QComboBox>
+#include <QFontDialog>
 
 namespace Ui {
 class QGameEditor;
@@ -35,13 +36,14 @@ public:
     void nonSignalSetValue(QSlider *widget, int value);
     void nonSignalSetValue(QComboBox *widget, QString value);
     void nonSignalSetValue(QCheckBox *widget, bool value);
+    void nonSignalSetValue(QLineEdit * widget, QString value);
 
 public slots:
     void on_editorView_mouse_moved(QPoint point);
     void on_editorView_zoom_changed();
     void onActorLeftClicked(Actor * actor);
     void onActorPositionChange(Actor * actor);
-    void onActorSelectionChanged(Actor *actor, bool state);
+    void onActorSelectionChanged(Actor *actor, bool selectionState);
     void copySnappingOfActor(Actor* actor);
     void onActorOriginChanged(Actor *actor);
 
@@ -52,7 +54,7 @@ private slots:
 
     void on_actionConfig_triggered();
 
-    void on_actionAdd_Actor_triggered();
+    void on_actionAdd_Actor_triggered();        // ADD ACTOR <<<<<<<<<<<
 
     void on_snappingBtn_toggled(bool checked);
 
@@ -115,6 +117,22 @@ private slots:
     void on_editAnimationBtn_clicked();
 
     void on_removeAnimationBtn_clicked();
+
+    void on_setFontBtn_clicked();
+
+    void on_fontComboBox_currentFontChanged(const QFont &f);
+
+    void on_actorTextSizeSpinBox_valueChanged(int arg1);
+
+    void on_textLineEdit_textChanged(const QString &text);
+
+    void on_setTextColorBtn_clicked();
+
+    void on_textWidthDSpinBox_valueChanged(double arg1);
+
+    void on_textAlignComboBox_currentIndexChanged(int index);
+
+    void on_actorTextGroupBox_toggled(bool checked);
 
 private:
     Ui::QGameEditor *ui;

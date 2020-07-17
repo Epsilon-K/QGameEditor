@@ -7,6 +7,7 @@
 
 #include "Actors/normalactor.h"
 #include "Actors/viewactor.h"
+#include "Actors/textactor.h"
 
 class GameScene : public QGraphicsScene
 {

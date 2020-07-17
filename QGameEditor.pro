@@ -29,6 +29,7 @@ RC_ICONS = GE_Icon.ico
 SOURCES += \
         Actors/actor.cpp \
         Actors/normalactor.cpp \
+        Actors/textactor.cpp \
         Actors/viewactor.cpp \
         Components/animation.cpp \
         Custom_Items/pointhandleitem.cpp \
@@ -44,6 +45,7 @@ SOURCES += \
 HEADERS += \
         Actors/actor.h \
         Actors/normalactor.h \
+        Actors/textactor.h \
         Actors/viewactor.h \
         Components/animation.h \
         Custom_Items/pointhandleitem.h \

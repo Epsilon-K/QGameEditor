@@ -8,9 +8,9 @@ ViewActor::ViewActor(QString _name, QRect r)
     setPen(cp);
     setRect(r);
 
-    originPointItem->setPos(QPoint(getWidth()/2, getHeight()/2));
     width = getWidth();
     height = getHeight();
+    originPointItem->setPos(QPoint(width/2, height/2));
     updateOriginPoint();
 }
 

@@ -41,7 +41,7 @@ Animation::Animation(QString animationName, QString filePath, QString projectPat
                 }
                 delete gifMovie;
 
-            }else{
+            }else{  // not a .gif
                 Frame *frame = new Frame;
                 if(firstPixelAsTransparent){
                     QImage img(filePath);
