@@ -8,6 +8,8 @@
 #include <QGraphicsRectItem>
 #include <QGraphicsView>
 #include <QGraphicsSceneContextMenuEvent>
+#include <QGraphicsScene>
+#include <QGraphicsSceneHoverEvent>
 #include <QKeyEvent>
 #include <QMenu>
 #include <QTimeLine>

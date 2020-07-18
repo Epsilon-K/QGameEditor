@@ -31,14 +31,16 @@ QRectF ViewActor::boundingRect() const
 
 void ViewActor::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {    
+    painter->setPen(pen());
+    painter->setOpacity(1);
+
     // 1] draw the view rect
-    QRectF rf = QRectF(QPointF(QGraphicsRectItem::x()+0.5, QGraphicsRectItem::y()+0.5), QSizeF(QGraphicsRectItem::boundingRect().width()-1, QGraphicsRectItem::boundingRect().height()-1));
+    QRectF rf = boundingRect();
     painter->drawRect(rf);
 
 
-
     if(Actor::isSelected()){
-        QPen p(selectionColor, 0, Qt::DashLine);
+        QPen p(Qt::blue, 0, Qt::DotLine);
         painter->setPen(p);
         painter->drawRect(rf);
     }

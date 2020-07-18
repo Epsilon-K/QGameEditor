@@ -28,6 +28,7 @@ RC_ICONS = GE_Icon.ico
 
 SOURCES += \
         Actors/actor.cpp \
+        Actors/filledregionactor.cpp \
         Actors/normalactor.cpp \
         Actors/textactor.cpp \
         Actors/viewactor.cpp \
@@ -45,6 +46,7 @@ SOURCES += \
 
 HEADERS += \
         Actors/actor.h \
+        Actors/filledregionactor.h \
         Actors/normalactor.h \
         Actors/textactor.h \
         Actors/viewactor.h \

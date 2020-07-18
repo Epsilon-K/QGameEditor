@@ -477,6 +477,12 @@ void QGameEditor::on_actionAdd_Actor_triggered()
                 addActor(actor);
                 break;
             }
+            case FILLED_REGION:{
+                FilledRegionActor * actor = new FilledRegionActor(actorName,
+                        QRect(0,0,200,200));
+                addActor(actor);
+                break;
+            }
             case LABEL:{
                 TextActor * actor = new TextActor(actorName);
                 addActor(actor);
