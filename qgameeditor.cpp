@@ -135,7 +135,10 @@ void QGameEditor::showPropertiesOfActor(Actor *actor)
             }
             if(!normal->animations.isEmpty()){
                 ui->actorAnimationNameComboBox->setCurrentText(normal->animations[normal->animindex]->name);
-            }
+
+                nonSignalSetValue(ui->animationFrameSpinBox, normal->animpos);
+                ui->animationFrameSpinBox->setMaximum(normal->nframes-1);
+            }else nonSignalSetValue(ui->animationFrameSpinBox, 0);
         ui->actorAnimationNameComboBox->blockSignals(false);
 
         ui->editAnimationBtn->setDisabled(normal->animations.isEmpty());
@@ -143,11 +146,12 @@ void QGameEditor::showPropertiesOfActor(Actor *actor)
 
         // Playing state
         nonSignalSetValue(ui->actorAnimationStateCheckBox, normal->animationState == FORWARD ? true : false);
+        ui->animationFrameSpinBox->setDisabled(normal->animationState == FORWARD ? true : false);
 
         // Frame rate
         if(!normal->animations.isEmpty()){
             nonSignalSetValue(ui->animationFPSSpinBox, normal->animations[normal->animindex]->frameRate);
-        }
+        }else nonSignalSetValue(ui->animationFPSSpinBox, 1);
 
         // Antialiasing
         nonSignalSetValue(ui->antialiasingCheckBox, normal->antialiasing);
@@ -727,6 +731,7 @@ void QGameEditor::on_actorAnimationStateCheckBox_toggled(bool checked)
     if(selectedActors.last()->type == NORMAL){
         NormalActor *actor = (NormalActor *)selectedActors.last();
         actor->changeAnimationDirection(checked ? FORWARD : STOPPED);
+        ui->animationFrameSpinBox->setDisabled(checked);
     }
 }
 
@@ -877,4 +882,22 @@ void QGameEditor::on_textAlignComboBox_currentIndexChanged(int index)
 void QGameEditor::on_actorTextGroupBox_toggled(bool checked)
 {
     ui->actorTextGroupBox->setMaximumHeight(checked ? 32000 : 25);
+}
+
+void QGameEditor::on_animationFrameSpinBox_valueChanged(int index)
+{
+    NormalActor * actor = (NormalActor*)selectedActors.last();
+    if(actor->animations.isEmpty()) return;
+
+    actor->setFrame(index);
+}
+
+void QGameEditor::on_setTextBtn_clicked()
+{
+    TextActor * actor = (TextActor*)selectedActors.last();
+    SetTextDialog d(actor->toPlainText(), actor->font(), actor->defaultTextColor(), this);
+
+    if(d.exec()){
+        actor->setPlainText(d.finalText);
+    }
 }

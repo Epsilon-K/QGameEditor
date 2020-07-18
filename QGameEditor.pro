@@ -37,6 +37,7 @@ SOURCES += \
         Dialogs/animationdialog.cpp \
         Dialogs/animationsequencedialog.cpp \
         Dialogs/configdialog.cpp \
+        Dialogs/settextdialog.cpp \
         editorview.cpp \
         gamescene.cpp \
         main.cpp \
@@ -54,6 +55,7 @@ HEADERS += \
         Dialogs/animationsequencedialog.h \
         Dialogs/configdata.h \
         Dialogs/configdialog.h \
+        Dialogs/settextdialog.h \
         editorview.h \
         gamescene.h \
         helper.h \
@@ -64,6 +66,7 @@ FORMS += \
         Dialogs/animationdialog.ui \
         Dialogs/animationsequencedialog.ui \
         Dialogs/configdialog.ui \
+        Dialogs/settextdialog.ui \
         qgameeditor.ui
 
 # Default rules for deployment.

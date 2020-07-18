@@ -9,6 +9,7 @@
 #include "Dialogs/addactordialog.h"
 #include "Dialogs/animationdialog.h"
 #include "Dialogs/animationsequencedialog.h"
+#include "Dialogs/settextdialog.h"
 #include <QSpinBox>
 #include <QSlider>
 #include <QComboBox>
@@ -133,6 +134,10 @@ private slots:
     void on_textAlignComboBox_currentIndexChanged(int index);
 
     void on_actorTextGroupBox_toggled(bool checked);
+
+    void on_animationFrameSpinBox_valueChanged(int index);
+
+    void on_setTextBtn_clicked();
 
 private:
     Ui::QGameEditor *ui;
