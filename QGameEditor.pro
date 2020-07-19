@@ -27,6 +27,7 @@ CONFIG += c++11
 RC_ICONS = GE_Icon.ico
 
 SOURCES += \
+        Actions/action.cpp \
         Actors/actor.cpp \
         Actors/filledregionactor.cpp \
         Actors/normalactor.cpp \
@@ -39,12 +40,14 @@ SOURCES += \
         Dialogs/animationsequencedialog.cpp \
         Dialogs/configdialog.cpp \
         Dialogs/settextdialog.cpp \
+        Events/event.cpp \
         editorview.cpp \
         gamescene.cpp \
         main.cpp \
         qgameeditor.cpp
 
 HEADERS += \
+        Actions/action.h \
         Actors/actor.h \
         Actors/filledregionactor.h \
         Actors/normalactor.h \
@@ -58,6 +61,7 @@ HEADERS += \
         Dialogs/configdata.h \
         Dialogs/configdialog.h \
         Dialogs/settextdialog.h \
+        Events/event.h \
         editorview.h \
         gamescene.h \
         helper.h \
@@ -85,3 +89,5 @@ android {
         QMAKE_LINK += -nostdlib++
     }
 }
+
+DISTFILES +=
