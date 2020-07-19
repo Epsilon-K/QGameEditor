@@ -2,7 +2,6 @@
 
 Actor::Actor()
 {
-    createAtStartup = true;
     setFlag(QGraphicsItem::ItemIsMovable);
     setFlag(QGraphicsItem::ItemIsFocusable);
     setFlag(QGraphicsItem::ItemIsSelectable);

@@ -7,7 +7,7 @@ TextActor::TextActor(QString _name)
     setEditingMode(false);
     QGraphicsTextItem::setFlag(QGraphicsItem::ItemClipsToShape);
     setAlignment(Qt::AlignHCenter);
-    setTextWidth(50);
+    setTextWidth(-1);
 
     QFont f("Century Gothic", 14);
     setFont(f);

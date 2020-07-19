@@ -114,14 +114,6 @@ void QGameEditor::showPropertiesOfActor(Actor *actor)
     nonSignalSetValue(ui->actorZDepthSlider, actor->zdepth * 100);
     nonSignalSetValue(ui->actorZDepthDoubleSpinBox, actor->zdepth);
 
-    // lock and hide checkboxes
-    ui->actorLockedCheckBox->blockSignals(true);
-        ui->actorLockedCheckBox->setChecked(actor->isLocked);
-    ui->actorLockedCheckBox->blockSignals(false);
-    ui->actorHiddenCheckBox->blockSignals(true);
-        ui->actorHiddenCheckBox->setChecked(!actor->isVisible());
-    ui->actorHiddenCheckBox->blockSignals(false);
-
     // Normal Actor stuff
     if(actor->type == NORMAL){
         NormalActor *normal = (NormalActor *)actor;
@@ -429,6 +421,16 @@ void QGameEditor::onActorOriginChanged(Actor *actor)
     }
 }
 
+void QGameEditor::createActorDialog()
+{
+
+}
+
+void QGameEditor::collisionDialog()
+{
+
+}
+
 void QGameEditor::on_actionExit_triggered()
 {
     // TODO: confirmation to exit program
@@ -680,35 +682,6 @@ void QGameEditor::on_actionShow_Hidden_Actors_triggered()
     }
 }
 
-void QGameEditor::on_actorHiddenCheckBox_toggled(bool checked)
-{
-    for(int i = 0; i < selectedActors.size(); i++){
-        selectedActors[i]->blockSignals(true);
-            selectedActors[i]->setVisible(!checked);
-            selectedActors[i]->setSelected(false);
-        selectedActors[i]->blockSignals(false);
-    }
-    ui->actorNameComboBox->blockSignals(true);
-        ui->actorNameComboBox->removeItem(ui->actorNameComboBox->findText("Multiple Actors"));
-    ui->actorNameComboBox->blockSignals(false);
-    selectedActors.clear();
-}
-
-void QGameEditor::on_actorLockedCheckBox_toggled(bool checked)
-{
-    for(int i = 0; i < selectedActors.size(); i++){
-        selectedActors[i]->blockSignals(true);
-            selectedActors[i]->isLocked = !checked;
-            selectedActors[i]->lockUnLock();
-            selectedActors[i]->setSelected(false);
-        selectedActors[i]->blockSignals(false);
-    }
-    ui->actorNameComboBox->blockSignals(true);
-        ui->actorNameComboBox->removeItem(ui->actorNameComboBox->findText("Multiple Actors"));
-    ui->actorNameComboBox->blockSignals(false);
-    selectedActors.clear();
-}
-
 void QGameEditor::on_actorAnimationGroupBox_toggled(bool checked)
 {
     ui->actorAnimationGroupBox->setMaximumHeight(checked ? 32000 : 25);
@@ -905,5 +878,47 @@ void QGameEditor::on_setTextBtn_clicked()
 
     if(d.exec()){
         actor->setPlainText(d.finalText);
+    }
+}
+
+void QGameEditor::on_actorEventsGroupBox_toggled(bool checked)
+{
+    ui->actorEventsGroupBox->setMaximumHeight(checked ? 32000 : 25);
+}
+
+void QGameEditor::on_addEventBtn_clicked()
+{
+    QMenu menu;
+    menu.setStyleSheet("QMenu{color: #fff;"
+                       "background-color: rgb(21, 21, 22);}"
+                       "QMenu::item:selected{ color: #000;"
+                       "background-color: #f09427;}");
+
+    QAction *activation = menu.addAction("Activation Event");
+    QAction *animationFinish = menu.addAction("Animation Finish");
+    QAction *collision = menu.addAction("Collision");
+    QAction *collisionFinish = menu.addAction("Collision Finish");
+    QAction *create = menu.addAction("Create Actor");
+    QAction *destroyActor = menu.addAction("Destroy Actor");
+    QAction *draw = menu.addAction("Draw Actor");
+    QAction *keyDown = menu.addAction("Key Down");
+    QAction *keyUp = menu.addAction("Key Up");
+    QAction *mouseDown = menu.addAction("Mouse Button Down");
+    QAction *mouseUp = menu.addAction("Mouse Button Up");
+    QAction *mouseEnter = menu.addAction("Mouse Enter");
+    QAction *mouseLeave = menu.addAction("Mouse Leave");
+    QAction *moveFinish = menu.addAction("Move Finish");
+    QAction *outOfVision = menu.addAction("Out Of Vision");
+    QAction *pathFinish = menu.addAction("Path Finish");
+    QAction *timerFinish = menu.addAction("Timer Finish");
+
+    QAction *selectedAction = menu.exec(QCursor::pos());
+
+    //connect those actions to slots
+    connect(create, &QAction::triggered, this, &QGameEditor::createActorDialog);
+    connect(collision, &QAction::triggered, this, &QGameEditor::collisionDialog);
+
+    if(selectedAction){
+        selectedAction->trigger();
     }
 }

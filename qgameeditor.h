@@ -48,6 +48,10 @@ public slots:
     void copySnappingOfActor(Actor* actor);
     void onActorOriginChanged(Actor *actor);
 
+    // Event Dialogs Slots
+    void createActorDialog();
+    void collisionDialog();
+
 private slots:
     void on_actionExit_triggered();
 
@@ -93,10 +97,6 @@ private slots:
 
     void on_actionShow_Hidden_Actors_triggered();
 
-    void on_actorHiddenCheckBox_toggled(bool checked);
-
-    void on_actorLockedCheckBox_toggled(bool checked);
-
     void on_actorAnimationGroupBox_toggled(bool checked);
 
     void on_actorPropertiesGroupBox_toggled(bool arg1);
@@ -138,6 +138,10 @@ private slots:
     void on_animationFrameSpinBox_valueChanged(int index);
 
     void on_setTextBtn_clicked();
+
+    void on_actorEventsGroupBox_toggled(bool arg1);
+
+    void on_addEventBtn_clicked();
 
 private:
     Ui::QGameEditor *ui;

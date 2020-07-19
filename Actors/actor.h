@@ -45,7 +45,8 @@ public:
     QString clonename;
     int cloneindex;
 
-    bool createAtStartup;
+    bool createAtStartup{true};
+    bool outOfVisionEvents{true};
 
     int x, y;
     int xprevious, yprevious;
