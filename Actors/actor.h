@@ -15,6 +15,8 @@
 #include <QTimeLine>
 #include "Custom_Items/pointhandleitem.h"
 
+#include "Events/createactorevent.h"
+
 class TextActor;
 
 enum ActorType{NORMAL, VIEW, CANVAS, WIRE_FRAME_REGION, FILLED_REGION, LABEL /*,TILE*/};
@@ -77,6 +79,10 @@ public:
     // ... to be implemented
     virtual void setTintColor(QColor color) = 0;
     virtual void setTintStrength(qreal strength) = 0;
+
+    // Events
+    QVector<Event *> events;
+    int getEventIndexByType(EventType eventType);
 
 signals:
     // in-Editor signals

@@ -99,6 +99,15 @@ void Actor::setRotation(qreal ro)
     rotation = ro;
 }
 
+// get the event or make a new one
+int Actor::getEventIndexByType(EventType eventType)
+{
+    for(int i = 0; i < events.size(); i++){
+        if(events[i]->type == eventType) return i;
+    }
+    return -1;
+}
+
 void Actor::lockUnLock()
 {
     setFlag(QGraphicsItem::ItemIsMovable, isLocked);

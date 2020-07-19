@@ -10,6 +10,9 @@
 #include "Dialogs/animationdialog.h"
 #include "Dialogs/animationsequencedialog.h"
 #include "Dialogs/settextdialog.h"
+
+#include "Dialogs/createactoreventdialog.h"
+
 #include <QSpinBox>
 #include <QSlider>
 #include <QComboBox>

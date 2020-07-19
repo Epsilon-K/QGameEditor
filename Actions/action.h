@@ -7,7 +7,9 @@ class Action : public QObject
 {
     Q_OBJECT
 public:
-    explicit Action(QObject *parent = nullptr);
+    Action();
+    QString name;
+    QString description;
 
 signals:
 

@@ -423,7 +423,23 @@ void QGameEditor::onActorOriginChanged(Actor *actor)
 
 void QGameEditor::createActorDialog()
 {
+    createActorEventDialog caDialog(this);
+    Actor * actor = selectedActors.last();
 
+    if(caDialog.exec()){
+        int eventIndex = actor->getEventIndexByType(Create_Actor);
+        createActorEvent *event;
+
+        if(eventIndex){
+            event = (createActorEvent*) actor->events[eventIndex];
+        }
+        else{
+            event = new createActorEvent;
+            actor->events.append(event);
+        }
+
+        event->actions.append(caDialog.finalAction);
+    }
 }
 
 void QGameEditor::collisionDialog()

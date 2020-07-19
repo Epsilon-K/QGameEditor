@@ -1,6 +1,6 @@
 #include "event.h"
 
-Event::Event(EventType _type, QObject *parent) : QObject(parent)
+Event::Event()
 {
-    type = _type;
+    type = Create_Actor; // is this bad?
 }

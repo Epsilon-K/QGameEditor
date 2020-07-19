@@ -13,9 +13,10 @@ class Event : public QObject
 {
     Q_OBJECT
 public:
-    explicit Event(EventType _type, QObject *parent = nullptr);
+    Event();
 
     EventType type{Create_Actor};
+    QString name;
     QVector<Action *> actions;
 
 signals:

@@ -39,7 +39,9 @@ SOURCES += \
         Dialogs/animationdialog.cpp \
         Dialogs/animationsequencedialog.cpp \
         Dialogs/configdialog.cpp \
+        Dialogs/createactoreventdialog.cpp \
         Dialogs/settextdialog.cpp \
+        Events/createactorevent.cpp \
         Events/event.cpp \
         editorview.cpp \
         gamescene.cpp \
@@ -60,7 +62,10 @@ HEADERS += \
         Dialogs/animationsequencedialog.h \
         Dialogs/configdata.h \
         Dialogs/configdialog.h \
+        Dialogs/createactoreventdialog.h \
+        Dialogs/eventdialogcommon.h \
         Dialogs/settextdialog.h \
+        Events/createactorevent.h \
         Events/event.h \
         editorview.h \
         gamescene.h \
@@ -72,6 +77,7 @@ FORMS += \
         Dialogs/animationdialog.ui \
         Dialogs/animationsequencedialog.ui \
         Dialogs/configdialog.ui \
+        Dialogs/createactoreventdialog.ui \
         Dialogs/settextdialog.ui \
         qgameeditor.ui
 
