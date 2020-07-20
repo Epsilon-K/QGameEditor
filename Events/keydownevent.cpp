@@ -2,6 +2,6 @@
 
 KeyDownEvent::KeyDownEvent()
 {
-    type = Create_Actor;
-    name = "Create Actor";
+    type = Key_Down;
+    name = "Key Down";
 }

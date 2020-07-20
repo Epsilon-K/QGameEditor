@@ -2,6 +2,6 @@
 
 CollisionEvent::CollisionEvent()
 {
-    type = Create_Actor;
-    name = "Create Actor";
+    type = Collision;
+    name = "Collision";
 }

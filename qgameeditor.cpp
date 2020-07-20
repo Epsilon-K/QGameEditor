@@ -520,6 +520,28 @@ void QGameEditor::keyDownDialog()
     }
 }
 
+void QGameEditor::keyUpDialog()
+{
+    Actor * actor = selectedActors.last();
+    KeyUpEventDialog kuDialog(this);
+
+    if(kuDialog.exec()){
+        int eventIndex = actor->getEventIndexByType(Key_Up);
+        KeyUpEvent *event;
+
+        if(eventIndex){
+            event = (KeyUpEvent*) actor->events[eventIndex];
+        }
+        else{
+            event = new KeyUpEvent;
+            actor->events.append(event);
+        }
+
+        event->key = kuDialog.key;
+        event->actions.append(kuDialog.finalAction);
+    }
+}
+
 void QGameEditor::on_actionExit_triggered()
 {
     // TODO: confirmation to exit program
@@ -1008,6 +1030,7 @@ void QGameEditor::on_addEventBtn_clicked()
     connect(collision, &QAction::triggered, this, &QGameEditor::collisionDialog);
     connect(draw, &QAction::triggered, this, &QGameEditor::drawActorDialog);
     connect(keyDown, &QAction::triggered, this, &QGameEditor::keyDownDialog);
+    connect(keyUp, &QAction::triggered, this, &QGameEditor::keyUpDialog);
 
     if(selectedAction){
         selectedAction->trigger();
