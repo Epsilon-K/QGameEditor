@@ -25,15 +25,7 @@ void CollisionEventDialog::on_addActionBtn_clicked()
 
     if(finalAction != nullptr){
         collideActor = ui->actorCombo->currentText();
-        switch(ui->sideCombo->currentIndex()){
-            default : case 0: side = Any; break;
-            case 1: side = Top; break;
-            case 2: side = Bottom; break;
-            case 3: side = Left; break;
-            case 4: side = Right; break;
-            case 5: side = TopOrBottom; break;
-            case 6: side = LeftOrRight; break;
-        }
+        side = Sides (ui->sideCombo->currentIndex());
         accept();
     }
 }

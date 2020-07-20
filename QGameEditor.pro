@@ -42,11 +42,13 @@ SOURCES += \
         Dialogs/configdialog.cpp \
         Dialogs/createactoreventdialog.cpp \
         Dialogs/drawactoreventdialog.cpp \
+        Dialogs/keydowneventdialog.cpp \
         Dialogs/settextdialog.cpp \
         Events/collisionevent.cpp \
         Events/createactorevent.cpp \
         Events/drawactorevent.cpp \
         Events/event.cpp \
+        Events/keydownevent.cpp \
         editorview.cpp \
         gamescene.cpp \
         main.cpp \
@@ -70,11 +72,13 @@ HEADERS += \
         Dialogs/createactoreventdialog.h \
         Dialogs/drawactoreventdialog.h \
         Dialogs/eventdialogcommon.h \
+        Dialogs/keydowneventdialog.h \
         Dialogs/settextdialog.h \
         Events/collisionevent.h \
         Events/createactorevent.h \
         Events/drawactorevent.h \
         Events/event.h \
+        Events/keydownevent.h \
         editorview.h \
         gamescene.h \
         helper.h \
@@ -88,6 +92,7 @@ FORMS += \
         Dialogs/configdialog.ui \
         Dialogs/createactoreventdialog.ui \
         Dialogs/drawactoreventdialog.ui \
+        Dialogs/keydowneventdialog.ui \
         Dialogs/settextdialog.ui \
         qgameeditor.ui
 

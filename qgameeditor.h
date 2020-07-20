@@ -14,6 +14,7 @@
 #include "Dialogs/createactoreventdialog.h"
 #include "Dialogs/collisioneventdialog.h"
 #include "Dialogs/drawactoreventdialog.h"
+#include "Dialogs/keydowneventdialog.h"
 
 #include <QSpinBox>
 #include <QSlider>
@@ -57,6 +58,7 @@ public slots:
     void createActorDialog();
     void collisionDialog();
     void drawActorDialog();
+    void keyDownDialog();
 
 private slots:
     void on_actionExit_triggered();

@@ -481,7 +481,7 @@ void QGameEditor::drawActorDialog()
     Actor * actor = selectedActors.last();
 
     if(daDialog.exec()){
-        int eventIndex = actor->getEventIndexByType(Create_Actor);
+        int eventIndex = actor->getEventIndexByType(Draw_Actor);
         DrawActorEvent *event;
 
         if(eventIndex){
@@ -493,6 +493,30 @@ void QGameEditor::drawActorDialog()
         }
 
         event->actions.append(daDialog.finalAction);
+    }
+}
+
+void QGameEditor::keyDownDialog()
+{
+    Actor * actor = selectedActors.last();
+    KeyDownEventDialog kdDialog(this);
+
+    if(kdDialog.exec()){
+        int eventIndex = actor->getEventIndexByType(Key_Down);
+        KeyDownEvent *event;
+
+        if(eventIndex){
+            event = (KeyDownEvent*) actor->events[eventIndex];
+        }
+        else{
+            event = new KeyDownEvent;
+            actor->events.append(event);
+        }
+
+        event->keys = kdDialog.keys;
+        event->executeWhen = kdDialog.execution;
+        event->repeat = kdDialog.repeat;
+        event->actions.append(kdDialog.finalAction);
     }
 }
 
@@ -983,6 +1007,7 @@ void QGameEditor::on_addEventBtn_clicked()
     connect(create, &QAction::triggered, this, &QGameEditor::createActorDialog);
     connect(collision, &QAction::triggered, this, &QGameEditor::collisionDialog);
     connect(draw, &QAction::triggered, this, &QGameEditor::drawActorDialog);
+    connect(keyDown, &QAction::triggered, this, &QGameEditor::keyDownDialog);
 
     if(selectedAction){
         selectedAction->trigger();
