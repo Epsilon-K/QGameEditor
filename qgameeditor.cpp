@@ -340,6 +340,7 @@ void QGameEditor::onActorSelectionChanged(Actor *actor, bool selectionState)
 
     if(!selectedActors.isEmpty()){ // if there are selected actors
         ui->actorPropertiesGroupBox->setVisible(true);
+        ui->actorEventsGroupBox->setVisible(true);
         // enable everything
         QList<QWidget*> list = ui->actorControlTab->findChildren<QWidget*>() ;
         foreach( QWidget* w, list ) {
@@ -379,6 +380,7 @@ void QGameEditor::onActorSelectionChanged(Actor *actor, bool selectionState)
     }else{
         // if no currently selected actor.. disable everything
         ui->actorPropertiesGroupBox->setVisible(false);
+        ui->actorEventsGroupBox->setVisible(false);
         QList<QWidget*> list = ui->actorControlTab->findChildren<QWidget*>() ;
         foreach( QWidget* w, list ) {
            w->setEnabled( false ) ;
@@ -444,7 +446,33 @@ void QGameEditor::createActorDialog()
 
 void QGameEditor::collisionDialog()
 {
+    Actor * actor = selectedActors.last();
+    QVector<QString> names;
 
+    for(int i = 0; i < ui->editorView->gameScene->actors.size(); i++){
+        if(ui->editorView->gameScene->actors[i]->name != actor->name)
+            names.append(ui->editorView->gameScene->actors[i]->name);
+    }
+    names.append("Any Actor");
+
+    CollisionEventDialog colDialog(names,this);
+
+    if(colDialog.exec()){
+        int eventIndex = actor->getEventIndexByType(Collision);
+        CollisionEvent *event;
+
+        if(eventIndex){
+            event = (CollisionEvent*) actor->events[eventIndex];
+        }
+        else{
+            event = new CollisionEvent;
+            actor->events.append(event);
+        }
+
+        event->side = colDialog.side;
+        event->collideActor = colDialog.collideActor;
+        event->actions.append(colDialog.finalAction);
+    }
 }
 
 void QGameEditor::on_actionExit_triggered()

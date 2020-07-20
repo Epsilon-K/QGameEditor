@@ -91,3 +91,12 @@ void AddActorDialog::on_cancelBtn_clicked()
 {
     reject();
 }
+
+void AddActorDialog::on_actorNameLineEdit_textChanged(const QString &arg)
+{
+    QString text = ui->actorNameLineEdit->text();
+    if(text[text.size()-1].toLatin1() == ' '){
+        text[text.size()-1] = '_';
+        ui->actorNameLineEdit->setText(text);
+    }
+}

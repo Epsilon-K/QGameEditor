@@ -12,6 +12,7 @@
 #include "Dialogs/settextdialog.h"
 
 #include "Dialogs/createactoreventdialog.h"
+#include "Dialogs/collisioneventdialog.h"
 
 #include <QSpinBox>
 #include <QSlider>

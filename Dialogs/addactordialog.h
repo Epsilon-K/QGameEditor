@@ -26,6 +26,8 @@ private slots:
 
     void on_cancelBtn_clicked();
 
+    void on_actorNameLineEdit_textChanged(const QString &arg);
+
 private:
     Ui::AddActorDialog *ui;
 };

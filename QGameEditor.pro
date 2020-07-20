@@ -38,9 +38,11 @@ SOURCES += \
         Dialogs/addactordialog.cpp \
         Dialogs/animationdialog.cpp \
         Dialogs/animationsequencedialog.cpp \
+        Dialogs/collisioneventdialog.cpp \
         Dialogs/configdialog.cpp \
         Dialogs/createactoreventdialog.cpp \
         Dialogs/settextdialog.cpp \
+        Events/collisionevent.cpp \
         Events/createactorevent.cpp \
         Events/event.cpp \
         editorview.cpp \
@@ -60,11 +62,13 @@ HEADERS += \
         Dialogs/addactordialog.h \
         Dialogs/animationdialog.h \
         Dialogs/animationsequencedialog.h \
+        Dialogs/collisioneventdialog.h \
         Dialogs/configdata.h \
         Dialogs/configdialog.h \
         Dialogs/createactoreventdialog.h \
         Dialogs/eventdialogcommon.h \
         Dialogs/settextdialog.h \
+        Events/collisionevent.h \
         Events/createactorevent.h \
         Events/event.h \
         editorview.h \
@@ -76,6 +80,7 @@ FORMS += \
         Dialogs/addactordialog.ui \
         Dialogs/animationdialog.ui \
         Dialogs/animationsequencedialog.ui \
+        Dialogs/collisioneventdialog.ui \
         Dialogs/configdialog.ui \
         Dialogs/createactoreventdialog.ui \
         Dialogs/settextdialog.ui \
