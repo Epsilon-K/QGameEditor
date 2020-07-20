@@ -41,9 +41,11 @@ SOURCES += \
         Dialogs/collisioneventdialog.cpp \
         Dialogs/configdialog.cpp \
         Dialogs/createactoreventdialog.cpp \
+        Dialogs/drawactoreventdialog.cpp \
         Dialogs/settextdialog.cpp \
         Events/collisionevent.cpp \
         Events/createactorevent.cpp \
+        Events/drawactorevent.cpp \
         Events/event.cpp \
         editorview.cpp \
         gamescene.cpp \
@@ -66,10 +68,12 @@ HEADERS += \
         Dialogs/configdata.h \
         Dialogs/configdialog.h \
         Dialogs/createactoreventdialog.h \
+        Dialogs/drawactoreventdialog.h \
         Dialogs/eventdialogcommon.h \
         Dialogs/settextdialog.h \
         Events/collisionevent.h \
         Events/createactorevent.h \
+        Events/drawactorevent.h \
         Events/event.h \
         editorview.h \
         gamescene.h \
@@ -83,6 +87,7 @@ FORMS += \
         Dialogs/collisioneventdialog.ui \
         Dialogs/configdialog.ui \
         Dialogs/createactoreventdialog.ui \
+        Dialogs/drawactoreventdialog.ui \
         Dialogs/settextdialog.ui \
         qgameeditor.ui
 

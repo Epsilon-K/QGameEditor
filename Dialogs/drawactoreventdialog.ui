@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>createActorEventDialog</class>
- <widget class="QDialog" name="createActorEventDialog">
+ <class>DrawActorEventDialog</class>
+ <widget class="QDialog" name="DrawActorEventDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>426</width>
-    <height>76</height>
+    <width>405</width>
+    <height>89</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Create Actor Event</string>
+   <string>Draw Actor Event</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>

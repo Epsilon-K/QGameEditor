@@ -16,6 +16,8 @@
 #include "Custom_Items/pointhandleitem.h"
 
 #include "Events/createactorevent.h"
+#include "Events/collisionevent.h"
+#include "Events/drawactorevent.h"
 
 class TextActor;
 

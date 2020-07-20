@@ -475,6 +475,27 @@ void QGameEditor::collisionDialog()
     }
 }
 
+void QGameEditor::drawActorDialog()
+{
+    DrawActorEventDialog daDialog(this);
+    Actor * actor = selectedActors.last();
+
+    if(daDialog.exec()){
+        int eventIndex = actor->getEventIndexByType(Create_Actor);
+        DrawActorEvent *event;
+
+        if(eventIndex){
+            event = (DrawActorEvent*) actor->events[eventIndex];
+        }
+        else{
+            event = new DrawActorEvent;
+            actor->events.append(event);
+        }
+
+        event->actions.append(daDialog.finalAction);
+    }
+}
+
 void QGameEditor::on_actionExit_triggered()
 {
     // TODO: confirmation to exit program
@@ -961,6 +982,7 @@ void QGameEditor::on_addEventBtn_clicked()
     //connect those actions to slots
     connect(create, &QAction::triggered, this, &QGameEditor::createActorDialog);
     connect(collision, &QAction::triggered, this, &QGameEditor::collisionDialog);
+    connect(draw, &QAction::triggered, this, &QGameEditor::drawActorDialog);
 
     if(selectedAction){
         selectedAction->trigger();
