@@ -956,17 +956,7 @@ void QGameEditor::on_textWidthDSpinBox_valueChanged(double wid)
 void QGameEditor::on_textAlignComboBox_currentIndexChanged(int index)
 {
     TextActor * actor = (TextActor*)selectedActors.last();
-    switch (index) {
-        case 0:
-            actor->setAlignment(Qt::AlignLeft); break;
-        default:
-        case 1:
-            actor->setAlignment(Qt::AlignHCenter); break;
-        case 2:
-            actor->setAlignment(Qt::AlignRight); break;
-        case 3:
-            actor->setAlignment(Qt::AlignJustify); break;
-    }
+    actor->setAlignment(Qt::AlignmentFlag(index));
 }
 
 void QGameEditor::on_actorTextGroupBox_toggled(bool checked)
