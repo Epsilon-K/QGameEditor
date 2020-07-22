@@ -4,10 +4,10 @@
 #include <QObject>
 #include "Actions/action.h"
 
-enum EventType {Activation_Event, Animation_Finish, Collision, Collision_Finish, Create_Actor,
-                Destroy_Actor, Draw_Actor, Key_Down, Key_Up, Mouse_Down, Mouse_Up,
-                Mouse_Enter, Mouse_Leave, Move_Finish, Out_Of_Vision,
-                Path_Finish, Timer_Up};
+enum EventType {Activation_Event, Animation_Finished, Collision, Collision_Finished, Actor_Created,
+                Actor_Destroyed, Draw_Actor, Key_Down, Key_Up, Mouse_Down, Mouse_Up,
+                Mouse_Enter, Mouse_Leave, Move_Finished, Out_Of_Vision,
+                Path_Finished, Timer_Up};
 
 class Event : public QObject
 {
@@ -15,9 +15,9 @@ class Event : public QObject
 public:
     Event();
 
-    EventType type{Create_Actor};
+    EventType type{Actor_Created};
     QString name;
-    QVector<Action *> actions;
+    Action * action;
 
 signals:
 

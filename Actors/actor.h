@@ -18,6 +18,8 @@
 #include "Events/createactorevent.h"
 #include "Events/collisionevent.h"
 #include "Events/drawactorevent.h"
+#include "Events/keydownevent.h"
+#include "Events/keyupevent.h"
 
 class TextActor;
 
@@ -48,6 +50,7 @@ public:
     QString name;
     QString clonename;
     int cloneindex;
+    Actor * parentActor{nullptr};
 
     bool createAtStartup{true};
     bool outOfVisionEvents{true};
@@ -84,7 +87,6 @@ public:
 
     // Events
     QVector<Event *> events;
-    int getEventIndexByType(EventType eventType);
 
 signals:
     // in-Editor signals

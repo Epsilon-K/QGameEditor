@@ -11,11 +11,8 @@
 #include "Dialogs/animationsequencedialog.h"
 #include "Dialogs/settextdialog.h"
 
-#include "Dialogs/createactoreventdialog.h"
-#include "Dialogs/collisioneventdialog.h"
-#include "Dialogs/drawactoreventdialog.h"
-#include "Dialogs/keydowneventdialog.h"
-#include "Dialogs/keyupeventdialog.h"
+// Event Dialog
+#include "Dialogs/eventdialog.h"
 
 #include <QSpinBox>
 #include <QSlider>
@@ -56,6 +53,7 @@ public slots:
     void onActorOriginChanged(Actor *actor);
 
     // Event Dialogs Slots
+    void createEventDialog(EventType _eventType, QString dialogTitle);
     void createActorDialog();
     void collisionDialog();
     void drawActorDialog();

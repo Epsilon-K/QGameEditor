@@ -423,123 +423,38 @@ void QGameEditor::onActorOriginChanged(Actor *actor)
     }
 }
 
+void QGameEditor::createEventDialog(EventType _eventType, QString dialogTitle)
+{
+    Actor * actor = selectedActors.last();
+    EventDialog eventDialog(_eventType, dialogTitle, ui->editorView->gameScene->actors, actor, this);
+    if(eventDialog.exec()){
+        actor->events.append(eventDialog.finalEvent);
+    }
+}
+
 void QGameEditor::createActorDialog()
 {
-    createActorEventDialog caDialog(this);
-    Actor * actor = selectedActors.last();
-
-    if(caDialog.exec()){
-        int eventIndex = actor->getEventIndexByType(Create_Actor);
-        createActorEvent *event;
-
-        if(eventIndex){
-            event = (createActorEvent*) actor->events[eventIndex];
-        }
-        else{
-            event = new createActorEvent;
-            actor->events.append(event);
-        }
-
-        event->actions.append(caDialog.finalAction);
-    }
+    createEventDialog(Actor_Created, "Create Actor Event");
 }
 
 void QGameEditor::collisionDialog()
 {
-    Actor * actor = selectedActors.last();
-    QVector<QString> names;
-
-    for(int i = 0; i < ui->editorView->gameScene->actors.size(); i++){
-        if(ui->editorView->gameScene->actors[i]->name != actor->name)
-            names.append(ui->editorView->gameScene->actors[i]->name);
-    }
-    names.append("Any Actor");
-
-    CollisionEventDialog colDialog(names,this);
-
-    if(colDialog.exec()){
-        int eventIndex = actor->getEventIndexByType(Collision);
-        CollisionEvent *event;
-
-        if(eventIndex){
-            event = (CollisionEvent*) actor->events[eventIndex];
-        }
-        else{
-            event = new CollisionEvent;
-            actor->events.append(event);
-        }
-
-        event->side = colDialog.side;
-        event->collideActor = colDialog.collideActor;
-        event->actions.append(colDialog.finalAction);
-    }
+    createEventDialog(Collision, "Collision Event");
 }
 
 void QGameEditor::drawActorDialog()
 {
-    DrawActorEventDialog daDialog(this);
-    Actor * actor = selectedActors.last();
-
-    if(daDialog.exec()){
-        int eventIndex = actor->getEventIndexByType(Draw_Actor);
-        DrawActorEvent *event;
-
-        if(eventIndex){
-            event = (DrawActorEvent*) actor->events[eventIndex];
-        }
-        else{
-            event = new DrawActorEvent;
-            actor->events.append(event);
-        }
-
-        event->actions.append(daDialog.finalAction);
-    }
+    createEventDialog(Draw_Actor, "Draw Actor Event");
 }
 
 void QGameEditor::keyDownDialog()
 {
-    Actor * actor = selectedActors.last();
-    KeyDownEventDialog kdDialog(this);
-
-    if(kdDialog.exec()){
-        int eventIndex = actor->getEventIndexByType(Key_Down);
-        KeyDownEvent *event;
-
-        if(eventIndex){
-            event = (KeyDownEvent*) actor->events[eventIndex];
-        }
-        else{
-            event = new KeyDownEvent;
-            actor->events.append(event);
-        }
-
-        event->keys = kdDialog.keys;
-        event->executeWhen = kdDialog.execution;
-        event->repeat = kdDialog.repeat;
-        event->actions.append(kdDialog.finalAction);
-    }
+    createEventDialog(Key_Down, "Key Down Event");
 }
 
 void QGameEditor::keyUpDialog()
 {
-    Actor * actor = selectedActors.last();
-    KeyUpEventDialog kuDialog(this);
-
-    if(kuDialog.exec()){
-        int eventIndex = actor->getEventIndexByType(Key_Up);
-        KeyUpEvent *event;
-
-        if(eventIndex){
-            event = (KeyUpEvent*) actor->events[eventIndex];
-        }
-        else{
-            event = new KeyUpEvent;
-            actor->events.append(event);
-        }
-
-        event->key = kuDialog.key;
-        event->actions.append(kuDialog.finalAction);
-    }
+    createEventDialog(Key_Up, "Key Up Event");
 }
 
 void QGameEditor::on_actionExit_triggered()

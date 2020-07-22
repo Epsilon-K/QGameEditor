@@ -2,6 +2,6 @@
 
 Event::Event()
 {
-    type = Create_Actor;
+    type = Actor_Created;
     name = "this is Bad!";
 }

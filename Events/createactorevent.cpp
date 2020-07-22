@@ -1,7 +1,7 @@
 #include "createactorevent.h"
 
-createActorEvent::createActorEvent()
+CreateActorEvent::CreateActorEvent()
 {
-    type = Create_Actor;
+    type = Actor_Created;
     name = "Create Actor";
 }

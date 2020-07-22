@@ -4,10 +4,10 @@
 #include "Events/event.h"
 
 
-class createActorEvent : public Event
+class CreateActorEvent : public Event
 {
 public:
-    createActorEvent();
+    CreateActorEvent();
 };
 
 #endif // CREATEACTOREVENT_H

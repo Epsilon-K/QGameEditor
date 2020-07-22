@@ -28,6 +28,7 @@ RC_ICONS = GE_Icon.ico
 
 SOURCES += \
         Actions/action.cpp \
+        Actions/changeanimationaction.cpp \
         Actors/actor.cpp \
         Actors/filledregionactor.cpp \
         Actors/normalactor.cpp \
@@ -38,12 +39,9 @@ SOURCES += \
         Dialogs/addactordialog.cpp \
         Dialogs/animationdialog.cpp \
         Dialogs/animationsequencedialog.cpp \
-        Dialogs/collisioneventdialog.cpp \
+        Dialogs/changeanimationdialog.cpp \
         Dialogs/configdialog.cpp \
-        Dialogs/createactoreventdialog.cpp \
-        Dialogs/drawactoreventdialog.cpp \
-        Dialogs/keydowneventdialog.cpp \
-        Dialogs/keyupeventdialog.cpp \
+        Dialogs/eventdialog.cpp \
         Dialogs/settextdialog.cpp \
         Events/collisionevent.cpp \
         Events/createactorevent.cpp \
@@ -58,6 +56,7 @@ SOURCES += \
 
 HEADERS += \
         Actions/action.h \
+        Actions/changeanimationaction.h \
         Actors/actor.h \
         Actors/filledregionactor.h \
         Actors/normalactor.h \
@@ -68,14 +67,10 @@ HEADERS += \
         Dialogs/addactordialog.h \
         Dialogs/animationdialog.h \
         Dialogs/animationsequencedialog.h \
-        Dialogs/collisioneventdialog.h \
+        Dialogs/changeanimationdialog.h \
         Dialogs/configdata.h \
         Dialogs/configdialog.h \
-        Dialogs/createactoreventdialog.h \
-        Dialogs/drawactoreventdialog.h \
-        Dialogs/eventdialogcommon.h \
-        Dialogs/keydowneventdialog.h \
-        Dialogs/keyupeventdialog.h \
+        Dialogs/eventdialog.h \
         Dialogs/settextdialog.h \
         Events/collisionevent.h \
         Events/createactorevent.h \
@@ -92,12 +87,9 @@ FORMS += \
         Dialogs/addactordialog.ui \
         Dialogs/animationdialog.ui \
         Dialogs/animationsequencedialog.ui \
-        Dialogs/collisioneventdialog.ui \
+        Dialogs/changeanimationdialog.ui \
         Dialogs/configdialog.ui \
-        Dialogs/createactoreventdialog.ui \
-        Dialogs/drawactoreventdialog.ui \
-        Dialogs/keydowneventdialog.ui \
-        Dialogs/keyupeventdialog.ui \
+        Dialogs/eventdialog.ui \
         Dialogs/settextdialog.ui \
         qgameeditor.ui
 

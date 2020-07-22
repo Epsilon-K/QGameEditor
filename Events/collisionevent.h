@@ -12,6 +12,7 @@ public:
 
     Sides side{Any};
     QString collideActor;
+    bool repeat{false};
 };
 
 #endif // COLLISIONEVENT_H

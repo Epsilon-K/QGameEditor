@@ -2,5 +2,6 @@
 
 Action::Action()
 {
-
+    type = Change_Animation;
+    name = "this is Bad!";
 }
