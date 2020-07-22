@@ -36,6 +36,7 @@ SOURCES += \
         Actors/viewactor.cpp \
         Components/animation.cpp \
         Custom_Items/pointhandleitem.cpp \
+        Dialogs/actiondialog.cpp \
         Dialogs/addactordialog.cpp \
         Dialogs/animationdialog.cpp \
         Dialogs/animationsequencedialog.cpp \
@@ -64,6 +65,7 @@ HEADERS += \
         Actors/viewactor.h \
         Components/animation.h \
         Custom_Items/pointhandleitem.h \
+        Dialogs/actiondialog.h \
         Dialogs/addactordialog.h \
         Dialogs/animationdialog.h \
         Dialogs/animationsequencedialog.h \
@@ -84,6 +86,7 @@ HEADERS += \
         qgameeditor.h
 
 FORMS += \
+        Dialogs/actiondialog.ui \
         Dialogs/addactordialog.ui \
         Dialogs/animationdialog.ui \
         Dialogs/animationsequencedialog.ui \

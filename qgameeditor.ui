@@ -402,9 +402,9 @@
             <property name="geometry">
              <rect>
               <x>0</x>
-              <y>0</y>
+              <y>-267</y>
               <width>664</width>
-              <height>901</height>
+              <height>867</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -1149,56 +1149,6 @@
                 <bool>true</bool>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_7">
-                <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_23">
-                  <item>
-                   <spacer name="horizontalSpacer_51">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>40</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                  <item>
-                   <widget class="QLabel" name="label_23">
-                    <property name="text">
-                     <string>Event : </string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QComboBox" name="eventsComboBox">
-                    <property name="sizeAdjustPolicy">
-                     <enum>QComboBox::AdjustToContents</enum>
-                    </property>
-                    <property name="iconSize">
-                     <size>
-                      <width>32</width>
-                      <height>32</height>
-                     </size>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <spacer name="horizontalSpacer_52">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>40</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                 </layout>
-                </item>
                 <item>
                  <layout class="QHBoxLayout" name="horizontalLayout_24">
                   <item>

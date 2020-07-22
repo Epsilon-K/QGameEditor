@@ -2,8 +2,7 @@
 #define EVENTDIALOG_H
 
 #include <QDialog>
-#include "Actors/actor.h"
-#include "Actors/normalactor.h"
+#include "Dialogs/actiondialog.h"
 
 #include <QMenu>
 #include <QAction>
@@ -33,6 +32,7 @@ public:
     int key{65};        // for key up
 
 public slots:
+    void createActionDialog(ActionType actionType, QString dialogTitle);
     void changeAnimDialog();
     void changeAnimDirDialog();
     void changeCursorDialog();

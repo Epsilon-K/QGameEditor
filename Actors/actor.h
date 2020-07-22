@@ -21,6 +21,8 @@
 #include "Events/keydownevent.h"
 #include "Events/keyupevent.h"
 
+#include "Actions/changeanimationaction.h"
+
 class TextActor;
 
 enum ActorType{NORMAL, VIEW, CANVAS, WIRE_FRAME_REGION, FILLED_REGION, LABEL /*,TILE*/};

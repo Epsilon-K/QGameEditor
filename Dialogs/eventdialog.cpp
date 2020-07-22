@@ -28,9 +28,17 @@ EventDialog::~EventDialog()
 
 
 // Action Dialogs ------------------------
+void EventDialog::createActionDialog(ActionType actionType, QString dialogTitle)
+{
+    ActionDialog actionDialog(actionType, dialogTitle, actors, eventActor, this);
+    if(actionDialog.exec()){
+        finalAction = actionDialog.finalAction;
+    }
+}
+
 void EventDialog::changeAnimDialog()
 {
-
+    createActionDialog(Change_Animation, "Change Animation");
 }
 
 void EventDialog::changeAnimDirDialog()

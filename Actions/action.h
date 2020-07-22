@@ -19,8 +19,6 @@ public:
     QString name;
     QString description;
 
-
-
 signals:
 
 public slots:
