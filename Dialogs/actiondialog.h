@@ -14,9 +14,10 @@ class ActionDialog : public QDialog
     Q_OBJECT
 
 public:
-    ActionDialog(ActionType _actionType, QString dialogTitle, QVector<Actor*> _actors, Actor *_eventActor, QWidget *parent = nullptr);
+    ActionDialog(EventType _eventType, ActionType _actionType, QString dialogTitle, QVector<Actor*> _actors, Actor *_eventActor, QWidget *parent = nullptr);
     ~ActionDialog();
     ActionType actionType{Change_Transparency};
+    EventType eventType{Actor_Created};
 
     QVector<Actor*> actors;
     Actor * eventActor{nullptr};

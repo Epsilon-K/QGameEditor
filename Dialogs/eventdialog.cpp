@@ -30,7 +30,7 @@ EventDialog::~EventDialog()
 // Action Dialogs ------------------------
 void EventDialog::createActionDialog(ActionType actionType, QString dialogTitle)
 {
-    ActionDialog actionDialog(actionType, dialogTitle, actors, eventActor, this);
+    ActionDialog actionDialog(eventType, actionType, dialogTitle, actors, eventActor, this);
     if(actionDialog.exec()){
         finalAction = actionDialog.finalAction;
     }
@@ -234,6 +234,8 @@ void EventDialog::keyPressEvent(QKeyEvent *e)
     }else if(eventType == Key_Up){
         key = e->key();
         ui->keyUpLabel->setText("Press event key or right click for 'any' key : " + qtKeys.value(e->key()));
+    }else{
+        QDialog::keyPressEvent(e);
     }
 }
 
@@ -252,6 +254,8 @@ void EventDialog::mousePressEvent(QMouseEvent *e)
             key = -1;
             ui->keyUpLabel->setText("Press event key or right click for 'any' key : " + qtKeys.value(-1));
         }
+    }else{
+        QDialog::mousePressEvent(e);
     }
 }
 

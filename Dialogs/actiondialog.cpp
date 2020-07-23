@@ -1,19 +1,29 @@
 #include "actiondialog.h"
 #include "ui_actiondialog.h"
 
-ActionDialog::ActionDialog(ActionType _actionType, QString dialogTitle, QVector<Actor*> _actors, Actor *_eventActor, QWidget *parent) :
+ActionDialog::ActionDialog(EventType _eventType, ActionType _actionType, QString dialogTitle, QVector<Actor*> _actors, Actor *_eventActor, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ActionDialog)
 {
     ui->setupUi(this);
 
     actionType = _actionType;
+    eventType = _eventType;
     setWindowTitle(dialogTitle);
     actors = _actors;
     eventActor = _eventActor;
 
     ui->stackedWidget->setCurrentIndex(int(actionType));
     ui->waitForFrameGroupBox->setChecked(false);
+
+    if(actionType == Script_Editor){
+        setWindowFlag(Qt::Window);  // this "Should" make the dialog window have minimizing and maximizing buttons, but NO.. it doesn't work
+        setWindowTitle("Script Editor : " + eventActor->name + " -> " + eventTypeString[_eventType]);
+        showMaximized();
+
+        ui->actorComboBox->setVisible(false);
+        ui->actorLabel->setVisible(false);
+    }
 
     for(int i = 0; i < actors.size(); i++){
         ui->actorComboBox->addItem(actors[i]->name);
@@ -31,7 +41,7 @@ ActionDialog::~ActionDialog()
 
 void ActionDialog::on_waitForFrameGroupBox_toggled(bool checked)
 {
-    ui->waitForFrameGroupBox->setMaximumHeight(checked ? 32000 : 25);
+    ui->waitForFrameGroupBox->setMaximumHeight(checked ? 32000 : 15);
 }
 
 void ActionDialog::on_addActionBtn_clicked()
@@ -62,6 +72,13 @@ void ActionDialog::on_addActionBtn_clicked()
 
             action->actor = ui->actorComboBox->currentText();
             action->animState = ui->animDirCombo_d1->currentIndex();
+            finalAction = action;
+        } break;
+
+        case Script_Editor :{
+            ScriptAction * action = new ScriptAction();
+
+            action->script = ui->scriptPTE->toPlainText();
             finalAction = action;
         } break;
 

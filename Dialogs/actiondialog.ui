@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>562</width>
-    <height>293</height>
+    <width>792</width>
+    <height>459</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,7 +27,7 @@
     <number>5</number>
    </property>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_4">
+    <layout class="QHBoxLayout" name="actorLayout">
      <property name="leftMargin">
       <number>2</number>
      </property>
@@ -91,7 +91,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="page_Change_Animation">
       <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -282,7 +282,382 @@
      <widget class="QWidget" name="page_Physical_Response"/>
      <widget class="QWidget" name="page_Play_Music"/>
      <widget class="QWidget" name="page_Play_Sound"/>
-     <widget class="QWidget" name="page_Script_Editor"/>
+     <widget class="QWidget" name="page_Script_Editor">
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>2</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>2</number>
+       </property>
+       <item>
+        <widget class="QPlainTextEdit" name="scriptPTE">
+         <property name="font">
+          <font>
+           <family>Courier</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color:rgb(18, 19, 25);</string>
+         </property>
+         <property name="plainText">
+          <string>char Death = 0;
+
+
+//----ANIMATIONS------------------------------------------------------------------------------------
+
+if(STATE == 0) //Stand Right
+{
+    animpos = 0;
+    cframe = 0;
+}
+
+else if(STATE == 1) //Stand Left
+{
+    animpos = 5;
+    cframe = 0;
+}
+
+else if(STATE == 2) //Walk Right
+{
+    switch(cframe)
+    {
+        case 0:
+        case 1:
+        case 2: animpos = 1; cframe++; break;
+ 
+        case 3:
+        case 4: animpos = 2; cframe++; break;
+ 
+        case 5: animpos = 2; cframe = 0; break;
+    }
+    if(inv == 0 || inv == 1) {x+=3;}
+    else if(inv == 2 || inv == 3) {y+=3;}
+}
+
+else if(STATE == 3) //Walk Left
+{
+    switch(cframe)
+    {
+        case 0:
+        case 1:
+        case 2: animpos = 4; cframe++; break;
+ 
+        case 3:
+        case 4: animpos = 3; cframe++; break;
+ 
+        case 5: animpos = 3; cframe = 0; break;
+    }
+    if(inv == 0 || inv == 1) {x-=3;}
+    else if(inv == 2 || inv == 3) {y-=3;}
+}
+
+else if(STATE == 4) //Stand Shoot Right
+{
+    animpos = 6;
+    cframe = 0;
+}
+
+
+else if(STATE == 5) //Stand Shoot Left
+{
+    animpos = 11;
+    cframe = 0;
+}
+
+else if(STATE == 6) //Walk Shoot Right
+{
+    switch(cframe)
+    {
+        case 0:
+        case 1:
+        case 2: animpos = 7; cframe++; break;
+ 
+        case 3:
+        case 4: animpos = 8; cframe++; break;
+ 
+        case 5: animpos = 8; cframe = 0; break;
+    }
+    if(inv == 0 || inv == 1) {x+=3;}
+    else if(inv == 2 || inv == 3) {y+=3;}
+}
+
+
+else if(STATE == 7) //Walk Shoot Left
+{
+    switch(cframe)
+    {
+        case 0:
+        case 1:
+        case 2: animpos = 10; cframe++; break;
+ 
+        case 3:
+        case 4: animpos = 9; cframe++; break;
+ 
+        case 5: animpos = 9; cframe = 0; break;
+    }
+    if(inv == 0 || inv == 1) {x-=3;}
+    else if(inv == 2 || inv == 3) {y-=3;}
+}
+
+else if(STATE == 8) //Hit Right
+{
+    switch(cframe)
+    {
+        case 0: animpos = 17; cframe++; break;
+        case 1: animpos = 16; cframe++; break;
+        case 2: animpos = 17; cframe++; break;
+        case 3: animpos = 16; cframe++; break;
+        case 4: animpos = 17; cframe++; break;
+        case 5: animpos = 16; cframe++; break;
+        case 6: animpos = 17; cframe++; break;
+        case 7: animpos = 16; cframe++; break;
+        case 8: animpos = 17; cframe++; break;
+        case 9: STATE = 0; animpos = 0; cframe = 0;
+
+               if (!Player_HP)
+                {
+                    Hit_rec = 0;
+                    STATE = 10;
+                    cframe = 0;
+                }
+    }
+    directional_velocity = 0;
+}
+
+else if(STATE == 9) //Hit Left
+{
+    switch(cframe)
+    {
+        case 0: animpos = 18; cframe++; break;
+        case 1: animpos = 19; cframe++; break;
+        case 2: animpos = 18; cframe++; break;
+        case 3: animpos = 19; cframe++; break;
+        case 4: animpos = 18; cframe++; break;
+        case 5: animpos = 19; cframe++; break;
+        case 6: animpos = 18; cframe++; break;
+        case 7: animpos = 19; cframe++; break;
+        case 8: animpos = 18; cframe++; break;
+        case 9: STATE = 1; animpos = 5; cframe = 0;
+
+               if (!Player_HP)
+                {
+                    Hit_rec = 0;
+                    cframe = 0;
+                    STATE = 10;
+                }
+    }
+    directional_velocity = 0;
+}
+
+else if(STATE == 10) //Death
+{
+    switch(cframe)
+    {
+        case 0: animpos = 20; cframe++; break;
+        case 1: animpos = 23; cframe++; break;
+        case 2: animpos = 24; cframe++; break;
+        case 3: animpos = 25; cframe++; break;
+        case 4: animpos = 26; cframe++; break;
+        case 5: animpos = 27; cframe++; break;
+        case 6: animpos = 28; cframe++; break;
+        case 7: animpos = 29; cframe++; break;
+        case 8: animpos = 30; cframe++; break;
+        case 9: animpos = 31; cframe++; break;
+        case 10: animpos = 32; cframe++; break;
+        case 11: animpos = 33; cframe++; break;
+        case 12: animpos = 34; cframe++; break;
+        case 13: animpos = 35; cframe++; break;
+        case 14:
+        case 15:
+        case 16:
+        case 17:
+        case 18:
+        case 19:
+        case 20:
+        case 21:
+        case 22:
+        case 23:
+        case 24:
+        case 25:
+        case 26:
+        case 27:
+        case 28:
+        case 29:
+        case 30:
+        case 31:
+        case 32:
+        case 33:
+        case 34:
+        case 35:
+        case 36:
+        case 37:
+        case 38:
+        case 39:
+        case 40:
+        case 41:
+        case 42: cframe++; break;
+        case 43: Death = 1; cframe = 0;
+    }
+    directional_velocity = 0;
+}
+
+animpos += inv*36; //SHIFT!!!
+
+if(Hit_rec) // Flash and immunity
+{
+    Hit_rec--;
+    if (STATE &lt; 8)
+    {
+        r = ((Hit_rec+1) % 2)*255;
+        g = r;
+        b = r;
+    }
+}
+
+
+//----GRAVITY AND OTHER-----------------------------------------------------------------------------
+
+switch(inv)
+{
+    case 0: yvelocity += 1.2;
+            xvelocity = 0; break;
+ 
+    case 1: yvelocity -= 1.2;
+            xvelocity = 0; break;
+ 
+    case 2: xvelocity -= 1.2;
+            yvelocity = 0; break;
+ 
+    case 3: xvelocity += 1.2;
+            yvelocity = 0; break;
+}
+
+if (directional_velocity &gt; 10) //Speed Limit
+{
+    directional_velocity = 10;
+}
+
+x = round(x);
+y = round(y);
+
+if (Jump) //Jump Restore
+{
+    Jump--;
+}
+
+
+//----DEATH PROCEDURE-------------------------------------------------------------------------------
+
+if (Death)
+{
+
+x = X;
+y = Y;
+Player_HP = 4;
+inv = 0;
+STATE = 0;
+musicvol = 0;
+
+IT_HP.transp = 0;
+Block_Break.transp = 0;
+Block_Locked.transp = 0;
+IT_Key.transp = 0;
+ChangeAnimation(&quot;SC_Tile_A&quot;, &quot;A_Type_ON&quot;, FORWARD);
+ChangeAnimation(&quot;SC_Tile_B&quot;, &quot;OFF&quot;, FORWARD);
+Tile_A.transp = 0;
+Tile_B.transp = 1;
+ChangeAnimation(&quot;PL_Floor&quot;, &quot;PL_Floor&quot;, FORWARD);
+ChangeAnimation(&quot;PL_Roof&quot;, &quot;OFF&quot;, FORWARD);
+ChangeAnimation(&quot;PL_Right&quot;, &quot;OFF&quot;, FORWARD);
+ChangeAnimation(&quot;PL_Left&quot;, &quot;OFF&quot;, FORWARD);
+AB = 0;
+
+
+if(SAVE_LOCATION &gt; cloneindex)
+{
+    DestroyActor(&quot;Event Actor&quot;);
+    Mask.r = 255;
+    Mask.g = 255;
+    Mask.b = 255;
+    Mask.transp = 0;
+}
+else
+{
+    Mask.r = 0;
+    Mask.g = 0;
+    Mask.b = 0;
+    Mask.transp = 0;
+}
+
+
+switch(SAVE_LOCATION)
+{
+    case 1: CAM = 2; camX = -160; camY = -120;
+            CLX = 0; CRX = 0; CBY = 120; CTY = -840;
+            view.x = camX; view.y = camY;
+            PlayMusic2(&quot;data/Level 1.it&quot;, 1.000000, 0, HIGH_PRIORITY_MUSIC);
+            break;
+ 
+    case 2: CAM = 1; camX = 1760; camY = -840;
+            CLX = 1760; CRX = 3040; CBY = 0; CTY = 0;
+            view.x = camX; view.y = camY;
+            PlayMusic2(&quot;data/Intro.it&quot;, 1.000000, 0, HIGH_PRIORITY_MUSIC);
+            break;
+}
+
+}
+
+
+//----WARPING---------------------------------------------------------------------------------------
+
+if((y - view.y)&gt;=250) {y = view.y - 9;}
+else if((y - view.y)&lt;=-10) {y = view.y + 249;}
+else if((x - view.x)&gt;=330) {x = view.x -9;}
+else if((x - view.x)&lt;=-10) {x = view.x + 329;}</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_8">
+         <item>
+          <widget class="QPushButton" name="pushButton_2">
+           <property name="text">
+            <string>Actors</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton">
+           <property name="text">
+            <string>File</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_9">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
      <widget class="QWidget" name="page_Set_Text"/>
      <widget class="QWidget" name="page_To_Anterior_Position"/>
      <widget class="QWidget" name="page_Visibility_State"/>
