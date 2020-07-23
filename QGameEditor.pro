@@ -29,6 +29,9 @@ RC_ICONS = GE_Icon.ico
 SOURCES += \
         Actions/action.cpp \
         Actions/changeanimationaction.cpp \
+        Actions/changeanimationdirectionaction.cpp \
+        Actions/physicalresponseaction.cpp \
+        Actions/scriptaction.cpp \
         Actors/actor.cpp \
         Actors/filledregionactor.cpp \
         Actors/normalactor.cpp \
@@ -58,6 +61,9 @@ SOURCES += \
 HEADERS += \
         Actions/action.h \
         Actions/changeanimationaction.h \
+        Actions/changeanimationdirectionaction.h \
+        Actions/physicalresponseaction.h \
+        Actions/scriptaction.h \
         Actors/actor.h \
         Actors/filledregionactor.h \
         Actors/normalactor.h \

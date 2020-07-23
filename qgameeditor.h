@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QFile>
 #include <QTextStream>
+#include <QColorDialog>
 #include "editorview.h"
 #include "Dialogs/configdialog.h"
 #include "Dialogs/addactordialog.h"

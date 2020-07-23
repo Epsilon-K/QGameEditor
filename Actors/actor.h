@@ -22,6 +22,9 @@
 #include "Events/keyupevent.h"
 
 #include "Actions/changeanimationaction.h"
+#include "Actions/changeanimationdirectionaction.h"
+#include "Actions/physicalresponseaction.h"
+#include "Actions/scriptaction.h"
 
 class TextActor;
 

@@ -76,27 +76,6 @@
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="toolButton">
-        <property name="text">
-         <string>T</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="toolButton_2">
-        <property name="text">
-         <string>Tile</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="toolButton_3">
-        <property name="text">
-         <string>Text</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <spacer name="verticalSpacer_2">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
@@ -402,8 +381,8 @@
             <property name="geometry">
              <rect>
               <x>0</x>
-              <y>-267</y>
-              <width>664</width>
+              <y>0</y>
+              <width>671</width>
               <height>867</height>
              </rect>
             </property>

@@ -90,6 +90,9 @@
    </item>
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
+     <property name="currentIndex">
+      <number>1</number>
+     </property>
      <widget class="QWidget" name="page_Change_Animation">
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <property name="leftMargin">
@@ -200,7 +203,67 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="page_Change_Anim_Dir"/>
+     <widget class="QWidget" name="page_Change_Anim_Dir">
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_7">
+         <item>
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>Direction : </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="animDirCombo_d1">
+           <property name="sizeAdjustPolicy">
+            <enum>QComboBox::AdjustToContents</enum>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>32</width>
+             <height>32</height>
+            </size>
+           </property>
+           <item>
+            <property name="text">
+             <string>Forward</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Backward</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Stopped</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>No Change</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_7">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
      <widget class="QWidget" name="page_Change_Cursor"/>
      <widget class="QWidget" name="page_Change_Parent"/>
      <widget class="QWidget" name="page_Change_Path"/>
@@ -273,7 +336,7 @@
         <item>
          <widget class="QLineEdit" name="waitFramesLineEdit">
           <property name="placeholderText">
-           <string>0 1 2 4 7...</string>
+           <string/>
           </property>
          </widget>
         </item>

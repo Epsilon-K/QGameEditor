@@ -940,4 +940,12 @@ void QGameEditor::on_addEventBtn_clicked()
     if(selectedAction){
         selectedAction->trigger();
     }
+
+
+    // this is a test.. delete later
+    qDebug() << " -------------------------------------------------- ";
+    for(int i = 0; i < selectedActors.last()->events.size(); i++){
+        qDebug() << selectedActors.last()->events[i]->name << " -> "
+                 << selectedActors.last()->events[i]->action->name;
+    }
 }

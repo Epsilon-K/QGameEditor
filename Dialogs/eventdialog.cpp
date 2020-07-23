@@ -43,27 +43,27 @@ void EventDialog::changeAnimDialog()
 
 void EventDialog::changeAnimDirDialog()
 {
-
+    createActionDialog(Change_Animation_Direction, "Change Animation Direction");
 }
 
 void EventDialog::changeCursorDialog()
 {
-
+    createActionDialog(Change_Cursor, "Change Cursor");
 }
 
 void EventDialog::changeParentDialog()
 {
-
+    createActionDialog(Change_Parent, "Change Parent");
 }
 
 void EventDialog::physicalResponseDialog()
 {
-
+    createActionDialog(Change_Animation, "Change Animation");
 }
 
 void EventDialog::scriptEditorDialog()
 {
-
+    createActionDialog(Script_Editor, "Script Editor : " + eventActor->name);
 }
 
 void EventDialog::enableUI()

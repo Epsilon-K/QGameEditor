@@ -36,18 +36,36 @@ void ActionDialog::on_waitForFrameGroupBox_toggled(bool checked)
 
 void ActionDialog::on_addActionBtn_clicked()
 {
-    switch (actionType) {
-        case Change_Animation:  if(ui->animCombo_d0->count() == 0) return;
-
-        ChangeAnimationAction * action = new ChangeAnimationAction();
-
-        action->actor = ui->actorComboBox->currentText();
-        action->animation = ui->animCombo_d0->currentText();
-        action->animState = ui->animDirCombo_d0->currentIndex();
-
-        finalAction = action;
-        break;
+    Actor * selectedActor = nullptr;
+    if(ui->actorComboBox->currentText() == "Event Actor"){
+        selectedActor = eventActor;
+    }else if(ui->actorComboBox->currentText() == "Parent Actor"){
+        selectedActor = eventActor->parentActor;
+    }else{
+        selectedActor = actors[ui->actorComboBox->currentIndex()];
     }
+
+    switch (actionType) {
+        case Change_Animation:{  if(ui->animCombo_d0->count() == 0) return;
+
+            ChangeAnimationAction * action = new ChangeAnimationAction();
+
+            action->actor = ui->actorComboBox->currentText();
+            action->animation = ui->animCombo_d0->currentText();
+            action->animState = ui->animDirCombo_d0->currentIndex();
+
+            finalAction = action;
+        } break;
+
+        case Change_Animation_Direction:{
+            ChangeAnimationDirectionAction * action = new ChangeAnimationDirectionAction;
+
+            action->actor = ui->actorComboBox->currentText();
+            action->animState = ui->animDirCombo_d1->currentIndex();
+            finalAction = action;
+        } break;
+
+    }// end switch
 
     if(finalAction != nullptr) accept();
 }
