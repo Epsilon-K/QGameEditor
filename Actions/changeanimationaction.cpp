@@ -3,5 +3,5 @@
 ChangeAnimationAction::ChangeAnimationAction()
 {
     name = "Change Animation";
-    type = Change_Animation;
+    type = Change_Animation; 
 }
