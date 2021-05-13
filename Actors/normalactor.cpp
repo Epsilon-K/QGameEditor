@@ -3,6 +3,7 @@
 NormalActor::NormalActor(QString _name)
 {
     name = _name;
+    Actor::setToolTip(name);
     Actor::type = NORMAL;
     setDefaultPixmap();
 

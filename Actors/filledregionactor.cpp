@@ -3,6 +3,7 @@
 FilledRegionActor::FilledRegionActor(QString _name, QRect r)
 {
     name = _name;
+    Actor::setToolTip(name);
     Actor::type = FILLED_REGION;
     QPen cp(Qt::blue, 0);
     setPen(cp);

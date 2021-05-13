@@ -3,6 +3,7 @@
 TextActor::TextActor(QString _name)
 {
     name = _name;
+    Actor::setToolTip(name);
     Actor::type = LABEL;
     setEditingMode(false);
     QGraphicsTextItem::setFlag(QGraphicsItem::ItemClipsToShape);

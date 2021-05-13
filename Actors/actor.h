@@ -85,6 +85,7 @@ public:
     bool isLocked{false};
     QColor selectionColor{QColor(100,100,255)};
 
+
     // Effects
     // ... to be implemented
     virtual void setTintColor(QColor color) = 0;

@@ -3,6 +3,7 @@
 ViewActor::ViewActor(QString _name, QRect r)
 {
     name = _name;
+    Actor::setToolTip(name);
     Actor::type = VIEW;
     QPen cp(Qt::white, 0);
     setPen(cp);
