@@ -10,7 +10,7 @@ class KeyDownEvent : public Event
 public:
     KeyDownEvent();
 
-    QVector <int> keys;
+    QList <int> keys;
     ExecutionType executeWhen{At_Least_One_Pressed};
     bool repeat{true};
 };

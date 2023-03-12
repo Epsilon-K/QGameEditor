@@ -28,7 +28,7 @@ public:
 
 
     // specific events use this
-    QVector <int> keys; // for key down sequence
+    QList <int> keys; // for key down sequence
     int key{65};        // for key up
 
 public slots:
