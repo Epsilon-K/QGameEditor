@@ -14,7 +14,8 @@ AnimationDialog::AnimationDialog(QString projectPath, QWidget *parent, QVector<A
     }
 
     dataPath = projectPath;
-    localTimeLine.setCurveShape(QTimeLine::LinearCurve);
+    //localTimeLine.setCurveShape(QTimeLine::LinearCurve);
+    localTimeLine.setEasingCurve(QEasingCurve::Linear);
     localTimeLine.setLoopCount(0);
     connect(&localTimeLine, SIGNAL(frameChanged(int)), this, SLOT(setFrame(int)));
 

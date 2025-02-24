@@ -38,10 +38,10 @@ EditorView::EditorView(QWidget *&p)
 
 void EditorView::updateScale()
 {
-    QMatrix matrix;
-    matrix.scale(scaleLevel, scaleLevel);
+    QTransform transform;
+    transform.scale(scaleLevel, scaleLevel);
 
-    setMatrix(matrix);
+    setTransform(transform);
 
     if(scaleLevel < 0.5){
         gameScene->preferences->showGrid = false;
@@ -95,7 +95,7 @@ void EditorView::mouseReleaseEvent(QMouseEvent *e)
 
 void EditorView::wheelEvent(QWheelEvent *e)
 {
-    if (e->delta() > 0)
+    if (e->angleDelta().y() > 0)
         scaleLevel += scaleLevel/6;
     else
         scaleLevel -= scaleLevel/6;

@@ -24,7 +24,8 @@ AnimationSequenceDialog::AnimationSequenceDialog(QWidget *parent, QVector<Animat
     }
     if(edit) ui->baseAnimationComboBox->blockSignals(false);
 
-    timeLine.setCurveShape(QTimeLine::LinearCurve);
+    //timeLine.setCurveShape(QTimeLine::LinearCurve);
+    timeLine.setEasingCurve(QEasingCurve::Linear);
     timeLine.setLoopCount(0);
     connect(&timeLine, SIGNAL(frameChanged(int)), this, SLOT(setFrame(int)));
 

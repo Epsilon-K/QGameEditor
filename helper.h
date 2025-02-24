@@ -7,6 +7,7 @@
 #include <QFile>
 #include <QPixmap>
 #include <QMap>
+#include <QChar>
 
 // Contains Static functions only
 // Aaaand globals... this is a mess
@@ -38,7 +39,7 @@ public:
     static QString getRandomString(int size){
         QString str;
         for(int i = 0; i < size; i++){
-            str += rand()%26 + 65;
+            str += QChar::fromLatin1(rand()%26 + 65);
         }
         return str;
     }

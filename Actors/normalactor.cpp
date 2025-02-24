@@ -12,7 +12,8 @@ NormalActor::NormalActor(QString _name)
     originPointItem->setPos(QPoint(width/2, height/2));
     updateOriginPoint();
 
-    localTimeLine.setCurveShape(QTimeLine::LinearCurve);
+    //localTimeLine.setCurveShape(QTimeLine::LinearCurve);  // Obsolete
+    localTimeLine.setEasingCurve(QEasingCurve::Linear);
     localTimeLine.setLoopCount(0);
     connect(&localTimeLine, SIGNAL(frameChanged(int)), this, SLOT(setFrame(int)));
 }

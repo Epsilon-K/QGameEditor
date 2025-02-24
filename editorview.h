@@ -5,7 +5,7 @@
 #include <QWidget>
 #include <QGraphicsView>
 
-#include <QMatrix>
+#include <QTransform>
 #include <QMouseEvent>
 #include "gamescene.h"
 

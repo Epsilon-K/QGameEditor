@@ -61,7 +61,7 @@ void ConfigDialog::on_Accepted()
 
 void ConfigDialog::on_winSizeComboBox_currentTextChanged(const QString &arg1)
 {
-    QStringList size = arg1.split(" x ", QString::SkipEmptyParts);
+    QStringList size = arg1.split(" x ", Qt::SkipEmptyParts);
     ui->winWidthSpinBox->setValue(size[0].toInt());
     ui->winHeightSpinBox->setValue(size[1].toInt());
 }
